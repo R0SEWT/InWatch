@@ -176,6 +176,66 @@
       "value": 4172.0,
       "variant": "grilla_canonica"
     },
+    "conteo.celdas_superficie.celda_pooled": {
+      "canonical": true,
+      "display": "2517",
+      "estimator": "conteo de h3_index distintos en la superficie de origen",
+      "family": "conteo.celdas_superficie",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:20:37-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "celdas H3 res-8 de la superficie latente de origen",
+      "value": 2517.0,
+      "variant": "celda_pooled"
+    },
+    "conteo.celdas_superficie_con_observado.celda_pooled": {
+      "canonical": true,
+      "display": "1593",
+      "estimator": "conteo de celdas con Σobservado > 0 sobre las 5 categorías",
+      "family": "conteo.celdas_superficie_con_observado",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:20:37-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "celdas H3 res-8 con al menos una denuncia registrada en 2018-2024",
+      "value": 1593.0,
+      "variant": "celda_pooled"
+    },
+    "conteo.celdas_superficie_sin_observado.celda_pooled": {
+      "canonical": true,
+      "display": "924",
+      "estimator": "conteo de celdas con Σobservado == 0 sobre las 5 categorías",
+      "family": "conteo.celdas_superficie_sin_observado",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:20:37-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "celdas H3 res-8 sin una sola denuncia registrada en 2018-2024",
+      "value": 924.0,
+      "variant": "celda_pooled"
+    },
     "conteo.distritos_sin_auditoria.distrito": {
       "canonical": true,
       "display": "12",
@@ -197,6 +257,46 @@
       "unit": "distritos",
       "value": 12.0,
       "variant": "distrito"
+    },
+    "escala.pico_latente.celda_pooled": {
+      "canonical": true,
+      "display": "101459",
+      "estimator": "máximo de Σλ* por celda H3 res-8",
+      "family": "escala.pico_latente",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "hechos latentes acumulados 2018-2024 en la celda más cargada",
+      "value": 101458.796875,
+      "variant": "celda_pooled"
+    },
+    "escala.tope.celda_pooled": {
+      "canonical": true,
+      "display": "59974",
+      "estimator": "percentil 99.5 del latente por celda; la barra lleva flecha de desborde",
+      "family": "escala.tope",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "hechos latentes: tope de la rampa de color compartida",
+      "value": 59974.088594,
+      "variant": "celda_pooled"
     },
     "geocode.con_coord_max.distrito": {
       "canonical": true,
@@ -373,6 +473,366 @@
       "unit": "% de registros del distrito",
       "value": 53.06759,
       "variant": "distrito"
+    },
+    "multiplier.estafa.victim": {
+      "canonical": true,
+      "display": "76",
+      "estimator": "pooled Σλ*/Σy 2018-2024 sobre la superficie H3 Lima+Callao, r̂ EB victim-level",
+      "family": "multiplier.estafa",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "latente/observado (adim.)",
+      "value": 76.547424,
+      "variant": "victim"
+    },
+    "multiplier.extorsion.victim": {
+      "canonical": true,
+      "display": "6.9",
+      "estimator": "pooled Σλ*/Σy 2018-2024 sobre la superficie H3 Lima+Callao, r̂ EB victim-level",
+      "family": "multiplier.extorsion",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "latente/observado (adim.)",
+      "value": 6.919358,
+      "variant": "victim"
+    },
+    "multiplier.robo_hurto_callejero.victim": {
+      "canonical": true,
+      "display": "4.6",
+      "estimator": "pooled Σλ*/Σy 2018-2024 sobre la superficie H3 Lima+Callao, r̂ EB victim-level",
+      "family": "multiplier.robo_hurto_callejero",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "latente/observado (adim.)",
+      "value": 4.627259,
+      "variant": "victim"
+    },
+    "multiplier.secuestro.victim": {
+      "canonical": true,
+      "display": "8.4",
+      "estimator": "pooled Σλ*/Σy 2018-2024 sobre la superficie H3 Lima+Callao, r̂ EB victim-level",
+      "family": "multiplier.secuestro",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "latente/observado (adim.)",
+      "value": 8.416291,
+      "variant": "victim"
+    },
+    "multiplier.total.victim": {
+      "canonical": true,
+      "display": "10.3",
+      "estimator": "pooled Σλ*/Σy 2018-2024, las 5 categorías juntas, superficie H3 Lima+Callao",
+      "family": "multiplier.total",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "latente/observado (adim.)",
+      "value": 10.344495,
+      "variant": "victim"
+    },
+    "multiplier.violencia_familiar_sexual.victim": {
+      "canonical": true,
+      "display": "11.1",
+      "estimator": "pooled Σλ*/Σy 2018-2024 sobre la superficie H3 Lima+Callao, r̂ EB victim-level",
+      "family": "multiplier.violencia_familiar_sexual",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "latente/observado (adim.)",
+      "value": 11.089018,
+      "variant": "victim"
+    },
+    "rango_espacial.spearman.celda_pooled": {
+      "canonical": true,
+      "display": "0.997",
+      "estimator": "corr de rangos sobre las 1593 celdas con registro",
+      "family": "rango_espacial.spearman",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "ρ de Spearman entre superficie observada y latente (adim.)",
+      "value": 0.997306,
+      "variant": "celda_pooled"
+    },
+    "rango_espacial.top_overlap.celda_pooled": {
+      "canonical": true,
+      "display": "0.82",
+      "estimator": "|top50(observado) ∩ top50(latente)| / 50, celdas con registro",
+      "family": "rango_espacial.top_overlap",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "fracción del top-50 compartida entre ambos rankings (adim.)",
+      "value": 0.82,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_latente.estafa.celda_pooled": {
+      "canonical": true,
+      "display": "32.1",
+      "estimator": "Σlatente de la categoría / Σlatente total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_latente.estafa",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 32.09671,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_latente.extorsion.celda_pooled": {
+      "canonical": true,
+      "display": "1.3",
+      "estimator": "Σlatente de la categoría / Σlatente total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_latente.extorsion",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 1.336228,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_latente.robo_hurto_callejero.celda_pooled": {
+      "canonical": true,
+      "display": "24.2",
+      "estimator": "Σlatente de la categoría / Σlatente total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_latente.robo_hurto_callejero",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 24.194954,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_latente.secuestro.celda_pooled": {
+      "canonical": true,
+      "display": "0.2",
+      "estimator": "Σlatente de la categoría / Σlatente total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_latente.secuestro",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 0.163508,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_latente.violencia_familiar_sexual.celda_pooled": {
+      "canonical": true,
+      "display": "42.2",
+      "estimator": "Σlatente de la categoría / Σlatente total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_latente.violencia_familiar_sexual",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 42.208595,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_observado.estafa.celda_pooled": {
+      "canonical": true,
+      "display": "4.3",
+      "estimator": "Σobservado de la categoría / Σobservado total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_observado.estafa",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 4.337498,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_observado.extorsion.celda_pooled": {
+      "canonical": true,
+      "display": "2.0",
+      "estimator": "Σobservado de la categoría / Σobservado total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_observado.extorsion",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 1.997672,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_observado.robo_hurto_callejero.celda_pooled": {
+      "canonical": true,
+      "display": "54.1",
+      "estimator": "Σobservado de la categoría / Σobservado total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_observado.robo_hurto_callejero",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 54.089172,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_observado.secuestro.celda_pooled": {
+      "canonical": true,
+      "display": "0.2",
+      "estimator": "Σobservado de la categoría / Σobservado total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_observado.secuestro",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 0.200968,
+      "variant": "celda_pooled"
+    },
+    "superficie_share_observado.violencia_familiar_sexual.celda_pooled": {
+      "canonical": true,
+      "display": "39.4",
+      "estimator": "Σobservado de la categoría / Σobservado total, pooled 2018-2024, celdas H3 res-8 de Lima+Callao",
+      "family": "superficie_share_observado.violencia_familiar_sexual",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T03:21:15-05:00",
+        "git_commit": "cbc9459",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/crime_latent_surface.parquet": "419f20423dc5ee50c57c3d1da6f9fedbea8318df31ece5a63ca2cc58c882098a"
+        },
+        "script": "experiments/observado-latente/loader.py",
+        "script_sha256": "71317441d8fd4eaf3adcd7e2a63c28e068d8ec38859b1496bc68ad3450e7e034"
+      },
+      "unit": "% de la superficie (5 cats, incl. violencia familiar)",
+      "value": 39.374691,
+      "variant": "celda_pooled"
     }
   },
   "policy": {
@@ -388,16 +848,58 @@
       "nota": "Conteos enteros: celdas, distritos. Cero decimales porque son cardinalidades, no estimaciones. Se registran igual que los porcentajes porque el README los cita como denominadores, y un denominador stale envenena cada porcentaje que lo usa.",
       "round_mode": "half_up"
     },
+    "conteo.celdas_superficie*": {
+      "canonical_variant": "celda_pooled",
+      "decimals": 0,
+      "nota": "Conteos sobre la SUPERFICIE latente de origen (2517 celdas), no sobre la grilla canonica de 4172 que usa conteo.*. Patron mas largo que conteo.*, asi gana por la regla de resolucion sin tocar las entradas de donde-falla-el-dato. Enteros: una fraccion de hexagono no significa nada.",
+      "round_mode": "half_up"
+    },
     "conteo.distritos_sin_auditoria": {
       "canonical_variant": "distrito",
       "decimals": 0,
       "nota": "Excepción exacta al patrón conteo.*: se cuenta sobre distritos, no sobre la grilla, y la variante lo tiene que decir.",
       "round_mode": "half_up"
     },
+    "escala.*": {
+      "canonical_variant": "celda_pooled",
+      "decimals": 0,
+      "note": "Techo y pico de la rampa compartida. Enteros: son conteos de hechos, y la escala del mapa no gana nada con decimales.",
+      "round_mode": "half_up"
+    },
     "geocode.*": {
       "canonical_variant": "distrito",
       "decimals": 1,
       "nota": "Tasas distritales de calidad geocodificadora, en puntos porcentuales. La variante canónica es distrital porque la medida ES distrital; no existe variante celular y no debe inventarse una.",
+      "round_mode": "half_up"
+    },
+    "multiplier.*": {
+      "canonical_variant": "victim",
+      "decimals": 1,
+      "note": "Multiplicador de cifra negra Σλ*/Σy. victim = estimador canónico, heredado del repo de origen; la variante incident vive allá como no-canónica. Estas entradas duplican a propósito las de infelix: si divergen, el pipeline de acá se rompió.",
+      "round_mode": "half_up"
+    },
+    "multiplier.estafa": {
+      "canonical_variant": "victim",
+      "decimals": 0,
+      "note": "estafa es un multiplicador INESTABLE (r̂ < 0.05) y se cita con floor — 'al menos x76'. half_up daría 77 y sugeriría una precisión que el intervalo no sostiene. Misma policy que en infelix.",
+      "round_mode": "floor"
+    },
+    "rango_espacial.spearman": {
+      "canonical_variant": "celda_pooled",
+      "decimals": 3,
+      "note": "El hallazgo del experimento. Tres decimales porque el punto es que esté pegado a 1: con dos, 0.997 y 1.00 se leen igual y el matiz desaparece.",
+      "round_mode": "half_up"
+    },
+    "rango_espacial.top_overlap": {
+      "canonical_variant": "celda_pooled",
+      "decimals": 2,
+      "note": "Fracción, no porcentaje: se cita junto al Spearman y mezclar escalas en la misma frase invita a leer 0.82 como 82 puntos de correlación.",
+      "round_mode": "half_up"
+    },
+    "superficie_share_*.*": {
+      "canonical_variant": "celda_pooled",
+      "decimals": 1,
+      "note": "Share porcentual por categoría en la superficie H3 de Lima+Callao, 5 categorías INCLUYENDO violencia familiar. NO son comparables con composition_share_* de infelix, que renormaliza sobre 4 categorías a escala nacional. Nombre distinto a propósito para que nadie los cruce.",
       "round_mode": "half_up"
     }
   },
