@@ -4,6 +4,7 @@
 # ── Datos regenerables ────────────────────────────────────────────────────────
 data/bronze/
 data/silver/
+data/gold/
 data/raw/
 *.parquet
 *.duckdb

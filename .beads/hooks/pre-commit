@@ -22,3 +22,14 @@ if command -v bd >/dev/null 2>&1; then
   if [ $_bd_exit -ne 0 ]; then exit $_bd_exit; fi
 fi
 # --- END BEADS INTEGRATION v1.0.3 ---
+
+# --- BEGIN CANON HARDENING ---
+# Fuera de los marcadores de beads a propósito: `bd` regenera su propia sección al
+# actualizar hooks y borraría esto si estuviera dentro.
+# Es el único gate automático real del repo. stdlib puro, corre en milisegundos.
+if [ -x .venv/bin/canon ]; then
+  .venv/bin/canon staged || exit 1
+elif command -v uv >/dev/null 2>&1; then
+  uv run --frozen canon staged || exit 1
+fi
+# --- END CANON HARDENING ---
