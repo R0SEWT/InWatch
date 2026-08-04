@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "InWatch",
+  "project_id": "7c9f49b2-6088-44b9-acc1-512d929db17b"
+}

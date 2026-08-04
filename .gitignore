@@ -1,0 +1,53 @@
+# Regla del repo: regenerables gitignored, reportes versionados.
+# Las excepciones van con `!` y de forma explícita — nunca por accidente.
+
+# ── Datos regenerables ────────────────────────────────────────────────────────
+data/bronze/
+data/silver/
+data/raw/
+*.parquet
+*.duckdb
+
+# El registro canónico ES memoria científica: se versiona aunque viva cerca de datos.
+!registry/canonical_numbers.json
+
+# ── Reportes: versionados ─────────────────────────────────────────────────────
+# (no se ignora nada de analysis/ ni de experiments/*/README.md)
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+.venv-*/
+*.egg-info/
+dist/
+build/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── marimo ────────────────────────────────────────────────────────────────────
+__marimo__/
+.marimo.toml
+
+# ── Agentes ───────────────────────────────────────────────────────────────────
+.claude/settings.local.json
+.playwright-mcp/
+.beads/embeddeddolt/
+.beads/backup/
+.beads/interactions.jsonl
+.beads/export-state.json
+.beads/last-touched
+.beads/.local_version
+.beads/*.lock
+.beads/.env
+
+# ── Sistema ───────────────────────────────────────────────────────────────────
+.DS_Store
+*.log
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
