@@ -1518,6 +1518,72 @@
       "value": 11.089018,
       "variant": "victim"
     },
+    "pulso.desviacion_replica.anillo_ancla": {
+      "canonical": true,
+      "display": "0.0000",
+      "estimator": "max |rr − rr_infelix| / rr_infelix sobre las 16 celdas, fixtures @7d77bd6",
+      "family": "pulso.desviacion_replica",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T11:17:10-05:00",
+        "git_commit": "89b7670",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/stadium_hourly.json": "0ca9f2dec5e2ed98a2969d7cd150a8da896d0a85b7f9bd0cd4fab94e816548ac"
+        },
+        "script": "experiments/pulso-estadios/loader.py",
+        "script_sha256": "4892ba2206333cd4d92a99ad9ea016a1fd67f123c1db0d4f9ea22a8479faa8dc"
+      },
+      "unit": "desviación relativa máxima del RR (adim.)",
+      "value": 0.0,
+      "variant": "anillo_ancla"
+    },
+    "pulso.dias_tratados.anillo_0_500": {
+      "canonical": true,
+      "display": "201",
+      "estimator": "días con kickoff conocido, no contaminados y con controles",
+      "family": "pulso.dias_tratados",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T11:17:10-05:00",
+        "git_commit": "89b7670",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/freelance-externos/ElComercio/Wachi/data/raw/LIMA.parquet": "15ed53f29d9a489d4fa614899b2f2e1c0fcb51d0e6860c43c5012a3d5831dd63",
+          "/home/rosewt-dell/Code/tesis/infelix/analysis/stadium_extra_events.csv": "b9d7da4b1fb9f229c9e53ee697040ce14f33e057bb05b8416df94195cb8837c6",
+          "/home/rosewt-dell/Code/tesis/infelix/analysis/stadium_matchdays.csv": "dbcea2fcf5f394b7a353ce5070844597b266ae343162bfb07296a3482c7f089e",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_feature_matrix.parquet": "47a115d25765f9ef4c089dc841bc7bfd9c7343f28202bee06e044ca69a360baf"
+        },
+        "script": "experiments/pulso-estadios/loader.py",
+        "script_sha256": "4892ba2206333cd4d92a99ad9ea016a1fd67f123c1db0d4f9ea22a8479faa8dc"
+      },
+      "unit": "días",
+      "value": 201.0,
+      "variant": "anillo_0_500"
+    },
+    "pulso.rr_puerta.anillo_0_500": {
+      "canonical": true,
+      "display": "3.67",
+      "estimator": "MH estratificado por día tratado, ventana kickoff±4h, bootstrap B=2000",
+      "family": "pulso.rr_puerta",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T11:17:10-05:00",
+        "git_commit": "89b7670",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/freelance-externos/ElComercio/Wachi/data/raw/LIMA.parquet": "15ed53f29d9a489d4fa614899b2f2e1c0fcb51d0e6860c43c5012a3d5831dd63",
+          "/home/rosewt-dell/Code/tesis/infelix/analysis/stadium_extra_events.csv": "b9d7da4b1fb9f229c9e53ee697040ce14f33e057bb05b8416df94195cb8837c6",
+          "/home/rosewt-dell/Code/tesis/infelix/analysis/stadium_matchdays.csv": "dbcea2fcf5f394b7a353ce5070844597b266ae343162bfb07296a3482c7f089e",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_feature_matrix.parquet": "47a115d25765f9ef4c089dc841bc7bfd9c7343f28202bee06e044ca69a360baf"
+        },
+        "script": "experiments/pulso-estadios/loader.py",
+        "script_sha256": "4892ba2206333cd4d92a99ad9ea016a1fd67f123c1db0d4f9ea22a8479faa8dc"
+      },
+      "unit": "rate-ratio tratado/control (adim.)",
+      "value": 3.671002,
+      "variant": "anillo_0_500"
+    },
     "rango_espacial.spearman.celda_pooled": {
       "canonical": true,
       "display": "0.997",
@@ -1933,6 +1999,24 @@
       "decimals": 0,
       "note": "estafa es un multiplicador INESTABLE (r̂ < 0.05) y se cita con floor — 'al menos x76'. half_up daría 77 y sugeriría una precisión que el intervalo no sostiene. Misma policy que en infelix.",
       "round_mode": "floor"
+    },
+    "pulso.desviacion_replica": {
+      "canonical_variant": "anillo_ancla",
+      "decimals": 4,
+      "nota": "Desviacion relativa maxima de la replica contra stadium_hourly.json de infelix, con los fixtures congelados en el commit del ancla. Cuatro decimales porque el criterio de cierre del hito es < 0.01 y redondear antes lo volveria inutil para decidir. Es el unico chequeo ejecutable que existe hoy sobre esas cifras: el script que las produjo tiene el import roto (ver bead inwatch-b3w).",
+      "round_mode": "half_up"
+    },
+    "pulso.dias_tratados": {
+      "canonical_variant": "anillo_0_500",
+      "decimals": 0,
+      "nota": "Dias tratados con kickoff conocido, no contaminados por un estadio vecino y con al menos un control emparejado. Entero: es un conteo de dias.",
+      "round_mode": "half_up"
+    },
+    "pulso.rr_puerta": {
+      "canonical_variant": "anillo_0_500",
+      "decimals": 2,
+      "nota": "Rate-ratio en la puerta (0-500 m) en la ventana kickoff+-4h. Dos decimales: el IC bootstrap es ancho y un tercer decimal fingiria una precision que el bootstrap no sostiene. La variante canonica es el anillo interior porque es donde el diseno tiene poder; los anillos exteriores son control de decaimiento.",
+      "round_mode": "half_up"
     },
     "rango_espacial.spearman": {
       "canonical_variant": "celda_pooled",
