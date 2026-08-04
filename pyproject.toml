@@ -75,7 +75,9 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 "experiments/**/notebook.py" = ["B018"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+# `experiments` está acá para que CI recoja los tests que viven junto a cada loader.
+# Sin esto, `uv run pytest` los saltaría en silencio y el gate sería decorativo.
+testpaths = ["tests", "experiments"]
 addopts = "-q --strict-markers"
 markers = [
     "needs_data: requiere artefactos de data/ que están gitignored",

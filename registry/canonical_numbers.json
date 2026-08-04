@@ -1,5 +1,405 @@
 {
-  "entries": {},
-  "policy": {},
+  "entries": {
+    "cobertura.celdas_con_registro.grilla_canonica": {
+      "canonical": true,
+      "display": "34.5",
+      "estimator": "celdas con >=1 registro geocodificado / 4172 celdas H3 res-8 Lima+Callao",
+      "family": "cobertura.celdas_con_registro",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de celdas de la grilla canónica",
+      "value": 34.49185,
+      "variant": "grilla_canonica"
+    },
+    "cobertura.celdas_con_registro_callao.grilla_canonica": {
+      "canonical": true,
+      "display": "14.3",
+      "estimator": "celdas con >=1 registro geocodificado / 168 celdas de Callao",
+      "family": "cobertura.celdas_con_registro_callao",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de celdas del departamento",
+      "value": 14.285714,
+      "variant": "grilla_canonica"
+    },
+    "cobertura.celdas_con_registro_lima.grilla_canonica": {
+      "canonical": true,
+      "display": "43.7",
+      "estimator": "celdas con >=1 registro geocodificado / 3173 celdas de Lima",
+      "family": "cobertura.celdas_con_registro_lima",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de celdas del departamento",
+      "value": 43.681059,
+      "variant": "grilla_canonica"
+    },
+    "cobertura.celdas_evaluables.grilla_canonica": {
+      "canonical": true,
+      "display": "33.2",
+      "estimator": "celdas con registro Y auditoría distrital / 4172 celdas",
+      "family": "cobertura.celdas_evaluables",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de celdas de la grilla canónica",
+      "value": 33.221477,
+      "variant": "grilla_canonica"
+    },
+    "cobertura.celdas_sin_auditoria.grilla_canonica": {
+      "canonical": true,
+      "display": "39.7",
+      "estimator": "celdas cuyo distrito no aparece en geocode_success_distrito.csv / 4172 celdas",
+      "family": "cobertura.celdas_sin_auditoria",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de celdas de la grilla canónica",
+      "value": 39.669223,
+      "variant": "grilla_canonica"
+    },
+    "conteo.celdas_auditadas.grilla_canonica": {
+      "canonical": true,
+      "display": "2517",
+      "estimator": "celdas cuyo distrito aparece en geocode_success_distrito.csv",
+      "family": "conteo.celdas_auditadas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "celdas H3 res-8",
+      "value": 2517.0,
+      "variant": "grilla_canonica"
+    },
+    "conteo.celdas_con_registro.grilla_canonica": {
+      "canonical": true,
+      "display": "1439",
+      "estimator": "celdas con >=1 registro policial geocodificado",
+      "family": "conteo.celdas_con_registro",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "celdas H3 res-8",
+      "value": 1439.0,
+      "variant": "grilla_canonica"
+    },
+    "conteo.celdas_grilla.grilla_canonica": {
+      "canonical": true,
+      "display": "4172",
+      "estimator": "celdas de la grilla canónica Lima+Callao (h3_admin.parquet)",
+      "family": "conteo.celdas_grilla",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "celdas H3 res-8",
+      "value": 4172.0,
+      "variant": "grilla_canonica"
+    },
+    "conteo.distritos_sin_auditoria.distrito": {
+      "canonical": true,
+      "display": "12",
+      "estimator": "distritos de la grilla ausentes de geocode_success_distrito.csv",
+      "family": "conteo.distritos_sin_auditoria",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "distritos",
+      "value": 12.0,
+      "variant": "distrito"
+    },
+    "geocode.con_coord_max.distrito": {
+      "canonical": true,
+      "display": "95.0",
+      "estimator": "registro con alguna coordenada: extremo sobre 40 distritos con la medida disponible",
+      "family": "geocode.con_coord_max",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de registros del distrito",
+      "value": 95.019043,
+      "variant": "distrito"
+    },
+    "geocode.con_coord_min.distrito": {
+      "canonical": true,
+      "display": "52.9",
+      "estimator": "registro con alguna coordenada: extremo sobre 40 distritos con la medida disponible",
+      "family": "geocode.con_coord_min",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de registros del distrito",
+      "value": 52.932514,
+      "variant": "distrito"
+    },
+    "geocode.coord_real_max.distrito": {
+      "canonical": true,
+      "display": "90.4",
+      "estimator": "coordenada real (no imputada): extremo sobre 39 distritos con la medida disponible",
+      "family": "geocode.coord_real_max",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de registros del distrito",
+      "value": 90.421509,
+      "variant": "distrito"
+    },
+    "geocode.coord_real_min.distrito": {
+      "canonical": true,
+      "display": "56.6",
+      "estimator": "coordenada real (no imputada): extremo sobre 39 distritos con la medida disponible",
+      "family": "geocode.coord_real_min",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de registros del distrito",
+      "value": 56.641804,
+      "variant": "distrito"
+    },
+    "geocode.exito_ate.distrito": {
+      "canonical": true,
+      "display": "40.9",
+      "estimator": "tasa distrital de geocodificación exitosa, geocode_success_distrito.csv (40 distritos)",
+      "family": "geocode.exito_ate",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de registros del distrito",
+      "value": 40.883533,
+      "variant": "distrito"
+    },
+    "geocode.exito_max.distrito": {
+      "canonical": true,
+      "display": "72.6",
+      "estimator": "geocodificación exitosa: extremo sobre 40 distritos con la medida disponible",
+      "family": "geocode.exito_max",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de registros del distrito",
+      "value": 72.583656,
+      "variant": "distrito"
+    },
+    "geocode.exito_min.distrito": {
+      "canonical": true,
+      "display": "22.5",
+      "estimator": "geocodificación exitosa: extremo sobre 40 distritos con la medida disponible",
+      "family": "geocode.exito_min",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de registros del distrito",
+      "value": 22.481623,
+      "variant": "distrito"
+    },
+    "geocode.exito_miraflores.distrito": {
+      "canonical": true,
+      "display": "53.1",
+      "estimator": "tasa distrital de geocodificación exitosa, geocode_success_distrito.csv (40 distritos)",
+      "family": "geocode.exito_miraflores",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T02:29:44-05:00",
+        "git_commit": "3721341",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/geocode_success_distrito.csv": "0ec95ceebaf971ec99e9d80510ecc28d7b78558147cc65998f82584815715f93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_observed_geocoded.parquet": "73bd9a3008ae1df97856bd9a9953f60b4410d64e6faa14316b98577e3d91a56c"
+        },
+        "script": "experiments/donde-falla-el-dato/loader.py",
+        "script_sha256": "a437f7ca8aa72522dd4c0671eb193c1314a16746c9748013bee59b74f79cf0f8"
+      },
+      "unit": "% de registros del distrito",
+      "value": 53.06759,
+      "variant": "distrito"
+    }
+  },
+  "policy": {
+    "cobertura.*": {
+      "canonical_variant": "grilla_canonica",
+      "decimals": 1,
+      "nota": "Cobertura sobre la grilla canónica H3 res-8 Lima+Callao, en puntos porcentuales. Un decimal: la grilla tiene miles de celdas, no millones, y afinar más sugiere una precisión que el denominador no sostiene.",
+      "round_mode": "half_up"
+    },
+    "conteo.*": {
+      "canonical_variant": "grilla_canonica",
+      "decimals": 0,
+      "nota": "Conteos enteros: celdas, distritos. Cero decimales porque son cardinalidades, no estimaciones. Se registran igual que los porcentajes porque el README los cita como denominadores, y un denominador stale envenena cada porcentaje que lo usa.",
+      "round_mode": "half_up"
+    },
+    "conteo.distritos_sin_auditoria": {
+      "canonical_variant": "distrito",
+      "decimals": 0,
+      "nota": "Excepción exacta al patrón conteo.*: se cuenta sobre distritos, no sobre la grilla, y la variante lo tiene que decir.",
+      "round_mode": "half_up"
+    },
+    "geocode.*": {
+      "canonical_variant": "distrito",
+      "decimals": 1,
+      "nota": "Tasas distritales de calidad geocodificadora, en puntos porcentuales. La variante canónica es distrital porque la medida ES distrital; no existe variante celular y no debe inventarse una.",
+      "round_mode": "half_up"
+    }
+  },
   "schema_version": 1
 }
