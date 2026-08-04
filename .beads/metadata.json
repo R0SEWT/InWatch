@@ -1,7 +1,9 @@
 {
-  "database": "dolt",
   "backend": "dolt",
-  "dolt_mode": "embedded",
-  "dolt_database": "InWatch",
+  "database": "dolt",
+  "dolt_database": "inwatch",
+  "dolt_mode": "server",
+  "dolt_server_host": "127.0.0.1",
+  "dolt_server_port": 3307,
   "project_id": "7c9f49b2-6088-44b9-acc1-512d929db17b"
 }
