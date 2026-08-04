@@ -9,6 +9,10 @@ dependencies = [
     "pandas>=2.2",
     "pyarrow>=16.0",
     "duckdb>=1.0",
+    # Base, no opcional: este es un proyecto de estadística. Los loaders calculan
+    # intervalos, bootstrap y distribuciones. Dejarlo en un extra obliga a instalar
+    # torch en CI sólo para correr un test de lógica pura.
+    "scipy>=1.14",
 ]
 
 [project.optional-dependencies]

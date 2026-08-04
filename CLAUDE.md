@@ -137,6 +137,10 @@ con su ancla.
 - **Regenerable → gitignored; reporte → versionado.** Las excepciones van con `!`
   explícito, nunca por accidente.
 - **Tests que dependen de artefactos** de `data/` van marcados `@pytest.mark.needs_data`.
+  **El CI los excluye** (`pytest -m "not needs_data"`) porque `data/` es gitignored.
+  Un test que lee un parquet y no lleva el marcador rompe el CI, siempre. Deja al
+  menos un test sin marcador por experimento que ejercite la lógica con datos
+  sintéticos — si todo tu archivo es `needs_data`, el CI no verifica nada.
 - **Idioma**: docstrings, comentarios y docs en español, como el resto del repo.
 - **Commits**: Conventional Commits en español, **scope = experimento o track** (no
   módulo de código), y el bead ID entre paréntesis al final. El sujeto describe el

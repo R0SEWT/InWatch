@@ -850,6 +850,7 @@ dependencies = [
     { name = "duckdb" },
     { name = "pandas" },
     { name = "pyarrow" },
+    { name = "scipy" },
 ]
 
 [package.optional-dependencies]
@@ -889,6 +890,7 @@ requires-dist = [
     { name = "pyarrow", specifier = ">=16.0" },
     { name = "pydeck", marker = "extra == 'viz'", specifier = ">=0.9" },
     { name = "scikit-learn", marker = "extra == 'ml'", specifier = ">=1.5" },
+    { name = "scipy", specifier = ">=1.14" },
     { name = "shapely", marker = "extra == 'geo'", specifier = ">=2.0" },
     { name = "torch", marker = "extra == 'ml'", specifier = ">=2.4" },
     { name = "torch-geometric", marker = "extra == 'ml'", specifier = ">=2.6" },

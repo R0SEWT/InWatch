@@ -52,3 +52,6 @@ __marimo__/
 .dolt/
 *.db
 .beads-credential-key
+
+# Worktrees de agentes: repos embebidos, nunca se commitean
+.claude/worktrees/
