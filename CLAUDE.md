@@ -143,8 +143,8 @@ con su ancla.
   resultado, no la acción mecánica.
 
   ```
-  feat(observado-latente): el slider expone que la corrección no reordena el mapa (iw-3f2)
-  fix(canon): el guard de decimales dejaba pasar valores en la cuenca de redondeo (iw-9k1)
+  feat(observado-latente): el slider expone que la corrección no reordena el mapa (inwatch-3f2)
+  fix(canon): el guard de decimales dejaba pasar valores en la cuenca de redondeo (inwatch-9k1)
   ```
 
 - **Sin metadata de herramienta en los mensajes de commit**: nada de
