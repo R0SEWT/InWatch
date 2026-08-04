@@ -24,6 +24,25 @@
 2. **Ningún número portante se escribe a mano.** Toda cifra sale del registro canónico
    con `git_commit` y hash del script emisor. Ver *Números canónicos* abajo.
 
+## Frontera dura: infelix es READ-ONLY
+
+El repo de origen vive en `/home/rosewt-dell/Code/tesis/infelix`. Se **lee** y nunca
+se escribe.
+
+**Prohibido**, sin excepción y sin pedir permiso para saltárselo: crear, modificar o
+borrar archivos ahí; `git add`, `commit`, `push`, `checkout`, `stash` o `worktree` en
+ese repo; tocar su `.beads/`; correr sus scripts de forma que escriban artefactos.
+
+Motivo: es una tesis con un envío a conferencia en curso y su dueño la está editando
+en paralelo. Un commit de un agente ahí puede destruir trabajo no pusheado o
+invalidar los `git_commit` de procedencia de su registro canónico.
+
+Lo que sí se hace: leer los parquets/CSV que el bead nombra, y **exportar** lo que se
+necesite a `data/` de este repo, registrando la procedencia con `canon.emit`.
+
+Si un experimento parece necesitar un cambio en infelix, **no lo hagas**: escríbelo
+como bead acá y escala.
+
 ## Arquitectura
 
 Dos capas por experimento, y la separación **no es negociable**: `marimo` exporta a
