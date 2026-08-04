@@ -16,8 +16,12 @@ jobs:
         with:
           python-version: "3.12"
 
+      # `--extra geo` y no `uv sync` a secas: los tests de `tejido-vs-hexagono` hacen
+      # `importorskip("city2graph")` y sin el extra se saltan enteros — el CI quedaría
+      # verde sin haber verificado el experimento, que es peor que quedar rojo. El extra
+      # no arrastra torch (eso vive en `ml`), así que el costo es geopandas y poco más.
       - name: Sync dependencies
-        run: uv sync
+        run: uv sync --extra geo
 
       - name: Lint
         run: uv run ruff check .

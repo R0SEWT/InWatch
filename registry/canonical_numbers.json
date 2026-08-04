@@ -258,6 +258,116 @@
       "value": 12.0,
       "variant": "distrito"
     },
+    "correspondencia.area_partida.morfologica": {
+      "canonical": true,
+      "display": "NaN",
+      "estimator": "área en celdas repartidas entre ≥2 hexágonos / área total del tejido",
+      "family": "correspondencia.area_partida",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "% del área del tejido",
+      "value": NaN,
+      "variant": "morfologica"
+    },
+    "correspondencia.celdas_partidas.morfologica": {
+      "canonical": true,
+      "display": "NaN",
+      "estimator": "celdas con área ≥1 m² en más de un hexágono / 0 celdas con correspondencia",
+      "family": "correspondencia.celdas_partidas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "% de celdas de la tesselación",
+      "value": NaN,
+      "variant": "morfologica"
+    },
+    "correspondencia.cobertura_areal_mediana.grilla_canonica": {
+      "canonical": true,
+      "display": "NaN",
+      "estimator": "mediana de Σ frac_h3 sobre los 0 hexágonos con tejido",
+      "family": "correspondencia.cobertura_areal_mediana",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "% del área del hexágono",
+      "value": NaN,
+      "variant": "grilla_canonica"
+    },
+    "correspondencia.hexagonos_sin_tejido.grilla_canonica": {
+      "canonical": true,
+      "display": "100.0",
+      "estimator": "hexágonos sin ninguna celda morfológica / 4172 hexágonos de la grilla",
+      "family": "correspondencia.hexagonos_sin_tejido",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "% de la grilla canónica",
+      "value": 100.0,
+      "variant": "grilla_canonica"
+    },
+    "correspondencia.tejido_por_hexagono_mediana.grilla_canonica": {
+      "canonical": true,
+      "display": "NaN",
+      "estimator": "mediana de celdas morfológicas por hexágono sobre 0 hexágonos con tejido",
+      "family": "correspondencia.tejido_por_hexagono_mediana",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "celdas por hexágono",
+      "value": NaN,
+      "variant": "grilla_canonica"
+    },
     "escala.pico_latente.celda_pooled": {
       "canonical": true,
       "display": "101459",
@@ -473,6 +583,72 @@
       "unit": "% de registros del distrito",
       "value": 53.06759,
       "variant": "distrito"
+    },
+    "hexagono.area_mediana.grilla_canonica": {
+      "canonical": true,
+      "display": "866248",
+      "estimator": "mediana del área de hexágono H3 res-8 en EPSG:32718",
+      "family": "hexagono.area_mediana",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "m² por celda",
+      "value": 866247.813917,
+      "variant": "grilla_canonica"
+    },
+    "hexagono.aristas.grilla_canonica": {
+      "canonical": true,
+      "display": "12249",
+      "estimator": "pares de h3_graph_edges.parquet normalizados a no dirigidos",
+      "family": "hexagono.aristas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "aristas no dirigidas",
+      "value": 12249.0,
+      "variant": "grilla_canonica"
+    },
+    "hexagono.grado_medio.grilla_canonica": {
+      "canonical": true,
+      "display": "5.87",
+      "estimator": "2·aristas/celdas sobre la adyacencia H3 (4172 hexágonos)",
+      "family": "hexagono.grado_medio",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "vecinos por celda",
+      "value": 5.872004,
+      "variant": "grilla_canonica"
     },
     "multiplier.estafa.victim": {
       "canonical": true,
@@ -833,6 +1009,160 @@
       "unit": "% de la superficie (5 cats, incl. violencia familiar)",
       "value": 39.374691,
       "variant": "celda_pooled"
+    },
+    "tejido.area_mediana.morfologica": {
+      "canonical": true,
+      "display": "0",
+      "estimator": "mediana del área de celda morfológica sobre 245029 celdas",
+      "family": "tejido.area_mediana",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "m² por celda",
+      "value": 0.0,
+      "variant": "morfologica"
+    },
+    "tejido.area_p05.morfologica": {
+      "canonical": true,
+      "display": "0",
+      "estimator": "p05 del área de celda morfológica sobre 245029 celdas",
+      "family": "tejido.area_p05",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "m² por celda",
+      "value": 0.0,
+      "variant": "morfologica"
+    },
+    "tejido.area_p95.morfologica": {
+      "canonical": true,
+      "display": "0",
+      "estimator": "p95 del área de celda morfológica sobre 245029 celdas",
+      "family": "tejido.area_p95",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "m² por celda",
+      "value": 0.0,
+      "variant": "morfologica"
+    },
+    "tejido.aristas.morfologica": {
+      "canonical": true,
+      "display": "328282",
+      "estimator": "pares touched_to (contigüidad dentro de la manzana cerrada), no dirigidos",
+      "family": "tejido.aristas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "aristas no dirigidas",
+      "value": 328282.0,
+      "variant": "morfologica"
+    },
+    "tejido.celdas.morfologica": {
+      "canonical": true,
+      "display": "245029",
+      "estimator": "celdas de morphological_graph sobre gis_osm_buildings_a_free recortado a la grilla",
+      "family": "tejido.celdas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "celdas de la tesselación",
+      "value": 245029.0,
+      "variant": "morfologica"
+    },
+    "tejido.grado_desviacion.morfologica": {
+      "canonical": true,
+      "display": "2.37",
+      "estimator": "desviación estándar poblacional del grado en el grafo touched_to",
+      "family": "tejido.grado_desviacion",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "vecinos por celda",
+      "value": 2.373667,
+      "variant": "morfologica"
+    },
+    "tejido.grado_medio.morfologica": {
+      "canonical": true,
+      "display": "2.68",
+      "estimator": "2·aristas/celdas sobre el grafo touched_to (245029 celdas)",
+      "family": "tejido.grado_medio",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T17:37:19-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
+        },
+        "script": "experiments/tejido-vs-hexagono/loader.py",
+        "script_sha256": "8479a09c6be7bf5b3b1b08e32fda839bce13e1c76177f9dd6638f2e1945acce4"
+      },
+      "unit": "vecinos por celda",
+      "value": 2.679536,
+      "variant": "morfologica"
     }
   },
   "policy": {
@@ -860,6 +1190,42 @@
       "nota": "Excepción exacta al patrón conteo.*: se cuenta sobre distritos, no sobre la grilla, y la variante lo tiene que decir.",
       "round_mode": "half_up"
     },
+    "correspondencia.area_partida": {
+      "canonical_variant": "morfologica",
+      "decimals": 1,
+      "nota": "% del area del tejido que vive en celdas partidas. Acompana a celdas_partidas porque un conteo de celdas y una fraccion de area pueden discrepar mucho si lo partido son las celdas grandes.",
+      "round_mode": "half_up"
+    },
+    "correspondencia.celdas_partidas": {
+      "canonical_variant": "morfologica",
+      "decimals": 1,
+      "nota": "% de celdas morfologicas repartidas entre dos o mas hexagonos. Un decimal: el denominador son cientos de miles de celdas pero el hallazgo es de orden de magnitud, no de precision.",
+      "round_mode": "half_up"
+    },
+    "correspondencia.cobertura_areal_mediana": {
+      "canonical_variant": "grilla_canonica",
+      "decimals": 1,
+      "nota": "Mediana de Suma frac_h3 sobre los hexagonos CON tejido. Mide cuanto del hexagono llega a cubrir el tejido alli donde existe.",
+      "round_mode": "half_up"
+    },
+    "correspondencia.desvio_masa": {
+      "canonical_variant": "morfologica",
+      "decimals": 9,
+      "nota": "Peor |Suma frac_tess - 1| sobre las celdas completas. Nueve decimales A PROPOSITO: es la cifra que sostiene la afirmacion de que la tabla no pierde ni inventa masa, y redondearla a dos la volveria un cero decorativo que no comprueba nada.",
+      "round_mode": "half_up"
+    },
+    "correspondencia.hexagonos_sin_tejido": {
+      "canonical_variant": "grilla_canonica",
+      "decimals": 1,
+      "nota": "% de la grilla canonica sin ninguna celda morfologica. NO es area segura ni area vacia: es area donde OSM no tiene edificios, y el consumidor tiene que verla como hueco declarado.",
+      "round_mode": "half_up"
+    },
+    "correspondencia.tejido_por_hexagono_mediana": {
+      "canonical_variant": "grilla_canonica",
+      "decimals": 0,
+      "nota": "Mediana de celdas morfologicas por hexagono. Entero: es un conteo de celdas dentro de un hexagono.",
+      "round_mode": "half_up"
+    },
     "escala.*": {
       "canonical_variant": "celda_pooled",
       "decimals": 0,
@@ -870,6 +1236,24 @@
       "canonical_variant": "distrito",
       "decimals": 1,
       "nota": "Tasas distritales de calidad geocodificadora, en puntos porcentuales. La variante canónica es distrital porque la medida ES distrital; no existe variante celular y no debe inventarse una.",
+      "round_mode": "half_up"
+    },
+    "hexagono.area_mediana": {
+      "canonical_variant": "grilla_canonica",
+      "decimals": 0,
+      "nota": "Area mediana del hexagono H3 res-8 en EPSG:32718, en m2.",
+      "round_mode": "half_up"
+    },
+    "hexagono.aristas": {
+      "canonical_variant": "grilla_canonica",
+      "decimals": 0,
+      "nota": "Adyacencia H3 res-8 normalizada a no dirigida, contra la que se compara el tejido.",
+      "round_mode": "half_up"
+    },
+    "hexagono.grado_medio": {
+      "canonical_variant": "grilla_canonica",
+      "decimals": 2,
+      "nota": "Grado medio del hexagono. Tiende a 6 por construccion de la grilla; los dos decimales dejan ver cuanto lo baja el borde y nada mas. Esa es justo la razon de que la adyacencia hexagonal no informe.",
       "round_mode": "half_up"
     },
     "multiplier.*": {
@@ -900,6 +1284,30 @@
       "canonical_variant": "celda_pooled",
       "decimals": 1,
       "note": "Share porcentual por categoría en la superficie H3 de Lima+Callao, 5 categorías INCLUYENDO violencia familiar. NO son comparables con composition_share_* de infelix, que renormaliza sobre 4 categorías a escala nacional. Nombre distinto a propósito para que nadie los cruce.",
+      "round_mode": "half_up"
+    },
+    "tejido.area_*": {
+      "canonical_variant": "morfologica",
+      "decimals": 0,
+      "nota": "Areas de celda morfologica en m2. Cero decimales: por debajo del metro cuadrado lo que se mide es la precision de la proyeccion, no la ciudad.",
+      "round_mode": "half_up"
+    },
+    "tejido.aristas": {
+      "canonical_variant": "morfologica",
+      "decimals": 0,
+      "nota": "Aristas NO DIRIGIDAS del grafo touched_to. La convencion importa: el artefacto H3 de origen guarda ida y vuelta, y compararlos sin normalizar duplicaria un lado de la comparacion.",
+      "round_mode": "half_up"
+    },
+    "tejido.celdas": {
+      "canonical_variant": "morfologica",
+      "decimals": 0,
+      "nota": "Cardinalidad de la tesselacion morfologica. Enteros: una fraccion de celda no significa nada. Variante `morfologica` y no `grilla_canonica` porque el denominador ya no es la grilla H3 — confundirlas seria comparar dos universos distintos.",
+      "round_mode": "half_up"
+    },
+    "tejido.grado_*": {
+      "canonical_variant": "morfologica",
+      "decimals": 2,
+      "nota": "Momentos del grado en el tejido. Dos decimales porque la comparacion contra el ~6 uniforme del hexagono se juega en decimas, no en unidades.",
       "round_mode": "half_up"
     }
   },

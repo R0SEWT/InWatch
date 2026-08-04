@@ -82,7 +82,11 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 # `experiments` está acá para que CI recoja los tests que viven junto a cada loader.
 # Sin esto, `uv run pytest` los saltaría en silencio y el gate sería decorativo.
 testpaths = ["tests", "experiments"]
-addopts = "-q --strict-markers"
+# `--import-mode=importlib` porque cada experimento nombra su test `test_loader.py` y,
+# con el modo `prepend` por defecto, dos archivos con el mismo basename y sin paquete
+# chocan y rompen la RECOLECCIÓN entera — no un test, la suite. Se descubrió al aterrizar
+# el segundo experimento; con uno solo el problema no existe y con tres es inevitable.
+addopts = "-q --strict-markers --import-mode=importlib"
 markers = [
     "needs_data: requiere artefactos de data/ que están gitignored",
 ]
