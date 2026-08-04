@@ -180,4 +180,12 @@ se inyecta pase el proveedor de basemap que se le pase.
 **Procedencia con rutas absolutas.** Los inputs viven fuera de la raíz del repo, así que
 el registro guarda su ruta absoluta en vez de una relativa. Es correcto para el hash
 —identifica el archivo exacto que se leyó— pero ata las entradas a esta máquina. Queda
-anotado como deuda, no resuelto acá.
+anotado como deuda en `inwatch-8sm`, no resuelto acá.
+
+**El `git_commit` de estas entradas apunta al commit anterior.** No es un descuido de
+este experimento: el guard anti-churn de `emit()` preserva la procedencia previa cuando
+nada material cambió, y como el sha del emisor es de contenido y no de commit, la
+procedencia grabada en la primera corrida —con el script aún sin commitear— queda
+congelada. La detección de números stale no se ve afectada, porque compara hashes de
+contenido; lo que queda impreciso es el puntero a la historia. Diagnóstico completo y
+opciones de arreglo en `inwatch-82u`.
