@@ -1526,8 +1526,8 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-05T13:57:08-05:00",
-        "git_commit": "ad9b60a",
+        "emitted_at": "2026-08-05T14:06:43-05:00",
+        "git_commit": "6fb2c89",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/freelance-externos/ElComercio/Wachi/data/raw/LIMA.parquet": "15ed53f29d9a489d4fa614899b2f2e1c0fcb51d0e6860c43c5012a3d5831dd63",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/analysis/stadium_hourly.json": "0ca9f2dec5e2ed98a2969d7cd150a8da896d0a85b7f9bd0cd4fab94e816548ac",
@@ -1536,7 +1536,7 @@
           "data/bronze/pulso-estadios/matchdays_ancla.csv": "9ec36b2ce39d12d00810304e4f0d66dc7d1d1ffdf7782be07ab6d8cadfc5f3dd"
         },
         "script": "experiments/pulso-estadios/loader.py",
-        "script_sha256": "3a02a2f3afce6ed5da3773da7c7e3c9bf6be149c56ad30d2771f8c387b4a1510"
+        "script_sha256": "0e2de8b6202ac48698294ef169e61139b39a55e180922a88a31dc74f6d5532a7"
       },
       "unit": "desviación relativa máxima del RR (adim.)",
       "value": 0.0,
@@ -1550,8 +1550,8 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-05T13:57:08-05:00",
-        "git_commit": "ad9b60a",
+        "emitted_at": "2026-08-05T14:06:43-05:00",
+        "git_commit": "6fb2c89",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/freelance-externos/ElComercio/Wachi/data/raw/LIMA.parquet": "15ed53f29d9a489d4fa614899b2f2e1c0fcb51d0e6860c43c5012a3d5831dd63",
           "/home/rosewt-dell/Code/tesis/infelix/analysis/stadium_extra_events.csv": "b9d7da4b1fb9f229c9e53ee697040ce14f33e057bb05b8416df94195cb8837c6",
@@ -1559,7 +1559,7 @@
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_feature_matrix.parquet": "47a115d25765f9ef4c089dc841bc7bfd9c7343f28202bee06e044ca69a360baf"
         },
         "script": "experiments/pulso-estadios/loader.py",
-        "script_sha256": "3a02a2f3afce6ed5da3773da7c7e3c9bf6be149c56ad30d2771f8c387b4a1510"
+        "script_sha256": "0e2de8b6202ac48698294ef169e61139b39a55e180922a88a31dc74f6d5532a7"
       },
       "unit": "días",
       "value": 201.0,
@@ -1573,8 +1573,8 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-05T13:57:08-05:00",
-        "git_commit": "ad9b60a",
+        "emitted_at": "2026-08-05T14:06:43-05:00",
+        "git_commit": "6fb2c89",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/freelance-externos/ElComercio/Wachi/data/raw/LIMA.parquet": "15ed53f29d9a489d4fa614899b2f2e1c0fcb51d0e6860c43c5012a3d5831dd63",
           "/home/rosewt-dell/Code/tesis/infelix/analysis/stadium_extra_events.csv": "b9d7da4b1fb9f229c9e53ee697040ce14f33e057bb05b8416df94195cb8837c6",
@@ -1582,7 +1582,7 @@
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_feature_matrix.parquet": "47a115d25765f9ef4c089dc841bc7bfd9c7343f28202bee06e044ca69a360baf"
         },
         "script": "experiments/pulso-estadios/loader.py",
-        "script_sha256": "3a02a2f3afce6ed5da3773da7c7e3c9bf6be149c56ad30d2771f8c387b4a1510"
+        "script_sha256": "0e2de8b6202ac48698294ef169e61139b39a55e180922a88a31dc74f6d5532a7"
       },
       "unit": "rate-ratio tratado/control (adim.)",
       "value": 3.671002,

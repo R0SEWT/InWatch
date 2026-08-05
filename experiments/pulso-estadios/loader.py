@@ -395,15 +395,20 @@ def _sha256(paths) -> str:
     return h.hexdigest()
 
 
-def _huella_puntos() -> str:
+def _huella_puntos(fuentes: tuple[Path, ...] | None = None) -> str:
     """Huella de todo lo que determina los puntos limpios: fuentes + lógica de limpieza.
 
     Incluye el hash del propio ``loader.py`` porque la limpieza vive acá: cambiar el
     orden del anti-centroide o el crosswalk de categorías cambia el resultado sin que
     ningún insumo se haya movido, y eso ya pasó una vez en este experimento.
+
+    ``fuentes`` es inyectable para que la lógica de invalidación se pueda ejercitar sin
+    los artefactos reales: si sólo se pudiera probar con `LIMA.parquet` en disco, el CI
+    —que no tiene `data/`— no verificaría nunca el mecanismo que impide que el registro
+    mienta sobre su procedencia. Y ése es justo el que no puede quedar sin test.
     """
     h = hashlib.sha256()
-    for p in (WACHI, MATRIX_FILE, Path(__file__)):
+    for p in fuentes if fuentes is not None else (WACHI, MATRIX_FILE, Path(__file__)):
         st = p.stat()
         # Para el parquet de 179 MB leer el contenido en cada corrida no compensa;
         # tamaño + mtime detectan cualquier re-exportación real de la fuente.

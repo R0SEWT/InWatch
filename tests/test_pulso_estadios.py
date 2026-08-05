@@ -187,23 +187,51 @@ def test_el_umbral_de_contaminacion_separa_el_par_nacional_matute():
 
 
 # ─── invalidación del caché de puntos ───────────────────────────────────────
-def test_la_huella_del_cache_es_determinista_y_cubre_el_script():
-    """Dos llamadas seguidas dan lo mismo, y el propio loader entra en la huella.
+@pytest.fixture
+def fuentes_falsas(tmp_path):
+    """Dos archivos temporales que hacen de fuentes, para no depender de `data/`."""
+    a, b = tmp_path / "fuente_a.bin", tmp_path / "fuente_b.bin"
+    a.write_bytes(b"contenido inicial")
+    b.write_bytes(b"otro")
+    return (a, b)
 
-    Que el script cuente no es un detalle: la limpieza vive en él, y cambiar el orden
-    del anti-centroide altera el resultado sin que ningún insumo se mueva. Eso ya pasó
-    en este experimento y costó una tarde.
-    """
-    h1 = loader._huella_puntos()
-    assert h1 == loader._huella_puntos()
+
+def test_la_huella_del_cache_es_determinista(fuentes_falsas):
+    h1 = loader._huella_puntos(fuentes_falsas)
+    assert h1 == loader._huella_puntos(fuentes_falsas)
     assert len(h1) == 64 and all(c in "0123456789abcdef" for c in h1)
 
 
-def test_la_huella_cambia_si_cambia_la_logica_de_limpieza(monkeypatch):
-    """Tocar una constante de limpieza tiene que invalidar el caché."""
-    antes = loader._huella_puntos()
+def test_la_huella_cambia_si_cambia_una_fuente(fuentes_falsas):
+    """Reescribir una fuente tiene que invalidar el caché.
+
+    Es el caso que motivó el arreglo: si `LIMA.parquet` se re-exporta y el caché no se
+    entera, `canon.emit` grabaría el hash de la fuente NUEVA sobre cifras calculadas con
+    la vieja — procedencia fresca sobre resultados stale.
+    """
+    antes = loader._huella_puntos(fuentes_falsas)
+    fuentes_falsas[0].write_bytes(b"contenido distinto y mas largo")
+    assert loader._huella_puntos(fuentes_falsas) != antes
+
+
+def test_la_huella_cambia_si_cambia_la_logica_de_limpieza(fuentes_falsas, monkeypatch):
+    """Tocar una constante de limpieza invalida, aunque ninguna fuente se mueva.
+
+    Cambiar el orden del anti-centroide alteró el resultado en este experimento sin que
+    ningún insumo cambiara, y costó un 12% de desviación contra el ancla. Por eso la
+    huella cubre también la lógica, no sólo los archivos.
+    """
+    antes = loader._huella_puntos(fuentes_falsas)
     monkeypatch.setattr(loader, "MAX_PER_COORD", loader.MAX_PER_COORD + 1)
-    assert loader._huella_puntos() != antes
+    assert loader._huella_puntos(fuentes_falsas) != antes
+
+
+def test_la_huella_por_defecto_cubre_el_script_del_loader():
+    """Sin argumento, el propio `loader.py` entra en la huella."""
+    import inspect
+
+    src = inspect.getsource(loader._huella_puntos)
+    assert "Path(__file__)" in src
 
 
 # ─── réplica contra el ancla (requiere artefactos) ──────────────────────────
