@@ -39,6 +39,31 @@ existentes, y la tesselación morfológica es la que respeta la forma real.
 Ninguna es "la correcta". **Poder cambiar de unidad y ver moverse el resultado es uno
 de los experimentos**, no una decisión previa a los experimentos.
 
+## Las tablas de correspondencia que existen
+
+| Cruce | Artefacto | Emitido por |
+|---|---|---|
+| `morfologica` ↔ `h3_8` | `correspondencia_h3_tejido.parquet` | `experiments/tejido-vs-hexagono/loader.py` |
+
+Columnas del cruce, y por qué son dos factores y no uno:
+
+- `area_m2` — área de la intersección. El piso de 1 m² descarta las astillas de
+  precisión del borde compartido, que si no se contarían como reparto real.
+- `frac_tess` — proporción **de la celda morfológica** que cae en ese hexágono.
+  Reparte una cantidad del tejido hacia H3. Suma 1 en toda celda contenida en la grilla.
+- `frac_h3` — proporción **del hexágono** que ocupa esa celda. Reparte una cantidad de
+  H3 hacia el tejido. **No suma 1**, y el déficit no es un error de la tabla: es área
+  del hexágono sin tejido edificado debajo.
+
+Un factor solo no basta porque las dos unidades no se anidan. Usar `frac_tess` para
+repartir en el sentido contrario duplicaría o perdería masa según qué tan cubierto esté
+el hexágono, en silencio y sin que ningún test lo note.
+
+**El déficit de `frac_h3` no se normaliza.** Escalarlo a 1 convertiría "acá no hay
+tejido registrado" en "acá el tejido que hay lo es todo" — ausencia de evidencia
+disfrazada de evidencia. Qué hacer con ese hueco es decisión del experimento que
+reparta, y tiene que ser explícita.
+
 ## Convenciones de columna
 
 Heredadas del contrato silver del repo de origen, que ya resolvió estos problemas:
