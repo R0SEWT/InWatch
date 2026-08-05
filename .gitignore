@@ -55,3 +55,11 @@ __marimo__/
 
 # Worktrees de agentes: repos embebidos, nunca se commitean
 .claude/worktrees/
+
+# Andamiaje que Gas Town inyecta en el sandbox de cada polecat. No es trabajo: se
+# regenera en cada spawn. Sin ignorarlo, el predicado de limpieza lee el sandbox como
+# `has_uncommitted`, el polecat entra en recovery y el rig se queda sin capacidad —
+# con la cola llena y nada corriendo.
+.runtime/
+CLAUDE.local.md
+.claude/commands/
