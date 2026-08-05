@@ -395,20 +395,53 @@ def _sha256(paths) -> str:
     return h.hexdigest()
 
 
+def _huella_puntos() -> str:
+    """Huella de todo lo que determina los puntos limpios: fuentes + lógica de limpieza.
+
+    Incluye el hash del propio ``loader.py`` porque la limpieza vive acá: cambiar el
+    orden del anti-centroide o el crosswalk de categorías cambia el resultado sin que
+    ningún insumo se haya movido, y eso ya pasó una vez en este experimento.
+    """
+    h = hashlib.sha256()
+    for p in (WACHI, MATRIX_FILE, Path(__file__)):
+        st = p.stat()
+        # Para el parquet de 179 MB leer el contenido en cada corrida no compensa;
+        # tamaño + mtime detectan cualquier re-exportación real de la fuente.
+        h.update(f"{p}:{st.st_size}:{st.st_mtime_ns}".encode())
+    for cte in (YEAR_LO, YEAR_HI, H3_RES, MAX_PER_COORD, CAT,
+                LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX):
+        h.update(str(cte).encode())
+    return h.hexdigest()
+
+
 def puntos_cacheados() -> pd.DataFrame:
-    """Puntos limpios, cacheados en bronze.
+    """Puntos limpios, cacheados en bronze e invalidados por huella de insumos.
 
     La limpieza recorre un parquet de 179 MB y mapea cada punto a H3; hacerla dos veces
     (época del ancla y época actual) sería tiempo tirado, porque las denuncias son las
     mismas en ambas — lo que cambia es el calendario de eventos.
+
+    Pero un caché sin invalidar es peor que no tener caché. Si `LIMA.parquet`, el feature
+    matrix o la lógica de limpieza cambian y el caché no, `canon.emit` registraría hashes
+    de las fuentes ACTUALES sobre cifras calculadas con las viejas: procedencia fresca
+    atada a resultados stale. Ése es exactamente el fallo que el registro canónico existe
+    para impedir, y meterlo por la puerta de atrás en un caché sería irónico. Por eso la
+    huella se guarda junto al parquet y se verifica antes de reutilizarlo.
     """
     cache = BRONZE / "puntos_limpios.parquet"
-    if cache.exists():
+    marca = BRONZE / "puntos_limpios.huella"
+    huella = _huella_puntos()
+
+    if cache.exists() and marca.exists() and marca.read_text().strip() == huella:
         return pd.read_parquet(cache)
+    if cache.exists():
+        print("  caché de puntos invalidado: cambiaron las fuentes o la limpieza")
+
     geo = cargar_puntos()
     BRONZE.mkdir(parents=True, exist_ok=True)
     cols = ["lat", "lng", "hour", "minute", "date", "exact_midnight", "modalidad_hecho"]
     geo[cols].to_parquet(cache, index=False)
+    marca.write_text(huella + "\n")
     return geo[cols]
 
 
@@ -481,11 +514,21 @@ def construir(epoca: str = "actual") -> tuple[pd.DataFrame, pd.DataFrame]:
                     "n_tratado": int(a.sum()), "n_control": int(c.sum()),
                     "esperado": esperado, "exceso": float(a.sum()) - esperado,
                     "rr": mh_rr(a, c, nc), "ic_low": lo, "ic_high": hi,
-                    # Soporte: cuántos días tratados aportan. Viaja en el parquet
-                    # porque la regla del repo exige dibujar deshilachado lo que
-                    # se apoya en pocos días — no plano.
-                    "n_dias_soporte": int(np.sum(a > 0)),
-                    "n_estratos": len(estratos),
+                    # SOPORTE = estratos tratados OBSERVADOS en el bin. Todos aportan,
+                    # tengan o no evento: un día observado con cero delitos es un dato,
+                    # no un hueco. Contar `a > 0` como soporte —que es lo que hacía esta
+                    # línea antes— dibujaba deshilachados justamente los ceros: la
+                    # variante dosis-cero y los anillos exteriores, o sea donde el cero
+                    # ES el hallazgo. Eso invierte la regla dura del repo: presentaba
+                    # evidencia de ausencia como ausencia de evidencia.
+                    "n_estratos_soporte": len(estratos),
+                    # Diagnóstico, NO soporte. Cuántos días tratados tuvieron al menos un
+                    # evento en el bin. Sirve para leer la dispersión del numerador; si
+                    # alguien lo usa para deshilachar, reintroduce el error de arriba.
+                    "n_estratos_con_evento": int(np.sum(a > 0)),
+                    # Masa de control detrás del contraste. Un bin sin controles no puede
+                    # afirmar nada, y ése sí es un hueco legítimo que dibujar deshilachado.
+                    "n_control_estratos": int(np.sum(nc > 0)),
                 })
 
     perfil = pd.DataFrame(filas_perfil)
@@ -533,12 +576,19 @@ def main() -> None:
     # La desviación de la réplica es número portante por derecho propio: es la prueba
     # de que el port no derivó, y es lo único que hoy ata esas cifras a algo ejecutable.
     peor = float(ancla["delta_rr_rel"].max())
+    # Los inputs son TODO lo que puede mover esta cifra, no sólo el JSON contra el que se
+    # compara. La desviación se recalcula desde las denuncias, el filtro espacial y los
+    # fixtures congelados: si cualquiera de esos cambia, el número cambia. Listar sólo el
+    # ancla dejaría un número de validación científica sin registro de qué lo produjo —
+    # el fallo que este registro existe para impedir, cometido por el propio guard.
+    md_ancla, ex_ancla = exportar_epoca_ancla()
     canon.emit(
         "pulso.desviacion_replica", peor, variant="anillo_ancla",
         unit="desviación relativa máxima del RR (adim.)",
         estimator=("max |rr − rr_infelix| / rr_infelix sobre las 16 celdas, "
                    f"fixtures @{COMMIT_ANCLA}"),
-        inputs=[str(ANCLA_JSON)], script=__file__,
+        inputs=[str(p) for p in (ANCLA_JSON, WACHI, MATRIX_FILE, md_ancla, ex_ancla)],
+        script=__file__,
     )
     print(f"\nMayor desviación relativa contra el ancla de infelix: {peor:.4%}")
     print(ancla[["spec", "ring", "rr", "rr_infelix", "delta_rr_rel"]].to_string(index=False))

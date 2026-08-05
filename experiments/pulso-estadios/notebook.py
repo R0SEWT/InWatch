@@ -74,8 +74,8 @@ def _(mo, perfil):
         label="r̂ (1.00 = observado; bajarlo escala a latente-implicado)",
     )
     soporte_min = mo.ui.slider(
-        start=0, stop=40, step=1, value=8,
-        label="soporte mínimo de días para dibujar en firme",
+        start=0, stop=200, step=5, value=30,
+        label="estratos tratados mínimos para dibujar en firme",
     )
     mo.hstack([anillo, variante, r_hat, soporte_min], justify="start", gap=2)
     return anillo, r_hat, soporte_min, variante
@@ -88,7 +88,19 @@ def _(anillo, mo, np, perfil, plt, r_hat, soporte_min, variante):
 
     x = d["offset_h"].to_numpy()
     exceso = d["exceso"].to_numpy() / r_hat.value
-    firme = d["n_dias_soporte"].to_numpy() >= soporte_min.value
+
+    # Qué cuenta como "sin dato" y qué como "el dato es cero". La distinción es la regla
+    # dura del repo y acá se juega entera: un bin se dibuja deshilachado sólo si le
+    # faltan estratos tratados, si no tiene controles con los que contrastar, o si el
+    # bootstrap no pudo devolver intervalo. Un bin bien soportado cuyo exceso da cero se
+    # dibuja EN FIRME — ese cero es el hallazgo, sobre todo en la variante dosis-cero y
+    # en los anillos exteriores.
+    firme = (
+        (d["n_estratos_soporte"].to_numpy() >= soporte_min.value)
+        & (d["n_control_estratos"].to_numpy() > 0)
+        & np.isfinite(d["ic_low"].to_numpy())
+        & np.isfinite(d["ic_high"].to_numpy())
+    )
 
     fig, ax = plt.subplots(figsize=(10, 4.2))
     ax.axhline(0, color="0.55", lw=1)

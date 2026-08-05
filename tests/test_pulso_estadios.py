@@ -186,6 +186,26 @@ def test_el_umbral_de_contaminacion_separa_el_par_nacional_matute():
     assert d < loader.CROSS_CONTAM_M
 
 
+# ─── invalidación del caché de puntos ───────────────────────────────────────
+def test_la_huella_del_cache_es_determinista_y_cubre_el_script():
+    """Dos llamadas seguidas dan lo mismo, y el propio loader entra en la huella.
+
+    Que el script cuente no es un detalle: la limpieza vive en él, y cambiar el orden
+    del anti-centroide altera el resultado sin que ningún insumo se mueva. Eso ya pasó
+    en este experimento y costó una tarde.
+    """
+    h1 = loader._huella_puntos()
+    assert h1 == loader._huella_puntos()
+    assert len(h1) == 64 and all(c in "0123456789abcdef" for c in h1)
+
+
+def test_la_huella_cambia_si_cambia_la_logica_de_limpieza(monkeypatch):
+    """Tocar una constante de limpieza tiene que invalidar el caché."""
+    antes = loader._huella_puntos()
+    monkeypatch.setattr(loader, "MAX_PER_COORD", loader.MAX_PER_COORD + 1)
+    assert loader._huella_puntos() != antes
+
+
 # ─── réplica contra el ancla (requiere artefactos) ──────────────────────────
 @pytest.mark.needs_data
 def test_la_replica_reproduce_el_ancla_de_infelix():
@@ -201,3 +221,31 @@ def test_la_replica_reproduce_el_ancla_de_infelix():
     ancla = pd.read_parquet(art)
     peor = ancla["delta_rr_rel"].max()
     assert peor < 0.01, f"la réplica derivó {peor:.2%} contra el ancla de infelix"
+
+
+@pytest.mark.needs_data
+def test_un_bin_sin_eventos_conserva_su_soporte_completo():
+    """La corrección del hilo P2: cero eventos NO es cero soporte.
+
+    Antes el soporte se contaba como `a > 0`, así que un día tratado observado con cero
+    delitos se leía como estrato ausente. El notebook dibujaba deshilachados justo los
+    ceros — la variante dosis-cero y los anillos exteriores, donde el cero es el
+    hallazgo — presentando evidencia de ausencia como ausencia de evidencia.
+    """
+    art = Path(__file__).resolve().parents[1] / "data/silver/pulso-estadios/perfil.parquet"
+    if not art.exists():
+        pytest.skip("falta perfil.parquet — corre experiments/pulso-estadios/loader.py")
+    perfil = pd.read_parquet(art)
+
+    for col in ("n_estratos_soporte", "n_estratos_con_evento", "n_control_estratos"):
+        assert col in perfil.columns, f"falta la columna {col}"
+    assert "n_dias_soporte" not in perfil.columns, "quedó la definición vieja de soporte"
+
+    # El soporte es constante por variante: todos los estratos se observan en todo
+    # offset. Que no dependa del resultado es exactamente el punto.
+    for _variante, g in perfil.groupby("variante"):
+        assert g["n_estratos_soporte"].nunique() == 1
+
+    sin_eventos = perfil[perfil["n_tratado"] == 0]
+    if len(sin_eventos):
+        assert (sin_eventos["n_estratos_soporte"] > 0).all()
