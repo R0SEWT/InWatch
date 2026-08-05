@@ -298,6 +298,930 @@
       "value": 59974.088594,
       "variant": "celda_pooled"
     },
+    "evaluabilidad.brecha_r10.uniforme": {
+      "canonical": true,
+      "display": "0.117",
+      "estimator": "media sobre 10 semillas a tasa 10.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.brecha_r10",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ real − ρ medible: el error de medición (adim.)",
+      "value": 0.116853,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.brecha_r25.uniforme": {
+      "canonical": true,
+      "display": "0.066",
+      "estimator": "media sobre 10 semillas a tasa 25.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.brecha_r25",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ real − ρ medible: el error de medición (adim.)",
+      "value": 0.066337,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.brecha_r50.uniforme": {
+      "canonical": true,
+      "display": "0.030",
+      "estimator": "media sobre 10 semillas a tasa 50.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.brecha_r50",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ real − ρ medible: el error de medición (adim.)",
+      "value": 0.029971,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.brecha_r70.uniforme": {
+      "canonical": true,
+      "display": "0.009",
+      "estimator": "media sobre 10 semillas a tasa 70.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.brecha_r70",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ real − ρ medible: el error de medición (adim.)",
+      "value": 0.008802,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.brecha_r83.uniforme": {
+      "canonical": true,
+      "display": "0.000",
+      "estimator": "media sobre 10 semillas a tasa 83.4%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.brecha_r83",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ real − ρ medible: el error de medición (adim.)",
+      "value": 0.0,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.brecha_trujillo.selectivo": {
+      "canonical": true,
+      "display": "0.081",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida selectivo (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.brecha_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ real − ρ medible: el error de medición (adim.)",
+      "value": 0.080832,
+      "variant": "selectivo"
+    },
+    "evaluabilidad.brecha_trujillo.uniforme": {
+      "canonical": false,
+      "display": "0.062",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida uniforme (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.brecha_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ real − ρ medible: el error de medición (adim.)",
+      "value": 0.061963,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.conteo_corridas.diseno": {
+      "canonical": true,
+      "display": "152",
+      "estimator": "filas de los dos CSV de origen juntos, una por corrida",
+      "family": "evaluabilidad.conteo_corridas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "corridas modelo × nivel × semilla",
+      "value": 152.0,
+      "variant": "diseno"
+    },
+    "evaluabilidad.conteo_semillas.diseno": {
+      "canonical": true,
+      "display": "10",
+      "estimator": "semillas distintas en los CSV de origen (el nivel base es determinista)",
+      "family": "evaluabilidad.conteo_semillas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "semillas por nivel",
+      "value": 10.0,
+      "variant": "diseno"
+    },
+    "evaluabilidad.pct_seeds_feat_gana.ambos_mecanismos": {
+      "canonical": true,
+      "display": "100",
+      "estimator": "mínimo de feat_gana sobre todos los niveles y las tres curvas",
+      "family": "evaluabilidad.pct_seeds_feat_gana",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "% de semillas en que el modelo con features supera a persistencia",
+      "value": 100.0,
+      "variant": "ambos_mecanismos"
+    },
+    "evaluabilidad.penalidad_medible_trujillo.selectivo": {
+      "canonical": true,
+      "display": "-0.032",
+      "estimator": "diferencia pareada por semilla sobre 10 semillas a 24.9%, misma grilla y mismo script de origen",
+      "family": "evaluabilidad.penalidad_medible_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "Δρ selectivo − uniforme (adim.; negativo = la cota uniforme era optimista)",
+      "value": -0.031506,
+      "variant": "selectivo"
+    },
+    "evaluabilidad.penalidad_real_trujillo.selectivo": {
+      "canonical": true,
+      "display": "-0.013",
+      "estimator": "diferencia pareada por semilla sobre 10 semillas a 24.9%, misma grilla y mismo script de origen",
+      "family": "evaluabilidad.penalidad_real_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "Δρ selectivo − uniforme (adim.; negativo = la cota uniforme era optimista)",
+      "value": -0.012637,
+      "variant": "selectivo"
+    },
+    "evaluabilidad.piso_geocod_tau05.selectivo": {
+      "canonical": true,
+      "display": "43.8",
+      "estimator": "interpolación lineal de la brecha entre los niveles medidos de la curva selectivo; tolerancia elegida τ = 0.05",
+      "family": "evaluabilidad.piso_geocod_tau05",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "% de geocodificación mínimo para que la brecha no supere 0.05 de ρ",
+      "value": 43.788229,
+      "variant": "selectivo"
+    },
+    "evaluabilidad.piso_geocod_tau05.uniforme": {
+      "canonical": false,
+      "display": "36.2",
+      "estimator": "interpolación lineal de la brecha entre los niveles medidos de la curva uniforme; tolerancia elegida τ = 0.05",
+      "family": "evaluabilidad.piso_geocod_tau05",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "% de geocodificación mínimo para que la brecha no supere 0.05 de ρ",
+      "value": 36.230976,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_medible_r10.uniforme": {
+      "canonical": true,
+      "display": "0.316",
+      "estimator": "media sobre 10 semillas a tasa 10.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_medible_r10",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo DEGRADADO (adim.)",
+      "value": 0.316477,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_medible_r25.uniforme": {
+      "canonical": true,
+      "display": "0.384",
+      "estimator": "media sobre 10 semillas a tasa 25.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_medible_r25",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo DEGRADADO (adim.)",
+      "value": 0.383747,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_medible_r50.uniforme": {
+      "canonical": true,
+      "display": "0.429",
+      "estimator": "media sobre 10 semillas a tasa 50.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_medible_r50",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo DEGRADADO (adim.)",
+      "value": 0.428777,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_medible_r70.uniforme": {
+      "canonical": true,
+      "display": "0.452",
+      "estimator": "media sobre 10 semillas a tasa 70.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_medible_r70",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo DEGRADADO (adim.)",
+      "value": 0.451759,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_medible_r83.uniforme": {
+      "canonical": true,
+      "display": "0.464",
+      "estimator": "media sobre 10 semillas a tasa 83.4%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_medible_r83",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo DEGRADADO (adim.)",
+      "value": 0.46359,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_medible_trujillo.selectivo": {
+      "canonical": true,
+      "display": "0.354",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida selectivo (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_medible_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo DEGRADADO (adim.)",
+      "value": 0.353996,
+      "variant": "selectivo"
+    },
+    "evaluabilidad.rho_medible_trujillo.uniforme": {
+      "canonical": false,
+      "display": "0.386",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida uniforme (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_medible_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo DEGRADADO (adim.)",
+      "value": 0.385502,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_persistencia_r10.uniforme": {
+      "canonical": true,
+      "display": "0.218",
+      "estimator": "media sobre 10 semillas a tasa 10.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_persistencia_r10",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ de la línea base de persistencia degradada (adim.)",
+      "value": 0.218083,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_persistencia_r25.uniforme": {
+      "canonical": true,
+      "display": "0.302",
+      "estimator": "media sobre 10 semillas a tasa 25.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_persistencia_r25",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ de la línea base de persistencia degradada (adim.)",
+      "value": 0.301554,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_persistencia_r50.uniforme": {
+      "canonical": true,
+      "display": "0.359",
+      "estimator": "media sobre 10 semillas a tasa 50.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_persistencia_r50",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ de la línea base de persistencia degradada (adim.)",
+      "value": 0.359002,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_persistencia_r70.uniforme": {
+      "canonical": true,
+      "display": "0.386",
+      "estimator": "media sobre 10 semillas a tasa 70.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_persistencia_r70",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ de la línea base de persistencia degradada (adim.)",
+      "value": 0.38554,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_persistencia_r83.uniforme": {
+      "canonical": true,
+      "display": "0.401",
+      "estimator": "media sobre 10 semillas a tasa 83.4%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_persistencia_r83",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ de la línea base de persistencia degradada (adim.)",
+      "value": 0.400548,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_persistencia_trujillo.selectivo": {
+      "canonical": true,
+      "display": "0.270",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida selectivo (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_persistencia_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ de la línea base de persistencia degradada (adim.)",
+      "value": 0.269511,
+      "variant": "selectivo"
+    },
+    "evaluabilidad.rho_persistencia_trujillo.uniforme": {
+      "canonical": false,
+      "display": "0.310",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida uniforme (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_persistencia_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ de la línea base de persistencia degradada (adim.)",
+      "value": 0.310291,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_real_r10.uniforme": {
+      "canonical": true,
+      "display": "0.433",
+      "estimator": "media sobre 10 semillas a tasa 10.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_real_r10",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo COMPLETO (adim.)",
+      "value": 0.43333,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_real_r25.uniforme": {
+      "canonical": true,
+      "display": "0.450",
+      "estimator": "media sobre 10 semillas a tasa 25.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_real_r25",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo COMPLETO (adim.)",
+      "value": 0.450084,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_real_r50.uniforme": {
+      "canonical": true,
+      "display": "0.459",
+      "estimator": "media sobre 10 semillas a tasa 50.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_real_r50",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo COMPLETO (adim.)",
+      "value": 0.458748,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_real_r70.uniforme": {
+      "canonical": true,
+      "display": "0.461",
+      "estimator": "media sobre 10 semillas a tasa 70.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_real_r70",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo COMPLETO (adim.)",
+      "value": 0.46056,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_real_r83.uniforme": {
+      "canonical": true,
+      "display": "0.464",
+      "estimator": "media sobre 10 semillas a tasa 83.4%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_real_r83",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo COMPLETO (adim.)",
+      "value": 0.46359,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.rho_real_trujillo.selectivo": {
+      "canonical": true,
+      "display": "0.435",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida selectivo (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_real_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo COMPLETO (adim.)",
+      "value": 0.434828,
+      "variant": "selectivo"
+    },
+    "evaluabilidad.rho_real_trujillo.uniforme": {
+      "canonical": false,
+      "display": "0.447",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida uniforme (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.rho_real_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ intra-distrital macro contra el oráculo COMPLETO (adim.)",
+      "value": 0.447465,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.tasa_lima.ciudad": {
+      "canonical": true,
+      "display": "83.4",
+      "estimator": "nivel de la grilla de degradación, tomado de la columna `rate` del CSV de origen; no se escribe a mano",
+      "family": "evaluabilidad.tasa_lima",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "% de hechos con coordenada",
+      "value": 83.4,
+      "variant": "ciudad"
+    },
+    "evaluabilidad.tasa_trujillo.ciudad": {
+      "canonical": true,
+      "display": "24.9",
+      "estimator": "nivel de la grilla de degradación, tomado de la columna `rate` del CSV de origen; no se escribe a mano",
+      "family": "evaluabilidad.tasa_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "% de hechos con coordenada",
+      "value": 24.9,
+      "variant": "ciudad"
+    },
+    "evaluabilidad.ventaja_r10.uniforme": {
+      "canonical": true,
+      "display": "0.098",
+      "estimator": "media sobre 10 semillas a tasa 10.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.ventaja_r10",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ medible − ρ persistencia: lo que el analista ve ganar (adim.)",
+      "value": 0.098394,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.ventaja_r25.uniforme": {
+      "canonical": true,
+      "display": "0.082",
+      "estimator": "media sobre 10 semillas a tasa 25.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.ventaja_r25",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ medible − ρ persistencia: lo que el analista ve ganar (adim.)",
+      "value": 0.082193,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.ventaja_r50.uniforme": {
+      "canonical": true,
+      "display": "0.070",
+      "estimator": "media sobre 10 semillas a tasa 50.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.ventaja_r50",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ medible − ρ persistencia: lo que el analista ve ganar (adim.)",
+      "value": 0.069775,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.ventaja_r70.uniforme": {
+      "canonical": true,
+      "display": "0.066",
+      "estimator": "media sobre 10 semillas a tasa 70.0%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.ventaja_r70",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ medible − ρ persistencia: lo que el analista ve ganar (adim.)",
+      "value": 0.066218,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.ventaja_r83.uniforme": {
+      "canonical": true,
+      "display": "0.063",
+      "estimator": "media sobre 10 semillas a tasa 83.4%, adelgazamiento binomial uniforme desde 83.4% (geocoding_degradation.csv)",
+      "family": "evaluabilidad.ventaja_r83",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ medible − ρ persistencia: lo que el analista ve ganar (adim.)",
+      "value": 0.063042,
+      "variant": "uniforme"
+    },
+    "evaluabilidad.ventaja_trujillo.selectivo": {
+      "canonical": true,
+      "display": "0.084",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida selectivo (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.ventaja_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:27-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ medible − ρ persistencia: lo que el analista ve ganar (adim.)",
+      "value": 0.084486,
+      "variant": "selectivo"
+    },
+    "evaluabilidad.ventaja_trujillo.uniforme": {
+      "canonical": false,
+      "display": "0.075",
+      "estimator": "media sobre 10 semillas a la tasa real de Trujillo (24.9%), pérdida uniforme (selective_geocoding_degradation.csv)",
+      "family": "evaluabilidad.ventaja_trujillo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-08-04T19:19:26-05:00",
+        "git_commit": "bafcb19",
+        "inputs_sha256": {
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/geocoding_degradation.csv": "1c35b83dd8a6faea48c4dfa4ed5f1f668155e39e86c18566c3e789acfa2de8c3",
+          "/home/rosewt-dell/Code/tesis/infelix/data/silver/predictions/selective_geocoding_degradation.csv": "cafb924626bc78a8bf4b992be3341a2f9c435e18eb22c305bbef3fd16563597f"
+        },
+        "script": "experiments/curva-de-evaluabilidad/loader.py",
+        "script_sha256": "08f6c3487eafeb0ea2911c211f6091a9fef84d316b5b43a703f33d84089169e7"
+      },
+      "unit": "ρ medible − ρ persistencia: lo que el analista ve ganar (adim.)",
+      "value": 0.075211,
+      "variant": "uniforme"
+    },
     "geocode.con_coord_max.distrito": {
       "canonical": true,
       "display": "95.0",
@@ -900,6 +1824,78 @@
       "canonical_variant": "celda_pooled",
       "decimals": 0,
       "note": "Techo y pico de la rampa compartida. Enteros: son conteos de hechos, y la escala del mapa no gana nada con decimales.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.*": {
+      "canonical_variant": "uniforme",
+      "decimals": 3,
+      "nota": "Curva de evaluabilidad: ρ intra-distrital macro bajo degradación sintética de la geocodificación. Tres decimales, igual que rango_espacial.spearman: el hallazgo es el TAMAÑO de la brecha entre ρ medible y ρ real, y con dos decimales 0.009 y 0.005 se leen igual. La variante canónica por defecto es `uniforme` porque es la curva de la figura publicada; los niveles donde existe la medición selectiva la excepcionan por clave exacta y ahí gana la cota empírica.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.brecha_trujillo": {
+      "canonical_variant": "selectivo",
+      "decimals": 3,
+      "nota": "Excepción exacta: a la tasa real de Trujillo existen las dos mediciones y la canónica es la SELECTIVA. Citar la uniforme por defecto sería elegir el número más cómodo — el propio repo de origen la declara cota optimista.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.conteo_*": {
+      "canonical_variant": "diseno",
+      "decimals": 0,
+      "nota": "Cardinalidades del diseño experimental (semillas, corridas). Cero decimales: son conteos, no estimaciones. Van al registro porque el README los cita como denominadores de cada media y una sd sin su n no significa nada.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.pct_seeds_feat_gana": {
+      "canonical_variant": "ambos_mecanismos",
+      "decimals": 0,
+      "nota": "Mínimo del % de semillas en que el modelo con features supera a persistencia, sobre TODOS los niveles y los dos mecanismos. La variante lo dice porque el número solo sostiene su afirmación si cubre ambos: un mínimo sobre un solo mecanismo no autoriza la frase «en todos los niveles».",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.penalidad_medible_trujillo": {
+      "canonical_variant": "selectivo",
+      "decimals": 3,
+      "nota": "Δρ selectivo − uniforme, pareado por semilla. La variante es `selectivo` porque la penalidad ES una propiedad de ese mecanismo, no una tercera medición independiente.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.penalidad_real_trujillo": {
+      "canonical_variant": "selectivo",
+      "decimals": 3,
+      "nota": "Contraparte de penalidad_medible_trujillo sobre el ρ real. Se cita junto a ella porque el hallazgo es que la penalidad selectiva es ~2.5x mayor sobre la medición que sobre la señal, y una sola de las dos no lo muestra.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.piso_geocod_tau05": {
+      "canonical_variant": "selectivo",
+      "decimals": 1,
+      "nota": "Tasa mínima de geocodificación para que la brecha de medición no supere τ = 0.05 de ρ. Un decimal porque es un porcentaje interpolado entre cinco niveles medidos y afinar más fingiría una resolución que la grilla no tiene. Canónica la selectiva: es la regla de diseño que se recomendaría de verdad.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.rho_medible_trujillo": {
+      "canonical_variant": "selectivo",
+      "decimals": 3,
+      "nota": "Ver evaluabilidad.brecha_trujillo: mismo motivo, la canónica es la cota empírica.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.rho_persistencia_trujillo": {
+      "canonical_variant": "selectivo",
+      "decimals": 3,
+      "nota": "Ver evaluabilidad.brecha_trujillo: mismo motivo, la canónica es la cota empírica.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.rho_real_trujillo": {
+      "canonical_variant": "selectivo",
+      "decimals": 3,
+      "nota": "Ver evaluabilidad.brecha_trujillo: mismo motivo, la canónica es la cota empírica.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.tasa_*": {
+      "canonical_variant": "ciudad",
+      "decimals": 1,
+      "nota": "Tasas de geocodificación de las ciudades marcadas, en puntos porcentuales. Variante `ciudad` y no un mecanismo: la tasa real de una ciudad no depende de qué mecanismo de pérdida se simule. Se leen de la columna `rate` de los CSV de origen, no se escriben a mano.",
+      "round_mode": "half_up"
+    },
+    "evaluabilidad.ventaja_trujillo": {
+      "canonical_variant": "selectivo",
+      "decimals": 3,
+      "nota": "Ver evaluabilidad.brecha_trujillo: mismo motivo, la canónica es la cota empírica.",
       "round_mode": "half_up"
     },
     "geocode.*": {
