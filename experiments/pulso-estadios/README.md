@@ -58,9 +58,17 @@ importa `CROSS_CONTAM_M`, `RING_EDGES`, `RING_NAMES` y `day_table` de
 `eval_stadium_event_study`, que define `RINGS`/`RING_LABELS` y ninguno de esos cuatro
 nombres; y calcula `pd.to_datetime(date) − EPOCH` restando un timestamp naive a uno
 tz-aware. Está roto por dos lados independientes. Verificado por AST, sin ejecutar nada:
-el repo de origen es read-only. Registrado en el bead `inwatch-b3w`. Mientras siga así,
-esta réplica es el **único chequeo ejecutable** que existe sobre unas cifras que ya
-llegaron a un reporte.
+el repo de origen es read-only. Registrado en el bead `inwatch-b3w`.
+
+**Pero el ancla estaba superada, y eso cambia la lectura.** `stadium_hourly.json` es del
+9-jul 16:05; el mismo día a las 20:20, `stadium_event_study.json` lo reemplazó con un
+bloque `hour_window_full` bajo otra ventana —`[kickoff−4h, kickoff+5h]` en vez de
+`kickoff±4h`— y **ésas** son las cifras que cita el reporte publicado. Su productor
+corre. Así que esta réplica no es el único chequeo ejecutable sobre cifras publicadas,
+como decía una versión anterior de este párrafo: ninguna cifra publicada depende del
+artefacto que se replicó. Lo que la réplica prueba —y sigue valiendo— es que el port
+reproduce la maquinaria exactamente. El análisis completo está en
+`analysis/pulso-estadios.md`.
 
 **Los insumos crecieron después de computarse el ancla.** `stadium_hourly.json` tiene
 fecha del 9-jul-2026 16:05; el commit `766ad9d`, de las 20:11 del mismo día, añadió 94
