@@ -173,14 +173,26 @@ def emit(
         and prev_prov.get("inputs_sha256") == inputs_sha
         and prev_prov.get("script_sha256") == script_sha
     )
-    if unchanged:
+    # ...salvo que la previa fuera PROVISIONAL. Emitir con el emisor sin commitear
+    # graba `dirty: true` y el HEAD anterior — un commit donde el emisor ni existía.
+    # Preservar eso lo congelaba para siempre: el sha es del contenido y no del
+    # commit, así que el re-run post-commit no cambia nada material y ganaba esta
+    # rama. Re-sellar mientras esté sucia hace que converja sola. No reintroduce
+    # churn: con el mismo HEAD y el mismo estado sucio el resultado es idéntico.
+    if unchanged and not prev_prov.get("dirty", False):
         git_commit = prev_prov.get("git_commit")
         dirty = prev_prov.get("dirty")
         emitted_at = prev_prov.get("emitted_at")
     else:
         git_commit = _git(cfg, "rev-parse", "--short", "HEAD") or "uncommitted"
         dirty = bool(_git(cfg, "status", "--porcelain", "--", script_rel))
-        emitted_at = datetime.now(UTC).astimezone().isoformat(timespec="seconds")
+        # el valor no cambió: el momento de emisión sigue siendo el de la corrida
+        # que lo produjo, y preservarlo evita diff en la corrida que solo re-sella.
+        emitted_at = (
+            prev_prov.get("emitted_at")
+            if unchanged
+            else datetime.now(UTC).astimezone().isoformat(timespec="seconds")
+        )
 
     reg["entries"][key] = {
         "value": value_r,
