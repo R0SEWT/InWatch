@@ -266,15 +266,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:43-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "% del área del tejido",
       "value": 27.193425,
@@ -288,15 +288,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:43-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "% de celdas de la tesselación",
       "value": 10.984928,
@@ -310,15 +310,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:34-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:43-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "% del área del hexágono",
       "value": 31.682988,
@@ -332,15 +332,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:34-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:43-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "desvío relativo (adim.)",
       "value": 9.90275e-07,
@@ -354,15 +354,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:34-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:43-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "% de la grilla canónica",
       "value": 64.621285,
@@ -376,15 +376,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:34-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:43-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "celdas por hexágono",
       "value": 69.0,
@@ -1538,15 +1538,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "m² por celda",
       "value": 866247.813917,
@@ -1560,15 +1560,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "aristas no dirigidas",
       "value": 12249.0,
@@ -1582,15 +1582,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "vecinos por celda",
       "value": 5.872004,
@@ -2034,15 +2034,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "m² por celda",
       "value": 839.003662,
@@ -2056,15 +2056,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "m² por celda",
       "value": 87.398538,
@@ -2078,15 +2078,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "m² por celda",
       "value": 9349.104297,
@@ -2094,24 +2094,24 @@
     },
     "tejido.aristas.morfologica": {
       "canonical": true,
-      "display": "328223",
+      "display": "322929",
       "estimator": "pares touched_to (contigüidad dentro de la manzana cerrada), no dirigidos",
       "family": "tejido.aristas",
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "aristas no dirigidas",
-      "value": 328223.0,
+      "value": 322929.0,
       "variant": "morfologica"
     },
     "tejido.celdas.morfologica": {
@@ -2122,15 +2122,15 @@
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "celdas de la tesselación",
       "value": 215427.0,
@@ -2138,46 +2138,46 @@
     },
     "tejido.grado_desviacion.morfologica": {
       "canonical": true,
-      "display": "2.30",
+      "display": "2.25",
       "estimator": "desviación estándar poblacional del grado en el grafo touched_to",
       "family": "tejido.grado_desviacion",
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "vecinos por celda",
-      "value": 2.299205,
+      "value": 2.253646,
       "variant": "morfologica"
     },
     "tejido.grado_medio.morfologica": {
       "canonical": true,
-      "display": "3.05",
+      "display": "3.00",
       "estimator": "2·aristas/celdas sobre el grafo touched_to (215427 celdas)",
       "family": "tejido.grado_medio",
       "needs_policy": false,
       "provenance": {
         "dirty": true,
-        "emitted_at": "2026-08-09T00:44:33-05:00",
-        "git_commit": "8db4e6b",
+        "emitted_at": "2026-08-09T01:12:42-05:00",
+        "git_commit": "dcc8eb7",
         "inputs_sha256": {
           "/home/rosewt-dell/Code/tesis/infelix/data/datasets/osm/peru.gpkg": "3a0cb5520426c781eca116bbaf18c881df65620461d964f2ad3d4ffd1e5f6d93",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_features/h3_admin.parquet": "4069478a8f84ec2c3c6bd7f2e3d1439eb701c1aec9abfd062e4206a2fb1c8058",
           "/home/rosewt-dell/Code/tesis/infelix/data/silver/h3_graph_edges.parquet": "f16d043f33a2f9ceb7c4cfaaa2bafed49eeeb4576505c20abf133ed54131b64a"
         },
         "script": "experiments/tejido-vs-hexagono/loader.py",
-        "script_sha256": "ff09b39feb22d80981d75e692784963517708d9c25dc395d98206eeaaa98582c"
+        "script_sha256": "d30024dedcb397ab6c10b5bf85d1c80d502a311145316fbb80456eccaabed8a0"
       },
       "unit": "vecinos por celda",
-      "value": 3.047185,
+      "value": 2.998036,
       "variant": "morfologica"
     }
   },

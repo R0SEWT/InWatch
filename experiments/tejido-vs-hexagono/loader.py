@@ -49,6 +49,8 @@ tabla de features sigue sin geometría, como manda el contrato.
 
 from __future__ import annotations
 
+import hashlib
+import inspect
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -257,6 +259,16 @@ def _clave_tejido(
         "area_limite_m2": round(float(limite.area), 3),
         "vias_barrera": sorted(VIAS_BARRERA),
         "crs": CRS_METRICO,
+        # Huella del ALGORITMO, no solo de los insumos. Sin esto, cambiar
+        # `construir_tejido` —sus argumentos a `morphological_graph`, el criterio de
+        # aristas— o actualizar city2graph devolvería en silencio la geometría del
+        # algoritmo viejo, y el experimento publicaría un resultado que su propio código
+        # ya no produce. Es literalmente el fallo que motivó el registro canónico de este
+        # repo, y construirlo dentro del caché sería repetirlo con otra cara.
+        "constructor_sha256": hashlib.sha256(
+            inspect.getsource(construir_tejido).encode("utf-8")
+        ).hexdigest()[:16],
+        "city2graph": getattr(c2g, "__version__", "desconocida"),
     }
 
 
@@ -390,6 +402,36 @@ def desolapar(celdas: gpd.GeoDataFrame) -> tuple[gpd.GeoDataFrame, float]:
     # Deja de ser una unidad: sale de la tabla en vez de quedarse con área cero, que sería
     # una fila que existe y no significa nada.
     return out[~out.geometry.is_empty].reset_index(drop=True), float(disputada)
+
+
+def aristas_vigentes(aristas: pd.DataFrame, celdas: gpd.GeoDataFrame) -> pd.DataFrame:
+    """Aristas que siguen siendo adyacencia **después** de recortar contra la máscara.
+
+    Dos filtros, y el segundo no es obvio:
+
+    1. Si una de las dos celdas desapareció —manzana sin un solo edificio— la arista se
+       va con ella. Dejarla inflaría el grado con vecinos que no están en la tabla.
+    2. Si las dos sobreviven pero el borde que compartían quedaba **fuera** de la
+       máscara, las geometrías recortadas ya no se tocan. Pasa cuando los dos edificios
+       semilla de una misma manzana están a más del doble del radio: cada celda se queda
+       con su entorno y entre medio hay hueco. Conservar esa arista haría que el grado
+       describiera el grafo *previo* al recorte mientras las áreas describen el
+       posterior — dos mitades de la tabla hablando de geometrías distintas.
+
+    No se recomputa la adyacencia desde cero a propósito: ``touched_to`` es la relación
+    morfológica —misma manzana cerrada— y eso es lo que el experimento compara contra la
+    adyacencia hexagonal. Acá se la *intersecta* con seguir tocándose, no se la sustituye.
+    """
+    vivas = set(celdas["tess_id"])
+    out = aristas[aristas["src_tess"].isin(vivas) & aristas["dst_tess"].isin(vivas)]
+    if out.empty:
+        return out.reset_index(drop=True)
+
+    por_id = celdas.set_index("tess_id").geometry
+    tocan = shapely.intersects(
+        por_id.loc[out["src_tess"]].to_numpy(), por_id.loc[out["dst_tess"]].to_numpy()
+    )
+    return out[tocan].reset_index(drop=True)
 
 
 def tabla_celdas(celdas: gpd.GeoDataFrame, aristas: pd.DataFrame) -> pd.DataFrame:
@@ -704,14 +746,8 @@ def main() -> None:
     mascara = mascara_construida(edificios, grilla)
     celdas, sin_edificio = recortar_a_construido(celdas, mascara)
     celdas, disputada = desolapar(celdas)
-    # Las aristas que apuntan a una celda que ya no existe se van con ella: `touched_to`
-    # une celdas de la misma manzana, y una manzana sin edificación no tiene tejido que
-    # conectar. Dejarlas inflaría el grado con vecinos que no están en la tabla.
-    vivas = set(celdas["tess_id"])
     n_aristas_crudas = len(aristas_tejido)
-    aristas_tejido = aristas_tejido[
-        aristas_tejido["src_tess"].isin(vivas) & aristas_tejido["dst_tess"].isin(vivas)
-    ].reset_index(drop=True)
+    aristas_tejido = aristas_vigentes(aristas_tejido, celdas)
     area_util = float(celdas.geometry.area.sum())
     print(
         f"  máscara r={RADIO_CONSTRUIDO_M:.0f} m: {area_util / 1e6:,.0f} km² construidos "
@@ -720,8 +756,11 @@ def main() -> None:
     )
     print(
         f"  celdas sin un solo edificio: {sin_edificio:,} de {n_crudas:,} "
-        f"({100 * sin_edificio / n_crudas:.1f}%) — son el hueco, salen de la tabla; "
-        f"con ellas se van {n_aristas_crudas - len(aristas_tejido):,} aristas"
+        f"({100 * sin_edificio / n_crudas:.1f}%) — son el hueco, salen de la tabla"
+    )
+    print(
+        f"  aristas que dejan de serlo: {n_aristas_crudas - len(aristas_tejido):,} "
+        "(la celda vecina desapareció, o el borde compartido quedó fuera de la máscara)"
     )
     if disputada:
         print(f"  solape resuelto: {disputada:,.0f} m² que dos celdas reclamaban a la vez")

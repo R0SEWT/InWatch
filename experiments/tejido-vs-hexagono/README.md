@@ -111,10 +111,10 @@ como otra mancha. Donde el borde naranja cruza una celda azul hay una manzana pa
 5.87 sobre las 4172 celdas de la grilla:
 <!-- CANON: hexagono.grado_medio = 5.87 -->
 seis vecinos para todo hexágono interior **por construcción del dibujo**. No es una
-medición de la ciudad. El tejido tiene grado medio 3.05
-<!-- CANON: tejido.grado_medio = 3.05 -->
-con desviación 2.30,
-<!-- CANON: tejido.grado_desviacion = 2.30 -->
+medición de la ciudad. El tejido tiene grado medio 3.00
+<!-- CANON: tejido.grado_medio = 3.00 -->
+con desviación 2.25,
+<!-- CANON: tejido.grado_desviacion = 2.25 -->
 y **la dispersión es el dato**: el grado varía con la forma real de la manzana porque
 `touched_to` solo une celdas dentro de la misma manzana cerrada. Dos edificios a ambos
 lados de una avenida se tocan en el mapa y no son vecinos acá.
@@ -152,6 +152,12 @@ parámetro" era una frase bonita: nadie barre un parámetro a 45 minutos por pun
 La clave del caché no hashea el gpkg de 1,1 GB —costaría más que el ahorro— sino la
 identidad del archivo, cuántos insumos entraron, el área del límite y la lista de vías
 barrera. Ante la duda, `rm data/silver/tejido-vs-hexagono/_cache_tejido_*` y recomputa.
+
+**Y lleva la huella del algoritmo, no solo la de los insumos**: el sha del código de
+`construir_tejido` y la versión de `city2graph`. Sin eso, cambiar cómo se teselan los
+edificios o actualizar la dependencia devolvería en silencio la geometría del algoritmo
+viejo, y el experimento publicaría un resultado que su propio código ya no produce — que
+es, con otra cara, el fallo que motivó el registro canónico de este repo.
 
 ## Verificación
 
@@ -215,11 +221,22 @@ ser arbitrario es que el área disputada se cuente dos veces. Hay un guard en
 test `needs_data` que lo verifica sobre la salida real — el invariante solo se
 comprobaba sobre geometría sintética, y por eso el fallo llegó hasta la emisión.
 
+**La adyacencia se intersecta con el recorte, no se recomputa desde cero.** `touched_to`
+es la relación *morfológica* —dos celdas de la misma manzana cerrada— y es exactamente lo
+que este experimento compara contra la adyacencia hexagonal, así que no se sustituye por
+una contigüidad recalculada. Pero una arista cuyas dos celdas sobreviven y **ya no se
+tocan** deja de ser adyacencia: pasa cuando los dos edificios semilla de una manzana están
+a más del doble del radio y entre sus celdas recortadas queda hueco. Conservarla haría que
+el grado describiera el grafo *previo* al recorte mientras las áreas describen el
+posterior — dos mitades de la tabla hablando de geometrías distintas. Se van 5353 aristas,
+de las cuales solo 59 son por celda desaparecida: el resto son bordes compartidos que
+caían fuera de la máscara. Lo señaló la revisión del PR, y era medible.
+
 **Las aristas H3 se normalizan a no dirigidas antes de comparar.** El artefacto de origen
 guarda cada vecindad dos veces, una por sentido: son 12249 pares únicos.
 <!-- CANON: hexagono.aristas = 12249 -->
-Compararlas contra las 328223 del tejido sin normalizar
-<!-- CANON: tejido.aristas = 328223 -->
+Compararlas contra las 322929 del tejido sin normalizar
+<!-- CANON: tejido.aristas = 322929 -->
 duplicaría un lado de la comparación y regalaría el hallazgo.
 
 **El piso de 1 m² en la correspondencia.** El borde compartido entre dos hexágonos genera

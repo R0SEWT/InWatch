@@ -325,6 +325,65 @@ def test_la_clave_del_cache_cambia_si_cambian_los_insumos(osm_falso):
     assert clave() != base
 
 
+def test_la_clave_del_cache_cambia_si_cambia_el_algoritmo(osm_falso):
+    """Un caché que solo mira los insumos publica el resultado del algoritmo viejo.
+
+    Es el fallo que motivó el registro canónico de este repo —un número que sobrevive a
+    su pipeline— construido dentro del caché. La clave lleva la huella del código de
+    `construir_tejido` y la versión de city2graph justamente para que no pueda pasar.
+    """
+    edificios = gpd.GeoDataFrame(geometry=[_cuadrado(0, 0, 20)], crs=CRS)
+    vias = gpd.GeoDataFrame(geometry=[_cuadrado(0, 0, 5)], crs=CRS)
+    clave = loader._clave_tejido(edificios, vias, _cuadrado(-500, -500, 2000), osm=osm_falso)
+
+    assert "constructor_sha256" in clave
+    assert "city2graph" in clave
+    # la huella es del código realmente vigente, no de una constante que alguien olvidará
+    import hashlib
+    import inspect
+
+    esperado = hashlib.sha256(
+        inspect.getsource(loader.construir_tejido).encode("utf-8")
+    ).hexdigest()[:16]
+    assert clave["constructor_sha256"] == esperado
+
+
+def test_la_arista_cuyo_borde_compartido_quedo_fuera_de_la_mascara_no_sobrevive():
+    """Sin esto, el grado describiría el grafo previo al recorte y el área el posterior.
+
+    Dos celdas de la misma manzana cuyos edificios están lejos: cada una se queda con su
+    entorno construido y entre medio hay hueco. Ya no se tocan, así que ya no son
+    vecinas — aunque `touched_to` dijera que lo eran antes de recortar.
+    """
+    celdas = gpd.GeoDataFrame(
+        {"tess_id": ["t1", "t2", "t3"]},
+        # t1 y t2 se tocan; t3 está separada por un hueco
+        geometry=[_cuadrado(0, 0, 100), _cuadrado(100, 0, 100), _cuadrado(500, 0, 100)],
+        crs=CRS,
+    )
+    aristas = pd.DataFrame(
+        {"src_tess": ["t1", "t1"], "dst_tess": ["t2", "t3"]}
+    )
+
+    vigentes = loader.aristas_vigentes(aristas, celdas)
+
+    assert list(zip(vigentes["src_tess"], vigentes["dst_tess"], strict=True)) == [("t1", "t2")]
+
+
+def test_la_arista_hacia_una_celda_que_desaparecio_no_sobrevive():
+    """Una manzana sin edificación no tiene tejido que conectar."""
+    celdas = gpd.GeoDataFrame(
+        {"tess_id": ["t1", "t2"]},
+        geometry=[_cuadrado(0, 0, 100), _cuadrado(100, 0, 100)],
+        crs=CRS,
+    )
+    aristas = pd.DataFrame({"src_tess": ["t1", "t1"], "dst_tess": ["t2", "borrada"]})
+
+    vigentes = loader.aristas_vigentes(aristas, celdas)
+
+    assert list(vigentes["dst_tess"]) == ["t2"]
+
+
 def test_la_clave_del_cache_incluye_las_vias_barrera(osm_falso):
     """Cambiar qué cuenta como barrera cambia el tejido, y el caché tiene que enterarse."""
     edificios = gpd.GeoDataFrame(geometry=[_cuadrado(0, 0, 20)], crs=CRS)
