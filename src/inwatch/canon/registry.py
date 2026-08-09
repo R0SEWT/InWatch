@@ -159,7 +159,15 @@ def emit(
     display = display_str(value, decimals, mode)
     script_sha = _sha256(Path(script))
     needs_policy = pol is None
-    value_r = round(float(value), 6)
+    # El redondeo del `value` guardado existe para que el ruido de coma flotante no
+    # produzca churn — pero NUNCA puede ser más grueso que lo que la policy muestra, o el
+    # registro se contradice a sí mismo: `display` sale del valor sin redondear y
+    # `check` lo recomputa desde `value`, así que los dos dejarían de coincidir y el
+    # linter fallaría contra la salida de su propio emisor. Pasó con
+    # `correspondencia.desvio_masa` (decimals=9): 9.90e-7 se guardaba como 1e-6 mientras
+    # `display` decía 0.000000990. El margen de 3 dígitos deja sitio para el redondeo de
+    # presentación sin volver a dejar entrar el ruido.
+    value_r = round(float(value), max(6, decimals + 3))
 
     prev = reg["entries"].get(key, {})
     prev_prov = prev.get("provenance", {})
