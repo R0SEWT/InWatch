@@ -227,6 +227,32 @@ def test_reemision_desde_arbol_limpio_no_produce_churn(git_cfg):
     assert _emit(git_cfg) == _emit(git_cfg)
 
 
+def test_una_policy_de_muchos_decimales_no_pierde_precision_al_guardar(git_cfg):
+    """El `value` guardado no puede ser más grueso que el `display` que la policy pide.
+
+    `emit` redondeaba `value` a 6 decimales fijos. Con una policy de 9 —las hay, y a
+    propósito: son las cifras que sostienen una afirmación de conservación— el valor se
+    guardaba truncado mientras `display` salía del número entero. `check` recomputa desde
+    `value`, así que el linter terminaba fallando contra la salida de su propio emisor.
+    """
+    (git_cfg.root / "emit.py").write_text("# emisor\n", encoding="utf-8")
+    reg = {
+        "schema_version": 1,
+        "policy": {"f": {"canonical_variant": "v", "decimals": 9, "round_mode": "half_up"}},
+        "entries": {},
+    }
+    git_cfg.registry.write_text(json.dumps(reg), encoding="utf-8")
+
+    from inwatch.canon.registry import load, round_canonical
+
+    _emit(git_cfg, value=9.9e-7)
+    entrada = load(git_cfg)["entries"]["f.v"]
+
+    assert entrada["display"] == "0.000000990"
+    # y lo esencial: recomputar desde el `value` guardado devuelve el mismo display
+    assert f"{round_canonical(entrada['value'], 9, 'half_up'):.9f}" == entrada["display"]
+
+
 def test_reemision_con_emisor_aun_sucio_no_produce_churn(git_cfg):
     """Durante el desarrollo se re-corre muchas veces con el árbol sucio.
 

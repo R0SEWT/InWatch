@@ -27,6 +27,20 @@ cubre toda la grilla**. Donde no hay edificios OSM no hay tesselación, y esos h
 salen en la tabla con cobertura areal cero — presentes y vacíos, nunca ausentes. Un
 `inner join` los borraría y el mapa siguiente diría que ahí no pasa nada.
 
+Esa tercera consecuencia **hay que construirla, no sale sola**, y descubrirlo costó una
+corrida entera (``inwatch-72j``). ``morphological_graph(limit=)`` hace tesselación
+*encerrada*: particiona **todo** el interior del límite, sin dejar huecos. Corriendo así,
+los 4172 hexágonos salían con tejido, la celda del edificio más cercano se estiraba sobre
+el desierto —415 celdas más grandes que un hexágono entero, la mayor de 136 km²— y
+``hexagonos_sin_tejido`` era 0.0 % por construcción: una constante disfrazada de
+medición. Peor que inútil, porque dibujaba la ausencia de dato como si fuera tejido.
+
+Por eso la tesselación se **recorta a una máscara de área construida** antes de medir
+nada. Fuera de esa máscara no hay unidad morfológica: hay hueco declarado. El radio que
+define la máscara es un parámetro visible —``RADIO_CONSTRUIDO_M``, abajo, con su
+justificación— y no una constante enterrada, porque es la perilla que decide qué cuenta
+como ciudad.
+
 Contrato de salida: unidad ``morfologica``, clave ``tess_id``; ver
 ``design/contrato-unidades.md``. La geometría va en un artefacto **aparte** porque, a
 diferencia de H3, un polígono de tesselación no es reconstruible desde su clave — la
@@ -35,6 +49,8 @@ tabla de features sigue sin geometría, como manda el contrato.
 
 from __future__ import annotations
 
+import json
+from collections import defaultdict
 from pathlib import Path
 
 import city2graph as c2g
@@ -42,6 +58,7 @@ import geopandas as gpd
 import h3
 import numpy as np
 import pandas as pd
+import shapely
 from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
@@ -85,6 +102,20 @@ AREA_MINIMA_M2 = 1.0
 # Ventana de muestra para el notebook: los polígonos de toda Lima no caben en WASM.
 # Se elige por área, no a mano, y el criterio queda en `ventana_muestra`.
 VENTANA_HEXAGONOS = 12
+
+# Radio del buffer que define «área construida». Es LA perilla de este loader: decide
+# dónde termina la ciudad y empieza el hueco, así que vive acá arriba y no dentro de un
+# filtro.
+#
+# 100 m no es arbitrario. Dos edificios separados por menos de 200 m quedan en la misma
+# mancha —sus buffers se tocan—, que es el criterio clásico de aglomeración urbana usado
+# para delinear área construida a partir de edificación. Con un radio mucho menor la
+# trama densa de Lima se fragmenta en islas por cada avenida ancha; con uno mucho mayor
+# la máscara vuelve a tragarse el desierto y reaparece el problema que esto arregla.
+#
+# Subirlo o bajarlo mueve `correspondencia.hexagonos_sin_tejido` y `area_partida`: es
+# el experimento, no un detalle de implementación.
+RADIO_CONSTRUIDO_M = 100.0
 
 
 # ─── grilla canónica ──────────────────────────────────────────────────────────
@@ -197,6 +228,165 @@ def construir_tejido(
     return celdas, par
 
 
+# ─── caché de la tesselación ──────────────────────────────────────────────────
+# `morphological_graph` es ~40 min de los ~45 que tarda el loader, y **no depende de
+# `RADIO_CONSTRUIDO_M`**, que es justo el parámetro que este experimento existe para
+# girar. Sin caché, barrer el radio cuesta 45 min por punto y deja de ser un parámetro
+# para volverse una constante que nadie se anima a tocar.
+#
+# La clave no hashea el gpkg de 1,1 GB —hacerlo costaría más que el ahorro— sino todo lo
+# que puede cambiar la tesselación: identidad del archivo OSM, cuántos insumos entraron,
+# el límite y la lista de vías barrera. Ante la duda se borra `_cache_*` y se recomputa.
+CACHE_CELDAS = OUT / "_cache_tejido_celdas.parquet"
+CACHE_ARISTAS = OUT / "_cache_tejido_aristas.parquet"
+CACHE_CLAVE = OUT / "_cache_tejido_clave.json"
+
+
+def _clave_tejido(edificios: gpd.GeoDataFrame, vias: gpd.GeoDataFrame, limite) -> dict:
+    st = OSM.stat()
+    return {
+        "osm_size": st.st_size,
+        "osm_mtime_ns": st.st_mtime_ns,
+        "n_edificios": int(len(edificios)),
+        "n_vias": int(len(vias)),
+        "area_limite_m2": round(float(limite.area), 3),
+        "vias_barrera": sorted(VIAS_BARRERA),
+        "crs": CRS_METRICO,
+    }
+
+
+def tejido_con_cache(
+    edificios: gpd.GeoDataFrame, vias: gpd.GeoDataFrame, limite
+) -> tuple[gpd.GeoDataFrame, pd.DataFrame, bool]:
+    """`construir_tejido`, pero sin recomputar lo que no cambió. Devuelve `(…, hubo_cache)`."""
+    clave = _clave_tejido(edificios, vias, limite)
+    if CACHE_CLAVE.exists() and json.loads(CACHE_CLAVE.read_text()) == clave:
+        cel = pd.read_parquet(CACHE_CELDAS)
+        celdas = gpd.GeoDataFrame(
+            cel.drop(columns=["geometry_wkb"]),
+            geometry=gpd.GeoSeries.from_wkb(cel["geometry_wkb"]),
+            crs=CRS_METRICO,
+        )
+        return celdas, pd.read_parquet(CACHE_ARISTAS), True
+
+    celdas, aristas = construir_tejido(edificios, vias, limite)
+    CACHE_CELDAS.parent.mkdir(parents=True, exist_ok=True)
+    guardar = pd.DataFrame({"tess_id": celdas["tess_id"], "geometry_wkb": celdas.geometry.to_wkb()})
+    if "enclosure_index" in celdas.columns:
+        guardar["enclosure_index"] = celdas["enclosure_index"].values
+    guardar.to_parquet(CACHE_CELDAS, index=False)
+    aristas.to_parquet(CACHE_ARISTAS, index=False)
+    CACHE_CLAVE.write_text(json.dumps(clave, indent=2, sort_keys=True), encoding="utf-8")
+    return celdas, aristas, False
+
+
+# ─── el hueco: recortar el tejido a lo que de verdad está construido ──────────
+def mascara_construida(
+    edificios: gpd.GeoDataFrame, grilla: gpd.GeoDataFrame, radio: float = RADIO_CONSTRUIDO_M
+) -> gpd.GeoDataFrame:
+    """Dónde hay ciudad según OSM, **troceada por la grilla**. Una fila por pedazo.
+
+    Fuera de esto no hay unidad morfológica que valga: es la pieza que convierte
+    ``hexagonos_sin_tejido`` de constante estructural en medición.
+
+    El troceado no es cosmético, es lo que hace que esto termine. Disuelta, la máscara de
+    Lima es **una sola** geometría con cientos de miles de vértices, y recortar 245 000
+    celdas contra ella deja inservible el índice espacial: cada celda se intersecaría
+    contra toda la ciudad. Cortada por la grilla, cada pedazo tiene el bbox de un
+    hexágono y el índice descarta de entrada todo lo que no toca. Misma geometría
+    resultante, orden de magnitud distinto en tiempo — y el radio está para girarlo, así
+    que la corrida tiene que ser repetible.
+    """
+    disuelta = edificios.geometry.buffer(radio).union_all()
+    entera = gpd.GeoDataFrame(geometry=[disuelta], crs=edificios.crs)
+    return gpd.overlay(entera, grilla[["geometry"]], how="intersection", keep_geom_type=True)
+
+
+def recortar_a_construido(
+    celdas: gpd.GeoDataFrame, mascara: gpd.GeoDataFrame
+) -> tuple[gpd.GeoDataFrame, int]:
+    """Recorta cada celda a la máscara. Devuelve `(celdas, cuántas desaparecieron)`.
+
+    **Que desaparezcan celdas es el hallazgo, no un fallo**, y costó una corrida
+    entenderlo. La tesselación encerrada no reparte solo el espacio *entre* edificios:
+    también le da una celda a la manzana cerrada que no tiene ninguno. Esas celdas —las
+    que se estiraban sobre el desierto, las que llegaban a 136 km²— no tienen un solo
+    edificio a menos de ``RADIO_CONSTRUIDO_M``, así que la intersección con la máscara es
+    vacía y salen de la tabla. Eso es exactamente el hueco que el experimento quiere
+    dibujar deshilachado.
+
+    Una celda **con** edificio nunca desaparece: contiene su semilla y la máscara contiene
+    a todos los edificios.
+    """
+    columnas = [c for c in ("tess_id", "enclosure_index") if c in celdas.columns]
+    trozos = gpd.overlay(
+        celdas[[*columnas, "geometry"]], mascara, how="intersection", keep_geom_type=True
+    )
+    # `overlay` devuelve un trozo por pedazo de máscara; la celda es su unión.
+    out = trozos.dissolve(by="tess_id", as_index=False, aggfunc="first")
+    return out, len(celdas) - len(out)
+
+
+def desolapar(celdas: gpd.GeoDataFrame) -> tuple[gpd.GeoDataFrame, float]:
+    """Hace de las celdas una partición de verdad. Devuelve `(celdas, área_disputada)`.
+
+    `morphological_graph` no siempre entrega celdas disjuntas: en esta corrida avisó de
+    81 enclosures con celdas que se solapan o dejan huecos. Medido sobre el artefacto, el
+    peor hexágono tenía un 5,5 % de área contada dos veces, y eso hace que
+    ``Σ frac_h3`` supere 1 — imposible por definición, y una fuga de masa silenciosa para
+    cualquier experimento que reparta cantidades con esta tabla.
+
+    Regla de desempate: **gana el `tess_id` menor**. Es arbitraria y está declarada; lo
+    que no puede ser arbitrario es que el área disputada se cuente dos veces. Se itera en
+    orden ascendente restando lo que ya reclamaron las anteriores, así que el resultado no
+    depende del orden de las filas.
+    """
+    # `predicate="intersects"` y no `"overlaps"`: en shapely, `overlaps` exige que
+    # ninguna contenga a la otra, así que una celda **dentro** de otra no es «overlaps» y
+    # se escapaba. Pasó: la primera versión dejó 7 hexágonos sobre 1, el peor con 1,0672
+    # —unos 58 000 m² contados dos veces—, que es contención, no astillas de borde.
+    # A cambio hay que descartar los pares que solo comparten borde, y eso se hace por
+    # área de intersección: vectorizado en GEOS, no en un bucle de Python.
+    pares = gpd.sjoin(
+        celdas[["tess_id", "geometry"]],
+        celdas[["tess_id", "geometry"]].rename(columns={"tess_id": "tess_id_otro"}),
+        predicate="intersects",
+        how="inner",
+    )
+    # cada par desordenado una sola vez; de paso se va el auto-emparejamiento
+    pares = pares[pares["tess_id"] < pares["tess_id_otro"]]
+    if not pares.empty:
+        por_id = celdas.set_index("tess_id").geometry
+        izq = por_id.loc[pares["tess_id"]].to_numpy()
+        der = por_id.loc[pares["tess_id_otro"]].to_numpy()
+        # Compartir borde es área cero. El piso descarta esas y el ruido de precisión,
+        # y deja pasar cualquier solape que pueda mover la cobertura de un hexágono.
+        pares = pares[shapely.area(shapely.intersection(izq, der)) > 1e-3]
+    if pares.empty:
+        return celdas, 0.0
+
+    vecinos: dict[str, set[str]] = defaultdict(set)
+    for a, b in zip(pares["tess_id"], pares["tess_id_otro"], strict=True):
+        vecinos[a].add(b)
+        vecinos[b].add(a)
+
+    geom = dict(zip(celdas["tess_id"], celdas.geometry, strict=True))
+    area_antes = sum(geom[t].area for t in vecinos)
+    for tid in sorted(vecinos):
+        previas = [geom[o] for o in vecinos[tid] if o < tid]
+        if previas:
+            geom[tid] = geom[tid].difference(unary_union(previas))
+    disputada = area_antes - sum(geom[t].area for t in vecinos)
+
+    out = celdas.copy()
+    out["geometry"] = out["tess_id"].map(geom)
+    out = out.set_geometry("geometry")
+    # Una celda enteramente contenida en otra se queda sin nada al ceder lo disputado.
+    # Deja de ser una unidad: sale de la tabla en vez de quedarse con área cero, que sería
+    # una fila que existe y no significa nada.
+    return out[~out.geometry.is_empty].reset_index(drop=True), float(disputada)
+
+
 def tabla_celdas(celdas: gpd.GeoDataFrame, aristas: pd.DataFrame) -> pd.DataFrame:
     """Una fila por celda morfológica: área, grado y su enclosure. Sin geometría."""
     grado = (
@@ -270,6 +460,16 @@ def cobertura_por_hexagono(corr: pd.DataFrame, grilla: gpd.GeoDataFrame) -> pd.D
         celdas_tejido=("tess_id", "nunique"),
         cobertura_areal=("frac_h3", "sum"),
     )
+    # Σ frac_h3 > 1 significa que dos celdas reclaman el mismo suelo, y a partir de ahí
+    # cualquier reparto con esta tabla inventa masa. `desolapar` lo previene; esto es el
+    # cinturón, porque la tabla se escribe a disco y la sobrevive quien la lea después.
+    peor = float(agg["cobertura_areal"].max())
+    if peor > 1.0 + 1e-6:
+        raise ValueError(
+            f"{int((agg['cobertura_areal'] > 1.0 + 1e-6).sum())} hexágonos con cobertura "
+            f"areal > 1 (peor: {peor:.4f}). Las celdas no son una partición: hay suelo "
+            "contado dos veces y la tabla de correspondencia repartiría masa inexistente"
+        )
     df = (
         grilla[["h3_index", "distrito", "departamento"]]
         .merge(agg, on="h3_index", how="left")
@@ -486,8 +686,40 @@ def main() -> None:
     edificios, vias = leer_osm(limite)
     print(f"  insumos OSM: {len(edificios):,} edificios · {len(vias):,} vías barrera")
 
-    celdas, aristas_tejido = construir_tejido(edificios, vias, limite)
-    print(f"  tejido: {len(celdas):,} celdas · {len(aristas_tejido):,} aristas no dirigidas")
+    celdas, aristas_tejido, de_cache = tejido_con_cache(edificios, vias, limite)
+    print(
+        f"  tejido: {len(celdas):,} celdas · {len(aristas_tejido):,} aristas no dirigidas"
+        f"{'  (desde caché)' if de_cache else ''}"
+    )
+
+    # El recorte va ANTES de medir nada: sin él la tesselación encerrada tapa el límite
+    # entero y todo lo que sigue mide la grilla en vez de la ciudad. Ver inwatch-72j.
+    area_cruda = float(celdas.geometry.area.sum())
+    n_crudas = len(celdas)
+    mascara = mascara_construida(edificios, grilla)
+    celdas, sin_edificio = recortar_a_construido(celdas, mascara)
+    celdas, disputada = desolapar(celdas)
+    # Las aristas que apuntan a una celda que ya no existe se van con ella: `touched_to`
+    # une celdas de la misma manzana, y una manzana sin edificación no tiene tejido que
+    # conectar. Dejarlas inflaría el grado con vecinos que no están en la tabla.
+    vivas = set(celdas["tess_id"])
+    n_aristas_crudas = len(aristas_tejido)
+    aristas_tejido = aristas_tejido[
+        aristas_tejido["src_tess"].isin(vivas) & aristas_tejido["dst_tess"].isin(vivas)
+    ].reset_index(drop=True)
+    area_util = float(celdas.geometry.area.sum())
+    print(
+        f"  máscara r={RADIO_CONSTRUIDO_M:.0f} m: {area_util / 1e6:,.0f} km² construidos "
+        f"de {area_cruda / 1e6:,.0f} km² teselados "
+        f"({100 * (1 - area_util / area_cruda):.1f}% era hueco disfrazado de tejido)"
+    )
+    print(
+        f"  celdas sin un solo edificio: {sin_edificio:,} de {n_crudas:,} "
+        f"({100 * sin_edificio / n_crudas:.1f}%) — son el hueco, salen de la tabla; "
+        f"con ellas se van {n_aristas_crudas - len(aristas_tejido):,} aristas"
+    )
+    if disputada:
+        print(f"  solape resuelto: {disputada:,.0f} m² que dos celdas reclamaban a la vez")
 
     celdas_tabla = tabla_celdas(celdas, aristas_tejido)
     corr = correspondencia(celdas, grilla)
