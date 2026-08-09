@@ -8,6 +8,7 @@ registro real del repo.
 from __future__ import annotations
 
 import json
+import subprocess
 import textwrap
 from pathlib import Path
 
@@ -154,6 +155,87 @@ def test_emisor_staged_sin_reemitir_bloquea(cfg):
 
     fails = check_mod.staged_emitter_fails(load(cfg), {cfg.root / "emit.py"}, cfg)
     assert fails and "sin re-emitir" in fails[0]
+
+
+# ─── procedencia: el guard anti-churn no debe congelar lo provisional ─────────
+@pytest.fixture
+def git_cfg(tmp_path: Path) -> CanonConfig:
+    """Proyecto sintético **con git**, para ejercitar `git_commit`/`dirty` de verdad.
+
+    El `cfg` de arriba no es un repo: ahí `_git` devuelve None y la procedencia sale
+    siempre `uncommitted`/`False`, que es justo lo que este bloque necesita medir.
+    """
+    _git_run(tmp_path, "init", "-q")
+    _git_run(tmp_path, "config", "user.email", "t@t.t")
+    _git_run(tmp_path, "config", "user.name", "t")
+    (tmp_path / "pyproject.toml").write_text("[project]\nname='t'\n", encoding="utf-8")
+    registry = tmp_path / "registry" / "canonical_numbers.json"
+    registry.parent.mkdir()
+    _git_run(tmp_path, "add", "-A")
+    _git_run(tmp_path, "commit", "-qm", "base")
+    return CanonConfig(root=tmp_path, registry=registry, watched=("analysis/*.md",))
+
+
+def _git_run(root: Path, *args: str) -> None:
+    subprocess.run(["git", *args], cwd=root, capture_output=True, check=True)
+
+
+def _emit(cfg: CanonConfig, value: float = 1.0) -> dict:
+    from inwatch.canon.registry import emit, load
+
+    emit(
+        "f",
+        value,
+        variant="v",
+        unit="u",
+        estimator="e",
+        inputs=[],
+        script=str(cfg.root / "emit.py"),
+        cfg=cfg,
+    )
+    return load(cfg)["entries"]["f.v"]["provenance"]
+
+
+def test_procedencia_provisional_se_corrige_al_commitear_el_emisor(git_cfg):
+    """El flujo natural es escribir el emisor, correrlo, y commitear todo junto.
+
+    Esa primera corrida graba `dirty: true` y el HEAD ANTERIOR — un commit donde el
+    emisor todavía no existía. Al commitear y re-correr, nada material cambió (el sha
+    es del contenido, no del commit), así que la rama 'unchanged' preservaba esa
+    procedencia provisional PARA SIEMPRE. Acá se exige que converja.
+    """
+    (git_cfg.root / "emit.py").write_text("# emisor\n", encoding="utf-8")
+    provisional = _emit(git_cfg)
+    assert provisional["dirty"] is True
+
+    _git_run(git_cfg.root, "add", "emit.py")
+    _git_run(git_cfg.root, "commit", "-qm", "agrega el emisor")
+    corregida = _emit(git_cfg)
+
+    assert corregida["dirty"] is False
+    assert corregida["git_commit"] != provisional["git_commit"]
+    # el valor no cambió: el momento de emisión sigue siendo el de la primera corrida
+    assert corregida["emitted_at"] == provisional["emitted_at"]
+
+
+def test_reemision_desde_arbol_limpio_no_produce_churn(git_cfg):
+    """La razón de ser del guard: un re-run no-op no puede ensuciar el registro."""
+    (git_cfg.root / "emit.py").write_text("# emisor\n", encoding="utf-8")
+    _git_run(git_cfg.root, "add", "emit.py")
+    _git_run(git_cfg.root, "commit", "-qm", "agrega el emisor")
+
+    assert _emit(git_cfg) == _emit(git_cfg)
+
+
+def test_reemision_con_emisor_aun_sucio_no_produce_churn(git_cfg):
+    """Durante el desarrollo se re-corre muchas veces con el árbol sucio.
+
+    Recalcular procedencia en ese caso no debe reintroducir el churn que el guard
+    existe para evitar: mismo HEAD y mismo estado sucio ⇒ misma entrada.
+    """
+    (git_cfg.root / "emit.py").write_text("# emisor\n", encoding="utf-8")
+
+    assert _emit(git_cfg) == _emit(git_cfg)
 
 
 # ─── policy: exacta > patrón más largo ────────────────────────────────────────
