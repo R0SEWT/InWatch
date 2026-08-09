@@ -242,8 +242,13 @@ CACHE_ARISTAS = OUT / "_cache_tejido_aristas.parquet"
 CACHE_CLAVE = OUT / "_cache_tejido_clave.json"
 
 
-def _clave_tejido(edificios: gpd.GeoDataFrame, vias: gpd.GeoDataFrame, limite) -> dict:
-    st = OSM.stat()
+def _clave_tejido(
+    edificios: gpd.GeoDataFrame, vias: gpd.GeoDataFrame, limite, osm: Path = OSM
+) -> dict:
+    # `osm` es parámetro y no la constante directa para que esto se pueda probar sin el
+    # gpkg de 1,1 GB: el CI no tiene infelix montado, y un test de la clave del caché no
+    # necesita el archivo real para verificar que la clave discrimina.
+    st = osm.stat()
     return {
         "osm_size": st.st_size,
         "osm_mtime_ns": st.st_mtime_ns,

@@ -285,7 +285,19 @@ def test_el_peatonal_interno_no_es_barrera():
 
 
 # ─── caché de la tesselación ──────────────────────────────────────────────────
-def test_la_clave_del_cache_cambia_si_cambian_los_insumos():
+@pytest.fixture
+def osm_falso(tmp_path):
+    """Un archivo cualquiera que haga de gpkg: la clave solo mira su tamaño y su mtime.
+
+    Sin esto los tests dependerían del gpkg real de infelix, que no existe en el CI —
+    y un test de la clave del caché no necesita 1,1 GB para comprobar que discrimina.
+    """
+    ruta = tmp_path / "peru.gpkg"
+    ruta.write_bytes(b"no soy un gpkg")
+    return ruta
+
+
+def test_la_clave_del_cache_cambia_si_cambian_los_insumos(osm_falso):
     """Un caché que no se invalida es peor que no tener caché.
 
     La clave no hashea el gpkg de 1,1 GB —costaría más que el ahorro— así que tiene que
@@ -296,22 +308,29 @@ def test_la_clave_del_cache_cambia_si_cambian_los_insumos():
     vias = gpd.GeoDataFrame(geometry=[_cuadrado(0, 0, 5)], crs=CRS)
     limite = _cuadrado(-500, -500, 2000)
 
-    base = loader._clave_tejido(edificios, vias, limite)
-    assert base == loader._clave_tejido(edificios, vias, limite), "la clave es determinista"
+    def clave(e=edificios, v=vias, lim=limite, osm=osm_falso):
+        return loader._clave_tejido(e, v, lim, osm=osm)
+
+    base = clave()
+    assert base == clave(), "la clave es determinista"
 
     mas_edificios = gpd.GeoDataFrame(
         geometry=[_cuadrado(0, 0, 20), _cuadrado(300, 300, 20)], crs=CRS
     )
-    assert loader._clave_tejido(mas_edificios, vias, limite) != base
-    assert loader._clave_tejido(edificios, vias, _cuadrado(-500, -500, 2500)) != base
+    assert clave(e=mas_edificios) != base
+    assert clave(lim=_cuadrado(-500, -500, 2500)) != base
+
+    # y el propio archivo OSM: si cambia el extracto, el tejido cambia
+    osm_falso.write_bytes(b"otro extracto, otro tamano")
+    assert clave() != base
 
 
-def test_la_clave_del_cache_incluye_las_vias_barrera():
+def test_la_clave_del_cache_incluye_las_vias_barrera(osm_falso):
     """Cambiar qué cuenta como barrera cambia el tejido, y el caché tiene que enterarse."""
     edificios = gpd.GeoDataFrame(geometry=[_cuadrado(0, 0, 20)], crs=CRS)
     vias = gpd.GeoDataFrame(geometry=[_cuadrado(0, 0, 5)], crs=CRS)
-    limite = _cuadrado(-500, -500, 2000)
-    assert loader._clave_tejido(edificios, vias, limite)["vias_barrera"] == sorted(VIAS_BARRERA)
+    clave = loader._clave_tejido(edificios, vias, _cuadrado(-500, -500, 2000), osm=osm_falso)
+    assert clave["vias_barrera"] == sorted(VIAS_BARRERA)
 
 
 # ─── la máscara de área construida: el hueco hay que construirlo ──────────────
