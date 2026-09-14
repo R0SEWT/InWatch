@@ -258,6 +258,195 @@
       "value": 12.0,
       "variant": "distrito"
     },
+    "corredores.conteo.aristas.area_a_drive": {
+      "canonical": true,
+      "display": "15813",
+      "estimator": "grafo drive simplificado",
+      "family": "corredores.conteo.aristas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "aristas dirigidas",
+      "value": 15813.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.conteo.nodos.area_a_drive": {
+      "canonical": true,
+      "display": "7559",
+      "estimator": "grafo drive simplificado",
+      "family": "corredores.conteo.nodos",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "intersecciones",
+      "value": 7559.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.conteo.nodos_sin_simplificar.area_a_drive": {
+      "canonical": true,
+      "display": "32511",
+      "estimator": "mismo polígono con simplify=False",
+      "family": "corredores.conteo.nodos_sin_simplificar",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "nodos",
+      "value": 32511.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.maxspeed_imputado_aristas.area_a_drive": {
+      "canonical": true,
+      "display": "29.8",
+      "estimator": "add_edge_speeds: media por highway, luego media global",
+      "family": "corredores.pct.maxspeed_imputado_aristas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "% de aristas dirigidas",
+      "value": 29.760324,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.maxspeed_imputado_largo.area_a_drive": {
+      "canonical": true,
+      "display": "24.5",
+      "estimator": "ídem, ponderado por length",
+      "family": "corredores.pct.maxspeed_imputado_largo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "% de longitud",
+      "value": 24.459516,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.reduccion_simplificacion.area_a_drive": {
+      "canonical": true,
+      "display": "76.7",
+      "estimator": "(sin − con) / sin",
+      "family": "corredores.pct.reduccion_simplificacion",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "% de nodos",
+      "value": 76.749408,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.sin_lanes.area_a_drive": {
+      "canonical": true,
+      "display": "35.4",
+      "estimator": "tramos no dirigidos",
+      "family": "corredores.pct.sin_lanes",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "% de tramos",
+      "value": 35.442827,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.sin_maxspeed.area_a_drive": {
+      "canonical": true,
+      "display": "23.0",
+      "estimator": "tramos no dirigidos",
+      "family": "corredores.pct.sin_maxspeed",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "% de tramos",
+      "value": 23.027027,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.sin_name.area_a_drive": {
+      "canonical": true,
+      "display": "6.0",
+      "estimator": "tramos no dirigidos",
+      "family": "corredores.pct.sin_name",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-14T18:31:32-05:00",
+        "git_commit": "2aa8220",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "1cec2f2aee08be467d738a655825c56dd013340183483f1955fc42e566a8d886",
+          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+        },
+        "script": "experiments/corredores-criticos/loader.py",
+        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+      },
+      "unit": "% de tramos",
+      "value": 5.97921,
+      "variant": "area_a_drive"
+    },
     "correspondencia.area_partida.morfologica": {
       "canonical": true,
       "display": "27.2",
@@ -2204,6 +2393,16 @@
       "canonical_variant": "distrito",
       "decimals": 0,
       "nota": "Excepción exacta al patrón conteo.*: se cuenta sobre distritos, no sobre la grilla, y la variante lo tiene que decir.",
+      "round_mode": "half_up"
+    },
+    "corredores.conteo.*": {
+      "canonical_variant": "area_a_drive",
+      "decimals": 0,
+      "round_mode": "half_up"
+    },
+    "corredores.pct.*": {
+      "canonical_variant": "area_a_drive",
+      "decimals": 1,
       "round_mode": "half_up"
     },
     "correspondencia.area_partida": {
