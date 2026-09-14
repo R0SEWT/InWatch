@@ -2400,6 +2400,16 @@
       "decimals": 0,
       "round_mode": "half_up"
     },
+    "corredores.corr.*": {
+      "canonical_variant": "area_a_drive",
+      "decimals": 3,
+      "round_mode": "half_up"
+    },
+    "corredores.error.*": {
+      "canonical_variant": "area_a_drive",
+      "decimals": 3,
+      "round_mode": "half_up"
+    },
     "corredores.pct.*": {
       "canonical_variant": "area_a_drive",
       "decimals": 1,
