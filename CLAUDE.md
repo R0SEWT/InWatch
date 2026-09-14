@@ -14,8 +14,13 @@
   H3 res-8; tesselación morfológica vía `city2graph`. Los estimadores combinan encuesta
   de victimización con registro policial (pooled multi-año, r̂ EB victim-level). El
   material derivado proviene de un repo de origen bajo **CC BY-NC-SA 4.0 con dos
-  titulares de copyright** — por eso la licencia de InWatch está **sin definir** y el
-  repo permanece privado. No agregues un `LICENSE` por defecto.
+  titulares de copyright** — por eso la licencia de InWatch está **sin definir**. No
+  agregues un `LICENSE` por defecto.
+- **El repo es PÚBLICO** (desde 2026-09-14), sin licencia: todos los derechos reservados.
+  Todo lo que se commitea queda a la vista: nada de secretos, credenciales, datos crudos
+  ni rutas de máquina nuevas (pide las fuentes por nombre con `inwatch.fuentes`). Los
+  permisos de agente van en `.claude/settings.local.json`, que está gitignored, nunca en
+  el `settings.json` versionado.
 
 ### Las dos reglas duras
 
