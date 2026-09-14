@@ -39,6 +39,53 @@ existentes, y la tesselación morfológica es la que respeta la forma real.
 Ninguna es "la correcta". **Poder cambiar de unidad y ver moverse el resultado es uno
 de los experimentos**, no una decisión previa a los experimentos.
 
+## Las unidades de red vial
+
+Las tres de arriba son de área. Una calle no lo es: sus cantidades (flujo potencial,
+betweenness, actividad) viven sobre líneas y puntos. Por eso la red vial entra como dos
+unidades propias, emitidas por `inwatch.unidades.red_vial`, en lugar de forzarse sobre
+un polígono.
+
+| Unidad | Clave | Tipo | Origen | Geometría |
+|---|---|---|---|---|
+| `interseccion` | `node_id` | `str` | `osmid` del grafo osmnx simplificado | punto (x, y) en EPSG:32718 |
+| `tramo` | `tramo_id` | `str` | arista del grafo **no dirigido**, `"<u>-<v>-<key>"` con `u < v` | LineString, en tabla aparte |
+
+- **El tramo es no dirigido.** Una calle de doble sentido es dos aristas en el grafo
+  dirigido y sumaría su longitud dos veces. El sentido de circulación queda en el
+  atributo `oneway`; los análisis que lo necesiten (rutas, betweenness dirigida) usan el
+  grafo dirigido, no la tabla de tramos.
+- **Una red por modo** (`drive`, `walk`): no se mezclan. Cada GraphML guardado lleva un
+  `.meta.json` con la consulta, el modo, la fecha de descarga y las versiones de osmnx y
+  networkx.
+- **Nunca se calcula en grados**: todo pasa por EPSG:32718 antes de medir.
+- **Dos fotos de OSM que no se mezclan.** El extracto Geofabrik (`osm_peru_gpkg`, usado
+  por `tejido-vs-hexagono`) y una descarga de osmnx vía Overpass son versiones distintas
+  de OpenStreetMap, con fechas y reglas de simplificación distintas. Un experimento usa
+  una u otra, y lo declara.
+
+### Correspondencia por longitud
+
+El cruce `tramo` ↔ unidad de área reparte por **longitud en metros**, no por área:
+
+- `largo_m` — longitud geométrica, en EPSG:32718, del pedazo del tramo que cae en la
+  celda. Los pedazos bajo `longitud_minima_m` son astillas del borde compartido y se
+  descartan.
+- `frac_tramo` — proporción **de la longitud geométrica del tramo** en esa celda. Suma 1
+  en todo tramo contenido en la cobertura, **salvo lo que se lleven las astillas
+  descartadas**: un tramo que roza un borde queda apenas por debajo de 1, y eso es el
+  umbral trabajando, no longitud perdida. Si el tramo sale de la cobertura, **suma menos
+  de 1 y no se normaliza**: escalarlo inventaría calle donde no hay celda que la reciba.
+- `desvio_de_longitud` verifica los tramos completos y **cualquier suma mayor que 1**,
+  que sí sería longitud inventada (por ejemplo, polígonos que se solapan).
+
+En la tabla de tramos, `largo_m` es el atributo `length` de osmnx, calculado sobre la
+geometría sin proyectar; difiere levemente de la longitud geométrica proyectada. Para
+repartir se usa siempre la geométrica, así los pedazos y el total se miden igual.
+
+`interseccion` ↔ unidad de área es asignación por punto: cada intersección cae en una
+sola celda.
+
 ## Las tablas de correspondencia que existen
 
 | Cruce | Artefacto | Emitido por |

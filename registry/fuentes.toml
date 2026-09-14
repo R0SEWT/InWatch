@@ -78,6 +78,13 @@ titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
 lake = "infelix/silver/predictions/selective_geocoding_degradation.csv"
 transicion = ["infelix:data/silver/predictions/selective_geocoding_degradation.csv"]
 
+# ─── límites administrativos ──────────────────────────────────────────────────
+[fuente.distritos_limites]
+descripcion = "polígonos distritales de Perú (shapefile zipeado, EPSG:4326; campos UBIGEO, PROVINCIA, DISTRITO)"
+titularidad = "INEI (límites distritales), copia en infelix"
+lake = "admin/DISTRITOS_LIMITES.zip"
+transicion = ["infelix:data/datasets/DISTRITOS_LIMITES.zip"]
+
 # ─── OSM ──────────────────────────────────────────────────────────────────────
 [fuente.osm_peru_gpkg]
 descripcion = "extracto Geofabrik de Perú (1,1 GB). No mezclar con descargas osmnx/Overpass"
