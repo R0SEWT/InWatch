@@ -76,10 +76,26 @@ def _git(cfg: CanonConfig, *args: str) -> str | None:
 
 
 def _relpath(cfg: CanonConfig, path: Path) -> str:
+    """Clave de un input en el registro: relativa a la raíz, o ``<origen>:<ruta>``.
+
+    Los inputs de casi todo experimento vienen de infelix, fuera de la raíz. Guardarlos
+    como ``/home/<usuario>/...`` ataba un registro versionado a una laptop (inwatch-8sm).
+    Si el catálogo de fuentes declara un origen que cubre la ruta, se usa su alias; si no
+    hay catálogo o ningún origen la cubre, se conserva la ruta: no hay alias honesto.
+    """
     try:
         return str(Path(path).resolve().relative_to(cfg.root))
     except ValueError:
-        return str(path)
+        pass
+    # Import diferido: `fuentes` depende de `canon.config`, y el ciclo solo existe si
+    # se resolviera al importar el módulo.
+    from inwatch.fuentes import CatalogoInvalido, load_config, origen_de
+
+    try:
+        alias = origen_de(Path(path), cfg=load_config(cfg.root))
+    except CatalogoInvalido:
+        alias = None
+    return alias or str(path)
 
 
 # ─── redondeo canónico ────────────────────────────────────────────────────────

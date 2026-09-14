@@ -1,0 +1,125 @@
+# Catálogo de fuentes — hand-written, versionado.
+#
+# Cada dataset que un experimento lee se nombra acá una vez. El código pide
+# `fuentes.ruta("<nombre>")` y nunca escribe una ruta de máquina.
+#
+# Orden de resolución (ver src/inwatch/fuentes/resolucion.py):
+#   1. INWATCH_FUENTE_<NOMBRE>       override puntual
+#   2. data/lake/<lake>              copia local de bocho: la fuente principal
+#   3. data/bronze/fuentes/<nombre>/ lo exportado con `fuentes exportar`
+#   4. <origen>:<ruta>               transición, solo lectura (infelix, wachi)
+#
+# `git_ref` congela la fuente en un commit del origen: el archivo vivo NO la
+# resuelve, hay que exportarla.
+
+[lake]
+# host:/ruta del silver en bocho. Pendiente del inventario (inwatch-iv1.3).
+# Override: INWATCH_LAKE_REMOTO.
+remoto = "PENDIENTE"
+
+[origenes]
+# Override por origen: INWATCH_ORIGEN_<NOMBRE>. Ambos son solo lectura.
+infelix = "~/Code/tesis/infelix"
+wachi = "~/Code/freelance-externos/ElComercio/Wachi"
+
+# ─── denuncias ────────────────────────────────────────────────────────────────
+[fuente.denuncias_lima]
+descripcion = "3,1 M denuncias SIDPOL de Lima 2018-2025, con lat/long y fecha_hora"
+titularidad = "Wachi / Lab-EC-UPC (datos SIDPOL)"
+lake = "denuncias/LIMA.parquet"
+transicion = ["wachi:data/raw/LIMA.parquet"]
+
+# ─── grilla H3 y superficies (infelix) ────────────────────────────────────────
+[fuente.h3_admin]
+descripcion = "distrito y metadatos administrativos por celda H3 res-8"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/h3_features/h3_admin.parquet"
+transicion = ["infelix:data/silver/h3_features/h3_admin.parquet"]
+
+[fuente.h3_observed_geocoded]
+descripcion = "registro policial geocodificado por celda H3 res-8"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/h3_features/h3_observed_geocoded.parquet"
+transicion = ["infelix:data/silver/h3_features/h3_observed_geocoded.parquet"]
+
+[fuente.h3_feature_matrix]
+descripcion = "matriz de features por celda H3 res-8"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/h3_feature_matrix.parquet"
+transicion = ["infelix:data/silver/h3_feature_matrix.parquet"]
+
+[fuente.crime_latent_surface]
+descripcion = "superficie de riesgo latente corregida por sesgo de denuncia"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/crime_latent_surface.parquet"
+transicion = ["infelix:data/silver/crime_latent_surface.parquet"]
+
+[fuente.h3_graph_edges]
+descripcion = "adyacencia de la grilla H3 res-8"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/h3_graph_edges.parquet"
+transicion = ["infelix:data/silver/h3_graph_edges.parquet"]
+
+[fuente.geocode_success_distrito]
+descripcion = "tasa de geocodificación auditada por distrito"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/analysis/geocode_success_distrito.csv"
+transicion = ["infelix:data/silver/analysis/geocode_success_distrito.csv"]
+
+[fuente.geocoding_degradation]
+descripcion = "habilidad real y medible al degradar la geocodificación"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/predictions/geocoding_degradation.csv"
+transicion = ["infelix:data/silver/predictions/geocoding_degradation.csv"]
+
+[fuente.selective_geocoding_degradation]
+descripcion = "degradación selectiva de la geocodificación"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/predictions/selective_geocoding_degradation.csv"
+transicion = ["infelix:data/silver/predictions/selective_geocoding_degradation.csv"]
+
+# ─── OSM ──────────────────────────────────────────────────────────────────────
+[fuente.osm_peru_gpkg]
+descripcion = "extracto Geofabrik de Perú (1,1 GB). No mezclar con descargas osmnx/Overpass"
+titularidad = "© OpenStreetMap contributors (ODbL), extracto Geofabrik vía infelix"
+lake = "osm/peru.gpkg"
+transicion = ["infelix:data/datasets/osm/peru.gpkg"]
+
+# ─── estadios y transporte ────────────────────────────────────────────────────
+[fuente.stadium_matchdays]
+descripcion = "partidos con kickoff y público, versión vigente"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/estadios/stadium_matchdays.csv"
+transicion = ["infelix:analysis/stadium_matchdays.csv"]
+
+[fuente.stadium_extra_events]
+descripcion = "copas, selección y conciertos, versión vigente"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/estadios/stadium_extra_events.csv"
+transicion = ["infelix:analysis/stadium_extra_events.csv"]
+
+[fuente.stadium_matchdays_ancla]
+descripcion = "partidos tal como los vio el ancla de pulso-estadios (sin las 94 filas posteriores)"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/estadios/stadium_matchdays_ancla_7d77bd6.csv"
+transicion = ["infelix:analysis/stadium_matchdays.csv"]
+git_ref = "7d77bd6"
+
+[fuente.stadium_extra_events_ancla]
+descripcion = "eventos extra tal como los vio el ancla de pulso-estadios"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/estadios/stadium_extra_events_ancla_7d77bd6.csv"
+transicion = ["infelix:analysis/stadium_extra_events.csv"]
+git_ref = "7d77bd6"
+
+[fuente.stadium_hourly]
+descripcion = "ancla de réplica del pulso horario (no es insumo)"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares)"
+lake = "infelix/silver/analysis/stadium_hourly.json"
+transicion = ["infelix:data/silver/analysis/stadium_hourly.json"]
+
+[fuente.transit_stations]
+descripcion = "38 estaciones del Metropolitano y 26 de la Línea 1, validadas contra listas oficiales"
+titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares); OSM (ODbL) + Google Places"
+lake = "infelix/transporte/transit_stations.csv"
+transicion = ["infelix:analysis/transit_stations.csv"]
