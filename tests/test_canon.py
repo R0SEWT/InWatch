@@ -287,3 +287,44 @@ def test_find_root_sube_hasta_pyproject(tmp_path):
     deep = tmp_path / "a" / "b" / "c"
     deep.mkdir(parents=True)
     assert find_root(deep) == tmp_path.resolve()
+
+
+# ─── inputs fuera de la raíz: alias de origen, no ruta de una laptop (inwatch-8sm) ──
+def _proyecto_con_catalogo(tmp_path: Path) -> tuple[CanonConfig, Path]:
+    """Repo sintético cuyo catálogo de fuentes declara un origen fuera de la raíz."""
+    raiz = tmp_path / "repo"
+    origen = tmp_path / "infelix"
+    (origen / "data").mkdir(parents=True)
+    insumo = origen / "data" / "insumo.csv"
+    insumo.write_text("a,b\n1,2\n", encoding="utf-8")
+    (raiz / "registry").mkdir(parents=True)
+    (raiz / "pyproject.toml").write_text("[project]\nname='t'\n", encoding="utf-8")
+    (raiz / "registry" / "fuentes.toml").write_text(
+        f'[origenes]\ninfelix = "{origen}"\n', encoding="utf-8"
+    )
+    registry = raiz / "registry" / "canonical_numbers.json"
+    return CanonConfig(root=raiz, registry=registry, watched=("analysis/*.md",)), insumo
+
+
+def test_input_de_un_origen_se_registra_como_alias_relativo(tmp_path):
+    """El registro está versionado: una clave `/home/<usuario>/...` lo ata a una máquina."""
+    from inwatch.canon.registry import emit, load
+
+    cfg, insumo = _proyecto_con_catalogo(tmp_path)
+    emit("f", 1.0, variant="v", unit="u", estimator="e", inputs=[insumo],
+         script=str(cfg.root / "emit.py"), cfg=cfg)
+    claves = list(load(cfg)["entries"]["f.v"]["provenance"]["inputs_sha256"])
+    assert claves == ["infelix:data/insumo.csv"]
+
+
+def test_input_fuera_de_todo_origen_conserva_la_ruta(tmp_path):
+    """Sin origen que lo cubra no hay alias honesto: se deja la ruta tal cual."""
+    from inwatch.canon.registry import emit, load
+
+    cfg, _ = _proyecto_con_catalogo(tmp_path)
+    suelto = tmp_path / "suelto.csv"
+    suelto.write_text("x\n", encoding="utf-8")
+    emit("f", 1.0, variant="v", unit="u", estimator="e", inputs=[suelto],
+         script=str(cfg.root / "emit.py"), cfg=cfg)
+    claves = list(load(cfg)["entries"]["f.v"]["provenance"]["inputs_sha256"])
+    assert claves == [str(suelto)]
