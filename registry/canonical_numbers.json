@@ -265,12 +265,12 @@
       "family": "corredores.conteo.aristas",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -286,12 +286,12 @@
       "family": "corredores.conteo.arterias_declaradas",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -307,12 +307,12 @@
       "family": "corredores.conteo.busway_en_top100_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -328,12 +328,12 @@
       "family": "corredores.conteo.busway_en_top100_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -349,11 +349,11 @@
       "family": "corredores.conteo.estaciones_area_a",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:31:32-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:38-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
           "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
         },
         "script": "experiments/corredores-criticos/capas.py",
@@ -370,11 +370,11 @@
       "family": "corredores.conteo.estadios_area_a",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:31:32-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:38-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
           "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
         },
         "script": "experiments/corredores-criticos/capas.py",
@@ -391,11 +391,11 @@
       "family": "corredores.conteo.k_aprox",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -411,12 +411,12 @@
       "family": "corredores.conteo.nodos",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -432,12 +432,12 @@
       "family": "corredores.conteo.nodos_sin_simplificar",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -453,12 +453,12 @@
       "family": "corredores.conteo.tramos",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -474,17 +474,17 @@
       "family": "corredores.corr.length_travel_time_nodos",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
       },
       "unit": "rho de Spearman",
-      "value": 0.763755,
+      "value": 0.763529,
       "variant": "area_a_drive"
     },
     "corredores.corr.length_travel_time_tramos.area_a_drive": {
@@ -494,17 +494,17 @@
       "family": "corredores.corr.length_travel_time_tramos",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
       },
       "unit": "rho de Spearman",
-      "value": 0.714828,
+      "value": 0.714568,
       "variant": "area_a_drive"
     },
     "corredores.error.solape_top_aristas_length.area_a_drive": {
@@ -514,11 +514,11 @@
       "family": "corredores.error.solape_top_aristas_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:06:25-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:45:04-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -534,11 +534,11 @@
       "family": "corredores.error.solape_top_aristas_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -554,11 +554,11 @@
       "family": "corredores.error.solape_top_nodos_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:06:25-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:45:04-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -574,11 +574,11 @@
       "family": "corredores.error.solape_top_nodos_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -594,11 +594,11 @@
       "family": "corredores.error.solape_top_tramos_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:06:25-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:45:04-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -614,11 +614,11 @@
       "family": "corredores.error.solape_top_tramos_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -634,11 +634,11 @@
       "family": "corredores.error.spearman_aristas_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:06:25-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:45:04-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -654,17 +654,17 @@
       "family": "corredores.error.spearman_aristas_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
       },
       "unit": "rho de Spearman",
-      "value": 0.886161,
+      "value": 0.886052,
       "variant": "area_a_drive"
     },
     "corredores.error.spearman_nodos_length.area_a_drive": {
@@ -674,11 +674,11 @@
       "family": "corredores.error.spearman_nodos_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:06:25-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:45:04-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -694,17 +694,17 @@
       "family": "corredores.error.spearman_nodos_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
       },
       "unit": "rho de Spearman",
-      "value": 0.953676,
+      "value": 0.953634,
       "variant": "area_a_drive"
     },
     "corredores.error.spearman_tramos_length.area_a_drive": {
@@ -714,11 +714,11 @@
       "family": "corredores.error.spearman_tramos_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:06:25-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:45:04-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -734,17 +734,17 @@
       "family": "corredores.error.spearman_tramos_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
       },
       "unit": "rho de Spearman",
-      "value": 0.917798,
+      "value": 0.91781,
       "variant": "area_a_drive"
     },
     "corredores.pct.arterial_declarada_largo.area_a_drive": {
@@ -754,12 +754,12 @@
       "family": "corredores.pct.arterial_declarada_largo",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -775,12 +775,12 @@
       "family": "corredores.pct.arterial_declarada_tramos",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -796,12 +796,12 @@
       "family": "corredores.pct.arterias_bajo_mediana_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -817,18 +817,18 @@
       "family": "corredores.pct.arterias_bajo_mediana_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
       },
       "unit": "% de arterias declaradas",
-      "value": 18.965517,
+      "value": 19.03183,
       "variant": "area_a_drive"
     },
     "corredores.pct.busway_bc_length.area_a_drive": {
@@ -838,11 +838,11 @@
       "family": "corredores.pct.busway_bc_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:03-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -858,17 +858,17 @@
       "family": "corredores.pct.busway_bc_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:03-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
       },
       "unit": "% de la betweenness por tiempo",
-      "value": 1.169535,
+      "value": 1.169484,
       "variant": "area_a_drive"
     },
     "corredores.pct.busway_largo.area_a_drive": {
@@ -878,11 +878,11 @@
       "family": "corredores.pct.busway_largo",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -898,11 +898,11 @@
       "family": "corredores.pct.busway_tramos",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:17:02-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:33-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/centralidad.py",
         "script_sha256": "e5541212bce6681e50c0b2e4dbb830132dfb71cb9b7b07f299cd847d23ccb985"
@@ -918,12 +918,12 @@
       "family": "corredores.pct.exceso_sobre_base_top100_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -939,12 +939,12 @@
       "family": "corredores.pct.exceso_sobre_base_top100_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -960,12 +960,12 @@
       "family": "corredores.pct.maxspeed_imputado_aristas",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -981,12 +981,12 @@
       "family": "corredores.pct.maxspeed_imputado_largo",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -1002,12 +1002,12 @@
       "family": "corredores.pct.precision_top100_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -1023,12 +1023,12 @@
       "family": "corredores.pct.precision_top100_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:32:15-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:44-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
-          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "1ac712ebbeb8fdd8cbaf54decd61d046e2f003c85ba3f2833b5113ff21906db1"
         },
         "script": "experiments/corredores-criticos/arterias.py",
         "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
@@ -1044,12 +1044,12 @@
       "family": "corredores.pct.reduccion_simplificacion",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -1065,12 +1065,12 @@
       "family": "corredores.pct.sin_lanes",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -1086,12 +1086,12 @@
       "family": "corredores.pct.sin_maxspeed",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -1107,12 +1107,12 @@
       "family": "corredores.pct.sin_name",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T01:55:32-05:00",
-        "git_commit": "67f2ffa",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:34:36-05:00",
+        "git_commit": "5d0c484",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "fbb4493f4f3c4a4b73f8c2b7b560f2447c43d1ffa2af2c8dea43e944844a7f12"
@@ -1128,11 +1128,11 @@
       "family": "corredores.pct.top_nodos_con_capa_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:31:32-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:38-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
           "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
         },
         "script": "experiments/corredores-criticos/capas.py",
@@ -1149,11 +1149,11 @@
       "family": "corredores.pct.top_nodos_con_capa_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:31:32-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:38-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
           "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
         },
         "script": "experiments/corredores-criticos/capas.py",
@@ -1170,11 +1170,11 @@
       "family": "corredores.pct.top_tramos_con_capa_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:31:32-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:38-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
           "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
         },
         "script": "experiments/corredores-criticos/capas.py",
@@ -1191,11 +1191,11 @@
       "family": "corredores.pct.top_tramos_con_capa_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:31:32-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:38-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
           "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
         },
         "script": "experiments/corredores-criticos/capas.py",
@@ -1212,11 +1212,11 @@
       "family": "corredores.pct.top_tramos_entre_hubs_length",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:31:32-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:38-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
           "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
         },
         "script": "experiments/corredores-criticos/capas.py",
@@ -1233,11 +1233,11 @@
       "family": "corredores.pct.top_tramos_entre_hubs_travel_time",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-15T02:31:32-05:00",
-        "git_commit": "106ffd0",
+        "dirty": false,
+        "emitted_at": "2026-09-15T02:55:38-05:00",
+        "git_commit": "1fa4d72",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
           "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
         },
         "script": "experiments/corredores-criticos/capas.py",
