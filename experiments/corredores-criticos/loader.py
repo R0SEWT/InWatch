@@ -4,11 +4,14 @@ TP de Complex Networks, tema 2 (bead ``inwatch-92d``). Esta etapa (``inwatch-92d
 deja el grafo dirigido del eje Metropolitano centro-sur con velocidad y tiempo de viaje
 en cada arista, y emite las cifras que el enunciado exige declarar sobre el dato.
 
-Por qué la marca ``maxspeed_observado`` va ANTES de imputar: ``add_edge_speeds`` de
-osmnx completa el ``maxspeed`` faltante con la media del tipo de vía y sobrescribe todas
-las aristas con ``speed_kph``. Después de eso ya no se distingue qué velocidad salió de
-OSM y cuál es un supuesto, y la betweenness por tiempo de viaje heredaría ese supuesto sin
-declararlo.
+Por qué existe la marca ``maxspeed_observado``: ``add_edge_speeds`` de osmnx escribe
+``speed_kph`` en TODAS las aristas, imputando con la media del tipo de vía donde no hay
+dato. Después de eso ya no se distingue qué velocidad salió de OSM y cuál es un supuesto,
+y la betweenness por tiempo de viaje heredaría ese supuesto sin declararlo.
+
+Y la marca no puede salir de "¿existe el tag?": osmnx imputa cuando no logra **parsearlo**,
+y no entiende ``maxspeed=none`` ni el esquema implícito ``PE:urban``. Se le pregunta a él
+mismo con una sonda; ver ``marcar_maxspeed``.
 
 Por qué ``drive``: el tema es de tránsito vehicular; el enunciado exige justificar el
 ``network_type`` y reserva ``walk`` para accesibilidad peatonal.
@@ -18,7 +21,6 @@ Por qué ``drive``: el tema es de tránsito vehicular; el enunciado exige justif
 
 from __future__ import annotations
 
-import math
 from pathlib import Path
 
 import networkx as nx
@@ -44,20 +46,38 @@ OUT = Path(__file__).resolve().parents[2] / "data" / "silver" / SLUG
 GRAPHML = f"area_a_{MODO}.graphml"
 
 
-def _tiene_valor(valor) -> bool:
-    if valor is None:
-        return False
-    if isinstance(valor, float) and math.isnan(valor):
-        return False
-    if isinstance(valor, str | list | tuple):
-        return len(valor) > 0
-    return True
+# Velocidad imposible: marca las aristas que osmnx tuvo que imputar.
+SENTINELA_KPH = 0.001
 
 
 def marcar_maxspeed(G: nx.MultiDiGraph) -> nx.MultiDiGraph:
-    """Marca en cada arista si su ``maxspeed`` vino de OSM. Muta y devuelve ``G``."""
-    for _, _, datos in G.edges(data=True):
-        datos["maxspeed_observado"] = _tiene_valor(datos.get("maxspeed"))
+    """Marca en cada arista si su velocidad la aportó OSM. Muta y devuelve ``G``.
+
+    No basta con mirar si el tag ``maxspeed`` existe: osmnx imputa cuando no logra
+    **parsearlo**, y no conoce ni ``none`` ni el esquema implícito ``PE:urban``. Marcar
+    por presencia contaba esas aristas como observadas e inflaba la velocidad real.
+
+    Para preguntárselo al propio osmnx sin depender de sus funciones privadas, se corre
+    ``add_edge_speeds`` sobre una copia dando una velocidad imposible a cada tipo de vía:
+    la arista que sale con la sentinela es exactamente la que hubo que imputar.
+    """
+    # Mismo aplanado que hace osmnx con `highway` antes de mirar `hwy_speeds`.
+    tipos = {
+        (h[0] if isinstance(h, list) else h)
+        for h in (d.get("highway") for _, _, d in G.edges(data=True))
+    }
+    sonda = G.copy()
+    ox.routing.add_edge_speeds(
+        sonda,
+        hwy_speeds={t: SENTINELA_KPH for t in tipos if t is not None},
+        fallback=SENTINELA_KPH,
+    )
+    imputada = {
+        (u, v, k): d["speed_kph"] == SENTINELA_KPH
+        for u, v, k, d in sonda.edges(keys=True, data=True)
+    }
+    for u, v, k, datos in G.edges(keys=True, data=True):
+        datos["maxspeed_observado"] = not imputada[(u, v, k)]
     return G
 
 
@@ -82,10 +102,13 @@ def resumen(G: nx.MultiDiGraph) -> dict[str, float]:
     aristas = [(d["length"], bool(d["maxspeed_observado"])) for _, _, d in G.edges(data=True)]
     largo_total = sum(largo for largo, _ in aristas)
     imputadas = [largo for largo, observado in aristas if not observado]
-    faltan = red_vial.faltantes(red_vial.tramos(G))
+    tramos = red_vial.tramos(G)
+    faltan = red_vial.faltantes(tramos)
     return {
         "n_nodos": G.number_of_nodes(),
         "n_aristas": G.number_of_edges(),
+        # El denominador de los tres porcentajes de abajo: sin él no son auditables.
+        "n_tramos": len(tramos),
         "pct_maxspeed_imputado_aristas": 100 * len(imputadas) / len(aristas),
         "pct_maxspeed_imputado_largo": 100 * sum(imputadas) / largo_total,
         "pct_sin_maxspeed": faltan["maxspeed"],
@@ -108,6 +131,7 @@ EMISIONES = {
     # clave canon: (campo del resumen, unidad, estimador)
     "corredores.conteo.nodos": ("n_nodos", "intersecciones", "grafo drive simplificado"),
     "corredores.conteo.aristas": ("n_aristas", "aristas dirigidas", "grafo drive simplificado"),
+    "corredores.conteo.tramos": ("n_tramos", "tramos no dirigidos", "una calle, un tramo"),
     "corredores.conteo.nodos_sin_simplificar": (
         "n_nodos_sin_simplificar", "nodos", "mismo polígono con simplify=False"),
     "corredores.pct.reduccion_simplificacion": (

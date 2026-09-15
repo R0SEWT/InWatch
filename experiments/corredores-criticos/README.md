@@ -26,7 +26,7 @@ de circulación, y se proyecta a tramos para dibujar.
 ## Área de estudio
 
 Área A: Cercado de Lima, La Victoria, San Isidro, Miraflores y Surquillo, por UBIGEO,
-desde la fuente `distritos_limites`. Concentra estaciones del Metropolitano y de la
+desde la fuente `distritos_limites_area_a`. Concentra estaciones del Metropolitano y de la
 Línea 1, los estadios Nacional y Matute, y la Vía Expresa.
 
 ## Velocidades imputadas
@@ -41,14 +41,14 @@ no un dato.
 
 | Fuente (`inwatch.fuentes`) | Qué aporta | Titularidad |
 |---|---|---|
-| `distritos_limites` | polígono del área | INEI |
+| `distritos_limites_area_a` | polígono del área, versionado en el repo | INEI (dato público) |
 | red `drive` de OSM | grafo, descargado con osmnx vía Overpass | © OpenStreetMap contributors (ODbL) |
-| `transit_stations` | estaciones del Metropolitano y la Línea 1 | infelix |
+| `transit_stations` | estaciones del Metropolitano y la Línea 1 | infelix — **no viaja en el repo**: pídela al grupo y apúntala con `INWATCH_FUENTE_TRANSIT_STATIONS` |
 
 ## Cómo correrlo
 
 ```bash
 uv sync --extra geo --extra viz
-uv run fuentes estado                                    # ¿resuelven distritos_limites y transit_stations?
+uv run fuentes estado                                    # distritos_limites_area_a sale como `curado`
 uv run python experiments/corredores-criticos/loader.py  # descarga, velocidades, GraphML
 ```

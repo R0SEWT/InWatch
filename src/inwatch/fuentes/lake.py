@@ -17,6 +17,7 @@ El remoto es un protocolo (``disponible``, ``sha256``, ``leer_lineage``, ``subir
 from __future__ import annotations
 
 import json
+import re
 import shlex
 import subprocess
 from collections.abc import Callable, Mapping
@@ -39,6 +40,10 @@ from .resolucion import (
 SSH = "/usr/bin/ssh"
 OPCIONES_SSH = ("-o", "BatchMode=yes", "-o", "ConnectTimeout=5")
 SSH_SIN_CONEXION = 255
+# El host va como argv a ssh. Uno que empiece con `-` lo lee como opción —
+# `-oProxyCommand=…` ejecuta un comando— y `[lake].remoto` está versionado en un repo
+# público: un PR de un tercero correría código en la máquina de quien haga `fuentes estado`.
+HOST_VALIDO = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9_.-]*(@[A-Za-z0-9_][A-Za-z0-9_.-]*)?$")
 
 
 class LakeNoConfigurado(RuntimeError):
@@ -78,6 +83,11 @@ class RemotoSSH:
         host, sep, base = destino.partition(":")
         if not sep or not host or not base.startswith("/"):
             raise LakeNoConfigurado(f"remoto '{destino}' mal formado: se espera host:/ruta")
+        if not HOST_VALIDO.match(host):
+            raise LakeNoConfigurado(
+                f"host '{host}' inválido: solo letras, dígitos, punto, guion y guion bajo, "
+                "opcionalmente con usuario@. Un host que empieza con '-' lo lee ssh como opción"
+            )
         self.host = host
         self.base = base.rstrip("/")
         self._ejecutar = ejecutar
