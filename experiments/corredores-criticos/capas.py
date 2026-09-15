@@ -126,10 +126,13 @@ def tramos_entre_top(
     top_tramos = list(top_tramos)
     if not top_tramos:
         raise ValueError("el top de tramos está vacío")
-    extremos = tramos.set_index("tramo_id")[["u", "v"]]
+    # `red_vial.tramos` deja los extremos como el osmid entero y `node_id` es str.
+    # Comparar sin normalizar da un conjunto vacío y devuelve 0,0 % sin avisar.
+    extremos = tramos.set_index("tramo_id")[["u", "v"]].astype(str)
     faltan = set(top_tramos) - set(extremos.index)
     if faltan:
         raise ValueError(f"el tramo no existe en la tabla: {sorted(faltan)[:3]}")
+    top_nodos = {str(n) for n in top_nodos}
     filas = extremos.loc[top_tramos]
     ambos = [(u in top_nodos and v in top_nodos) for u, v in zip(filas["u"], filas["v"],
                                                                  strict=True)]

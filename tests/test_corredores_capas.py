@@ -119,6 +119,22 @@ def test_cobertura_falla_con_un_top_vacio():
         capas.cobertura([], {"n1"})
 
 
+def test_el_cruce_funciona_con_osmid_enteros_como_los_reales():
+    """`red_vial.tramos` deja `u`/`v` como int64 y `node_id` es str.
+
+    Sin normalizar, el cruce da vacío y la función devuelve 0,0 % en silencio: ni error
+    ni aviso, solo una cifra falsa. Pasó con datos reales.
+    """
+    tramos = gpd.GeoDataFrame(
+        {"tramo_id": ["31035109-392153249-0"], "u": [31035109], "v": [392153249]},
+        geometry=[LineString([(0.0, 0.0), (100.0, 0.0)])],
+        crs=CRS,
+    )
+    assert capas.tramos_entre_top(
+        ["31035109-392153249-0"], {"31035109", "392153249"}, tramos
+    ) == pytest.approx(1.0)
+
+
 def test_los_tramos_del_top_entre_intersecciones_del_top():
     """El contraste nodo-arista: ¿el corredor une hubs, o los puentea?"""
     frac = capas.tramos_entre_top(["n1-n2-0", "n2-n3-0"], {"n1", "n2"}, _tramos())

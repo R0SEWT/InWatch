@@ -162,7 +162,7 @@ def ordenar(t: pd.DataFrame, *, peso: str) -> pd.DataFrame:
     return o.reset_index(drop=True)
 
 
-def precision_en_k(t: pd.DataFrame, *, peso: str, k: int) -> dict[str, float]:
+def precision_en_k(t: pd.DataFrame, *, peso: str, k: int = TOP) -> dict[str, float]:
     """Qué fracción del top-k por betweenness es arterial declarada, contra la tasa base.
 
     Devuelve las tres cifras juntas a propósito. La precisión sola no se puede leer: un
@@ -313,8 +313,6 @@ def cifras(t: pd.DataFrame, *, k: int = TOP,
             base["pct_tramos"], "% de tramos", f"tasa base de la red; {jerarquia}"),
         "corredores.pct.arterial_declarada_largo": (
             base["pct_largo"], "% de longitud", f"tasa base ponderada por largo_m; {jerarquia}"),
-        "corredores.conteo.tramos_clasificados": (
-            base["n_tramos"], "tramos no dirigidos", "tramos con betweenness y highway"),
         "corredores.conteo.arterias_declaradas": (
             base["n_arteriales"], "tramos no dirigidos", jerarquia),
     }
@@ -367,6 +365,16 @@ def main() -> None:
         "baja_betweenness": pd.concat(
             [arterias_de_baja_betweenness(t, peso=p) for p in PESOS], ignore_index=True),
     }
+
+    # El conteo de tramos ya lo emite el loader. En vez de estrenar una clave gemela,
+    # este módulo lo usa de verificación cruzada: si los dos caminos no coinciden, algo
+    # se perdió entre el grafo y la tabla de betweenness.
+    esperado = int(canon.value("corredores.conteo.tramos"))
+    if int(tasa_base(t)["n_tramos"]) != esperado:
+        raise ValueError(
+            f"la tabla trae {int(tasa_base(t)['n_tramos'])} tramos y el registro declara "
+            f"{esperado}: re-corre loader.py y centralidad.py antes que este script"
+        )
 
     for clave, (valor, unidad, estimador) in cifras(t).items():
         canon.emit(clave, float(valor), variant=VARIANTE, unit=unidad, estimator=estimador,

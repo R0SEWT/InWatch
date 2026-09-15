@@ -279,6 +279,111 @@
       "value": 15813.0,
       "variant": "area_a_drive"
     },
+    "corredores.conteo.arterias_declaradas.area_a_drive": {
+      "canonical": true,
+      "display": "1508",
+      "estimator": "arterial = motorway/trunk/primary y sus _link",
+      "family": "corredores.conteo.arterias_declaradas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "tramos no dirigidos",
+      "value": 1508.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.conteo.busway_en_top100_length.area_a_drive": {
+      "canonical": true,
+      "display": "0",
+      "estimator": "highway=busway dentro del top-100 por bc_length",
+      "family": "corredores.conteo.busway_en_top100_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "tramos no dirigidos",
+      "value": 0.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.conteo.busway_en_top100_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "1",
+      "estimator": "highway=busway dentro del top-100 por bc_travel_time",
+      "family": "corredores.conteo.busway_en_top100_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "tramos no dirigidos",
+      "value": 1.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.conteo.estaciones_area_a.area_a_drive": {
+      "canonical": true,
+      "display": "20",
+      "estimator": "Metropolitano y Línea 1 dentro del área A",
+      "family": "corredores.conteo.estaciones_area_a",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:31:32-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
+        },
+        "script": "experiments/corredores-criticos/capas.py",
+        "script_sha256": "dd2415dfaf391b829881db908e104d52856b210d28f3f408ec3b4d03cde31e63"
+      },
+      "unit": "estaciones",
+      "value": 20.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.conteo.estadios_area_a.area_a_drive": {
+      "canonical": true,
+      "display": "2",
+      "estimator": "Nacional y Matute, mismos puntos que pulso-estadios",
+      "family": "corredores.conteo.estadios_area_a",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:31:32-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
+        },
+        "script": "experiments/corredores-criticos/capas.py",
+        "script_sha256": "dd2415dfaf391b829881db908e104d52856b210d28f3f408ec3b4d03cde31e63"
+      },
+      "unit": "estadios",
+      "value": 2.0,
+      "variant": "area_a_drive"
+    },
     "corredores.conteo.k_aprox.area_a_drive": {
       "canonical": true,
       "display": "500",
@@ -642,6 +747,90 @@
       "value": 0.917798,
       "variant": "area_a_drive"
     },
+    "corredores.pct.arterial_declarada_largo.area_a_drive": {
+      "canonical": true,
+      "display": "16.3",
+      "estimator": "tasa base ponderada por largo_m; arterial = motorway/trunk/primary y sus _link",
+      "family": "corredores.pct.arterial_declarada_largo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "% de longitud",
+      "value": 16.276446,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.arterial_declarada_tramos.area_a_drive": {
+      "canonical": true,
+      "display": "12.5",
+      "estimator": "tasa base de la red; arterial = motorway/trunk/primary y sus _link",
+      "family": "corredores.pct.arterial_declarada_tramos",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "% de tramos",
+      "value": 12.540541,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.arterias_bajo_mediana_length.area_a_drive": {
+      "canonical": true,
+      "display": "31.0",
+      "estimator": "percentil de bc_length ≤ 50 sobre la red entera",
+      "family": "corredores.pct.arterias_bajo_mediana_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "% de arterias declaradas",
+      "value": 31.034483,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.arterias_bajo_mediana_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "19.0",
+      "estimator": "percentil de bc_travel_time ≤ 50 sobre la red entera",
+      "family": "corredores.pct.arterias_bajo_mediana_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "% de arterias declaradas",
+      "value": 18.965517,
+      "variant": "area_a_drive"
+    },
     "corredores.pct.busway_bc_length.area_a_drive": {
       "canonical": true,
       "display": "0.1",
@@ -722,6 +911,48 @@
       "value": 0.37422,
       "variant": "area_a_drive"
     },
+    "corredores.pct.exceso_sobre_base_top100_length.area_a_drive": {
+      "canonical": true,
+      "display": "7.5",
+      "estimator": "top-100 de tramos por bc_length; arterial = motorway/trunk/primary y sus _link",
+      "family": "corredores.pct.exceso_sobre_base_top100_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "puntos porcentuales sobre la tasa base",
+      "value": 7.459459,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.exceso_sobre_base_top100_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "15.5",
+      "estimator": "top-100 de tramos por bc_travel_time; arterial = motorway/trunk/primary y sus _link",
+      "family": "corredores.pct.exceso_sobre_base_top100_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "puntos porcentuales sobre la tasa base",
+      "value": 15.459459,
+      "variant": "area_a_drive"
+    },
     "corredores.pct.maxspeed_imputado_aristas.area_a_drive": {
       "canonical": true,
       "display": "30.1",
@@ -762,6 +993,48 @@
       },
       "unit": "% de longitud",
       "value": 25.056184,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.precision_top100_length.area_a_drive": {
+      "canonical": true,
+      "display": "20.0",
+      "estimator": "top-100 de tramos por bc_length; arterial = motorway/trunk/primary y sus _link",
+      "family": "corredores.pct.precision_top100_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "% del top-100",
+      "value": 20.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.precision_top100_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "28.0",
+      "estimator": "top-100 de tramos por bc_travel_time; arterial = motorway/trunk/primary y sus _link",
+      "family": "corredores.pct.precision_top100_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:32:15-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "data/silver/corredores-criticos/betweenness_tramos.parquet": "72eb731fa9c148822efcc004dbbd61218e3a5c8fd0b959d7d5a2edf5f802a3f0"
+        },
+        "script": "experiments/corredores-criticos/arterias.py",
+        "script_sha256": "e3f78b1d3e43aa40fe8ae5c2efa208945de95ec009e1237a957503e39a371752"
+      },
+      "unit": "% del top-100",
+      "value": 28.0,
       "variant": "area_a_drive"
     },
     "corredores.pct.reduccion_simplificacion.area_a_drive": {
@@ -846,6 +1119,132 @@
       },
       "unit": "% de tramos",
       "value": 5.97921,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.top_nodos_con_capa_length.area_a_drive": {
+      "canonical": true,
+      "display": "0.0",
+      "estimator": "intersecciones del top a ≤500 m de una estación o estadio",
+      "family": "corredores.pct.top_nodos_con_capa_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:31:32-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
+        },
+        "script": "experiments/corredores-criticos/capas.py",
+        "script_sha256": "dd2415dfaf391b829881db908e104d52856b210d28f3f408ec3b4d03cde31e63"
+      },
+      "unit": "% del top-100",
+      "value": 0.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.top_nodos_con_capa_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "1.0",
+      "estimator": "intersecciones del top a ≤500 m de una estación o estadio",
+      "family": "corredores.pct.top_nodos_con_capa_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:31:32-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
+        },
+        "script": "experiments/corredores-criticos/capas.py",
+        "script_sha256": "dd2415dfaf391b829881db908e104d52856b210d28f3f408ec3b4d03cde31e63"
+      },
+      "unit": "% del top-100",
+      "value": 1.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.top_tramos_con_capa_length.area_a_drive": {
+      "canonical": true,
+      "display": "26.0",
+      "estimator": "tramos del top dentro del buffer de 300 m",
+      "family": "corredores.pct.top_tramos_con_capa_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:31:32-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
+        },
+        "script": "experiments/corredores-criticos/capas.py",
+        "script_sha256": "dd2415dfaf391b829881db908e104d52856b210d28f3f408ec3b4d03cde31e63"
+      },
+      "unit": "% del top-100",
+      "value": 26.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.top_tramos_con_capa_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "33.0",
+      "estimator": "tramos del top dentro del buffer de 300 m",
+      "family": "corredores.pct.top_tramos_con_capa_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:31:32-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
+        },
+        "script": "experiments/corredores-criticos/capas.py",
+        "script_sha256": "dd2415dfaf391b829881db908e104d52856b210d28f3f408ec3b4d03cde31e63"
+      },
+      "unit": "% del top-100",
+      "value": 33.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.top_tramos_entre_hubs_length.area_a_drive": {
+      "canonical": true,
+      "display": "91.0",
+      "estimator": "tramos del top con sus dos extremos en el top de nodos",
+      "family": "corredores.pct.top_tramos_entre_hubs_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:31:32-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
+        },
+        "script": "experiments/corredores-criticos/capas.py",
+        "script_sha256": "dd2415dfaf391b829881db908e104d52856b210d28f3f408ec3b4d03cde31e63"
+      },
+      "unit": "% del top-100",
+      "value": 91.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.top_tramos_entre_hubs_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "85.0",
+      "estimator": "tramos del top con sus dos extremos en el top de nodos",
+      "family": "corredores.pct.top_tramos_entre_hubs_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": true,
+        "emitted_at": "2026-09-15T02:31:32-05:00",
+        "git_commit": "106ffd0",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "a6b8b62329196f86623573d4abb6361f6c699fd6a1d9b2d6038daa3937e75c06",
+          "infelix:analysis/transit_stations.csv": "171440198641906af49799dbd448512af8ae8ae9c78dac98a6f0482e4f8583b5"
+        },
+        "script": "experiments/corredores-criticos/capas.py",
+        "script_sha256": "dd2415dfaf391b829881db908e104d52856b210d28f3f408ec3b4d03cde31e63"
+      },
+      "unit": "% del top-100",
+      "value": 85.0,
       "variant": "area_a_drive"
     },
     "correspondencia.area_partida.morfologica": {
