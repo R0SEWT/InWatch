@@ -61,6 +61,14 @@ def test_el_area_a_son_los_cinco_distritos_del_eje_metropolitano():
     assert loader.MODO == "drive"
 
 
+def test_el_poligono_sale_de_una_fuente_que_existe_al_clonar():
+    """Sin esto el TP solo corre en la máquina que tiene infelix montado."""
+    from inwatch import fuentes
+
+    f = fuentes.cargar_catalogo(fuentes.load_config(Path(__file__).parent))
+    assert f.fuentes[loader.FUENTE_POLIGONO].curado
+
+
 # ─── velocidades y tiempos ────────────────────────────────────────────────────
 def test_marca_que_maxspeed_es_real_antes_de_imputar():
     G = loader.marcar_maxspeed(_grafo())

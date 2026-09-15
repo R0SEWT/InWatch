@@ -21,7 +21,9 @@ from pathlib import Path, PurePosixPath
 
 from .config import FuentesConfig
 
-CLAVES_FUENTE = frozenset({"descripcion", "titularidad", "lake", "transicion", "git_ref"})
+CLAVES_FUENTE = frozenset(
+    {"descripcion", "titularidad", "lake", "curado", "transicion", "git_ref"}
+)
 
 
 class CatalogoInvalido(ValueError):
@@ -34,6 +36,8 @@ class Fuente:
     titularidad: str
     descripcion: str = ""
     lake: str | None = None
+    # Insumo chico y versionado en el repo: existe al clonar, sin bocho ni infelix.
+    curado: str | None = None
     transicion: tuple[str, ...] = ()
     git_ref: str | None = None
 
@@ -87,14 +91,18 @@ def _fuente(nombre: str, d: dict, origenes: Mapping[str, Path]) -> Fuente:
     lake = d.get("lake")
     if lake is not None:
         _relativa(nombre, "lake", lake)
-    if lake is None and not transicion:
-        raise CatalogoInvalido(f"fuente '{nombre}': necesita `lake` o `transicion`")
+    curado = d.get("curado")
+    if curado is not None:
+        _relativa(nombre, "curado", curado)
+    if lake is None and curado is None and not transicion:
+        raise CatalogoInvalido(f"fuente '{nombre}': necesita `lake`, `curado` o `transicion`")
 
     return Fuente(
         nombre=nombre,
         titularidad=titularidad,
         descripcion=d.get("descripcion", ""),
         lake=lake,
+        curado=curado,
         transicion=tuple(transicion),
         git_ref=d.get("git_ref"),
     )
