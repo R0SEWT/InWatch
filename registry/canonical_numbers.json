@@ -265,12 +265,12 @@
       "family": "corredores.conteo.aristas",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
@@ -306,12 +306,12 @@
       "family": "corredores.conteo.nodos",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
@@ -327,12 +327,12 @@
       "family": "corredores.conteo.nodos_sin_simplificar",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
@@ -548,12 +548,12 @@
       "family": "corredores.pct.maxspeed_imputado_aristas",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
@@ -569,12 +569,12 @@
       "family": "corredores.pct.maxspeed_imputado_largo",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
@@ -590,12 +590,12 @@
       "family": "corredores.pct.reduccion_simplificacion",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
@@ -611,12 +611,12 @@
       "family": "corredores.pct.sin_lanes",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
@@ -632,12 +632,12 @@
       "family": "corredores.pct.sin_maxspeed",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
@@ -653,12 +653,12 @@
       "family": "corredores.pct.sin_name",
       "needs_policy": false,
       "provenance": {
-        "dirty": true,
-        "emitted_at": "2026-09-14T19:41:35-05:00",
-        "git_commit": "08d7f2c",
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
           "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
-          "data/silver/corredores-criticos/area_a_drive.graphml": "0a426ef3d1ca47514bf62db86d2dea3d07971ab581f64545e2f7e3a055591544"
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
         "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
