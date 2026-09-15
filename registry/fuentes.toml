@@ -85,6 +85,14 @@ titularidad = "INEI (límites distritales), copia en infelix"
 lake = "admin/DISTRITOS_LIMITES.zip"
 transicion = ["infelix:data/datasets/DISTRITOS_LIMITES.zip"]
 
+[fuente.distritos_limites_area_a]
+descripcion = "los 5 distritos del área A del TP (UBIGEO 150101, 150115, 150122, 150131, 150141), recorte de distritos_limites"
+titularidad = "INEI (límites distritales, dato público)"
+# Versionado en el repo, 38 KB: el grupo clona y corre, sin bocho ni infelix. Es la
+# única copia que reproduce el grafo exacto (7.559 nodos): re-encodar el polígono a
+# GeoJSON, aun a 1 cm de precisión, mueve el conteo en una o dos unidades.
+curado = "data/curado/DISTRITOS_LIMITES_area_a.zip"
+
 # ─── OSM ──────────────────────────────────────────────────────────────────────
 [fuente.osm_peru_gpkg]
 descripcion = "extracto Geofabrik de Perú (1,1 GB). No mezclar con descargas osmnx/Overpass"

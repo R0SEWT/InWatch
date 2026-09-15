@@ -33,9 +33,12 @@ MODO = "drive"
 VARIANTE = "area_a_drive"
 # Área A: Cercado de Lima, La Victoria, San Isidro, Miraflores, Surquillo.
 UBIGEOS = ("150101", "150115", "150131", "150122", "150141")
+# El recorte versionado, no el shapefile nacional de infelix: así un clon del repo
+# reproduce el grafo exacto sin bocho ni infelix. El polígono es el mismo (54,2 km²).
+FUENTE_POLIGONO = "distritos_limites_area_a"
 CONSULTA = (
     f"ox.graph_from_polygon(unión de UBIGEO {', '.join(UBIGEOS)} de la fuente "
-    f"distritos_limites, network_type='{MODO}', simplify=True, retain_all=False)"
+    f"{FUENTE_POLIGONO}, network_type='{MODO}', simplify=True, retain_all=False)"
 )
 OUT = Path(__file__).resolve().parents[2] / "data" / "silver" / SLUG
 GRAPHML = f"area_a_{MODO}.graphml"
@@ -122,7 +125,7 @@ EMISIONES = {
 
 def main() -> None:
     cfg = fuentes.load_config()
-    distritos = fuentes.resolver("distritos_limites")
+    distritos = fuentes.resolver(FUENTE_POLIGONO)
     poligono = red_vial.poligono_distritos(distritos.ruta, UBIGEOS)
     cache = cfg.datos / ".cache" / "osmnx"
 
@@ -139,7 +142,7 @@ def main() -> None:
         **meta,
         "n_nodos_sin_simplificar": crudo.number_of_nodes(),
         "velocidades": "ox.routing.add_edge_speeds (media por highway; si no hay, media global)",
-        "fuente_poligono": {"distritos_limites": distritos.sha256, "ubigeos": list(UBIGEOS)},
+        "fuente_poligono": {FUENTE_POLIGONO: distritos.sha256, "ubigeos": list(UBIGEOS)},
     }
     ruta = red_vial.guardar(G, OUT / GRAPHML, meta)
 

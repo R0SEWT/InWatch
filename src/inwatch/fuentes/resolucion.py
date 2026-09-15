@@ -26,7 +26,7 @@ from pathlib import Path, PurePosixPath
 from .catalogo import Catalogo, Fuente, cargar_catalogo, clave_entorno, partir_candidato
 from .config import FuentesConfig, load_config
 
-ORIGENES_PROPIOS = frozenset({"entorno", "lake", "exportado"})
+ORIGENES_PROPIOS = frozenset({"entorno", "lake", "curado", "exportado"})
 
 _MEMO: dict[tuple[str, int, int], str] = {}
 
@@ -99,7 +99,13 @@ def sha_de(cfg: FuentesConfig, path: Path) -> str:
 
 # ─── candidatos ───────────────────────────────────────────────────────────────
 def ruta_exportada(cfg: FuentesConfig, fuente: Fuente) -> Path:
-    referencia = fuente.lake or (partir_candidato(fuente.transicion[0])[1])
+    """Dónde aterriza `fuentes exportar`. El nombre del archivo sale del primer
+    candidato que lo declare: lake, curado o el origen de transición."""
+    referencia = fuente.lake or fuente.curado
+    if referencia is None:
+        if not fuente.transicion:
+            return cfg.datos / "bronze" / "fuentes" / fuente.nombre / fuente.nombre
+        referencia = partir_candidato(fuente.transicion[0])[1]
     return cfg.datos / "bronze" / "fuentes" / fuente.nombre / PurePosixPath(referencia).name
 
 
@@ -109,6 +115,8 @@ def candidatos(
     salida: list[tuple[str, Path]] = []
     if fuente.lake:
         salida.append(("lake", cfg.lake / fuente.lake))
+    if fuente.curado:
+        salida.append(("curado", cfg.root / fuente.curado))
     salida.append(("exportado", ruta_exportada(cfg, fuente)))
     if not fuente.git_ref:
         for candidato in fuente.transicion:

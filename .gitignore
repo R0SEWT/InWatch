@@ -15,6 +15,11 @@ data/.cache/
 # El registro canónico ES memoria científica: se versiona aunque viva cerca de datos.
 !registry/canonical_numbers.json
 
+# Insumos curados: chicos, públicos y no regenerables con un comando. Misma política que
+# el gazetteer de estaciones del repo de origen. Se versionan con `!` explícito.
+!data/curado/
+!data/curado/**
+
 # ── Reportes: versionados ─────────────────────────────────────────────────────
 # (no se ignora nada de analysis/ ni de experiments/*/README.md)
 
