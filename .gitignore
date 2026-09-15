@@ -15,8 +15,12 @@ data/.cache/
 # El registro canónico ES memoria científica: se versiona aunque viva cerca de datos.
 !registry/canonical_numbers.json
 
+# `data/` se ignora ENTERO y las excepciones se declaran una por una. Antes esto era una
+# allowlist (data/bronze, data/silver, …) y cualquier subdirectorio nuevo se commiteaba
+# por defecto; con el repo público, eso es un pie de plomo.
+data/
 # Insumos curados: chicos, públicos y no regenerables con un comando. Misma política que
-# el gazetteer de estaciones del repo de origen. Se versionan con `!` explícito.
+# el gazetteer de estaciones del repo de origen.
 !data/curado/
 !data/curado/**
 

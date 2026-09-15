@@ -283,6 +283,36 @@ def test_el_sha_se_cachea_en_disco_y_no_se_recalcula(proyecto, monkeypatch):
     assert r.sha256 == _sha(b"admin-infelix")
 
 
+def test_la_cache_se_invalida_con_el_mismo_tamanio_y_otro_mtime(proyecto):
+    """Aísla el mtime: una clave que solo mirara el tamaño pasaría el test de abajo."""
+    archivo = proyecto.infelix / "data/silver/h3_features/h3_admin.parquet"
+    antes = fuentes.resolver("h3_admin", cfg=proyecto.cfg, env=SIN_ENTORNO).sha256
+    archivo.write_bytes(b"ADMIN-INFELIX")  # mismo tamaño, otro contenido
+    st = archivo.stat()
+    os.utime(archivo, ns=(st.st_atime_ns, st.st_mtime_ns + 1_000_000_000))
+    assert fuentes.resolver("h3_admin", cfg=proyecto.cfg, env=SIN_ENTORNO).sha256 != antes
+
+
+def test_una_cache_corrupta_no_tumba_al_emisor(proyecto):
+    """La caché es descartable: nunca debe poder matar a un loader a media corrida."""
+    fuentes.resolver("h3_admin", cfg=proyecto.cfg, env=SIN_ENTORNO)
+    cache = proyecto.cfg.datos / ".cache" / "fuentes_sha.json"
+    cache.write_text("{esto no es json", encoding="utf-8")
+    resolucion_mod._MEMO.clear()
+    assert fuentes.resolver("h3_admin", cfg=proyecto.cfg, env=SIN_ENTORNO).sha256 == _sha(
+        b"admin-infelix"
+    )
+
+
+def test_la_cache_usa_un_temporal_propio_por_proceso(proyecto):
+    """Con un temporal de nombre fijo, dos procesos se publican el archivo a medio escribir."""
+    fuentes.resolver("h3_admin", cfg=proyecto.cfg, env=SIN_ENTORNO)
+    cache = proyecto.cfg.datos / ".cache" / "fuentes_sha.json"
+    ajenos = [p for p in cache.parent.iterdir() if p != cache]
+    assert not ajenos, f"quedaron temporales sin limpiar: {ajenos}"
+    assert resolucion_mod._temporal_de(cache) != resolucion_mod._temporal_de(cache, pid=1)
+
+
 def test_la_cache_se_invalida_si_cambia_el_archivo(proyecto):
     archivo = proyecto.infelix / "data/silver/h3_features/h3_admin.parquet"
     antes = fuentes.resolver("h3_admin", cfg=proyecto.cfg, env=SIN_ENTORNO).sha256
@@ -565,6 +595,25 @@ def test_destino_remoto_mal_formado_falla():
         lake_mod.RemotoSSH("solo-un-host", ejecutar=Grabadora())
 
 
+@pytest.mark.parametrize("host", [
+    "-oProxyCommand=touch /tmp/pwned",   # ssh lo lee como opción y ejecuta el comando
+    "-F/dev/null",
+    "host con espacio",
+    "host;rm -rf ~",
+    "",
+])
+def test_un_host_que_parece_opcion_o_trae_metacaracteres_se_rechaza(host):
+    """`[lake].remoto` está versionado y el repo es público: un host malicioso en un PR
+    ejecutaría comandos en la máquina de quien corra `fuentes estado`."""
+    with pytest.raises(lake_mod.LakeNoConfigurado, match="host"):
+        lake_mod.RemotoSSH(f"{host}:/srv/lake", ejecutar=Grabadora())
+
+
+@pytest.mark.parametrize("host", ["bocho", "usuario@bocho", "10.147.19.10", "bocho-2.local"])
+def test_los_hosts_normales_siguen_valiendo(host):
+    assert lake_mod.RemotoSSH(f"{host}:/srv/lake", ejecutar=Grabadora()).host == host
+
+
 # ─── el catálogo real del repo ────────────────────────────────────────────────
 def test_el_catalogo_versionado_es_valido():
     """Carga `registry/fuentes.toml` del repo. No necesita datos: valida estructura."""
@@ -573,3 +622,8 @@ def test_el_catalogo_versionado_es_valido():
     assert cat.fuentes, "el catálogo real está vacío"
     for nombre, f in cat.fuentes.items():
         assert f.lake or f.curado or f.transicion, f"{nombre} no tiene ningún candidato"
+        if f.curado:
+            # Declarar `curado` es prometer que el archivo viaja en el repo. Afirmar solo
+            # el string deja pasar un nombre mal tipeado o un `.gitignore` que se lo coma,
+            # que es justo el fallo que la fuente curada existe para evitar.
+            assert (cfg.root / f.curado).is_file(), f"{nombre}: falta {f.curado} en el repo"

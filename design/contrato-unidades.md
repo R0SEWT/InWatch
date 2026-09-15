@@ -49,12 +49,19 @@ un polígono.
 | Unidad | Clave | Tipo | Origen | Geometría |
 |---|---|---|---|---|
 | `interseccion` | `node_id` | `str` | `osmid` del grafo osmnx simplificado | punto (x, y) en EPSG:32718 |
-| `tramo` | `tramo_id` | `str` | arista del grafo **no dirigido**, `"<u>-<v>-<key>"` con `u < v` | LineString, en tabla aparte |
+| `tramo` | `tramo_id` | `str` | arista del grafo **no dirigido**, `"<u>-<v>-<key>"` con los extremos en orden **lexicográfico sobre su representación decimal** | LineString, en tabla aparte |
 
 - **El tramo es no dirigido.** Una calle de doble sentido es dos aristas en el grafo
   dirigido y sumaría su longitud dos veces. El sentido de circulación queda en el
   atributo `oneway`; los análisis que lo necesiten (rutas, betweenness dirigida) usan el
   grafo dirigido, no la tabla de tramos.
+- **El orden de los extremos es lexicográfico, no numérico.** Con osmid de 9 a 11
+  dígitos las dos órdenes difieren en uno de cada cinco tramos, así que la distinción no
+  es cosmética: quien reconstruya la clave con `min(u, v)` numérico falla el join en
+  silencio, sin error y dejando el mapa con huecos. Se eligió lexicográfico porque es lo
+  que osmnx usa internamente en `_update_edge_keys`. La forma correcta de armar la clave
+  es `"-".join(sorted((str(u), str(v)))) + f"-{key}"`, o mejor, pedirla a
+  `red_vial.tramos()` en vez de rearmarla.
 - **Una red por modo** (`drive`, `walk`): no se mezclan. Cada GraphML guardado lleva un
   `.meta.json` con la consulta, el modo, la fecha de descarga y las versiones de osmnx y
   networkx.

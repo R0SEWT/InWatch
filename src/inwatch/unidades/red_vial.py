@@ -36,6 +36,9 @@ from pyproj import CRS
 CRS_METRICO = "EPSG:32718"
 ATRIBUTOS_FALTANTES = ("maxspeed", "lanes", "name")
 COLUMNAS_TRAMO = ("tramo_id", "u", "v", "largo_m", "highway", "oneway", *ATRIBUTOS_FALTANTES)
+# Se arrastran si el grafo ya pasó por `add_edge_speeds`: quien adjudica una cantidad a
+# un tramo necesita el mismo peso con el que se calculó.
+COLUMNAS_OPCIONALES = ("travel_time", "speed_kph")
 TOLERANCIA_COMPLETO = 1e-6
 
 
@@ -51,10 +54,38 @@ def _primero(valor):
     return valor
 
 
+VERDADEROS = frozenset({"true", "yes", "1", "-1"})
+FALSOS = frozenset({"false", "no", "0", "", "none"})
+
+
 def _a_bool(valor) -> bool:
+    """Normaliza también el elemento de una lista: ``['no']`` es ``no``, no ``True``.
+
+    Sin esto, ``bool(['no'])`` daba ``True`` y una calle de doble sentido podía quedar
+    declarada de sentido único, que es un valor portante del contrato.
+    """
+    valor = _primero(valor)
     if isinstance(valor, str):
-        return valor.strip().lower() in {"true", "yes", "1", "-1"}
-    return bool(_primero(valor))
+        return valor.strip().lower() in VERDADEROS
+    return bool(valor)
+
+
+def _bool_estricto(texto: str) -> bool:
+    """Convierte un booleano guardado en GraphML, y falla si no reconoce el valor.
+
+    GraphML escribe todo como texto y ``bool("False")`` es ``True``: sin reconvertir,
+    un flag del repo se lee al revés en silencio.
+    """
+    limpio = str(texto).strip().lower()
+    if limpio in VERDADEROS:
+        return True
+    if limpio in FALSOS:
+        return False
+    raise ValueError(f"maxspeed_observado no es un booleano reconocible: {texto!r}")
+
+
+# Atributos booleanos propios del repo: osmnx solo reconvierte los suyos.
+DTYPES_ARISTA = {"maxspeed_observado": _bool_estricto}
 
 
 # ─── unidades ─────────────────────────────────────────────────────────────────
@@ -79,8 +110,9 @@ def tramos(G: nx.MultiDiGraph) -> gpd.GeoDataFrame:
         if campo not in aristas:
             aristas[campo] = None
         aristas[campo] = aristas[campo].map(_primero)
+    opcionales = [c for c in COLUMNAS_OPCIONALES if c in aristas]
     return gpd.GeoDataFrame(
-        aristas[[*COLUMNAS_TRAMO]], geometry=aristas.geometry.values, crs=aristas.crs
+        aristas[[*COLUMNAS_TRAMO, *opcionales]], geometry=aristas.geometry.values, crs=aristas.crs
     )
 
 
@@ -197,8 +229,10 @@ def guardar(G: nx.MultiDiGraph, ruta: Path, meta: dict) -> Path:
     return ruta
 
 
-def cargar(ruta: Path) -> tuple[nx.MultiDiGraph, dict]:
-    return ox.io.load_graphml(ruta), json.loads(_ruta_meta(ruta).read_text(encoding="utf-8"))
+def cargar(ruta: Path, edge_dtypes: dict | None = None) -> tuple[nx.MultiDiGraph, dict]:
+    """Lee el GraphML reconvirtiendo los atributos booleanos propios del repo."""
+    G = ox.io.load_graphml(ruta, edge_dtypes={**DTYPES_ARISTA, **(edge_dtypes or {})})
+    return G, json.loads(_ruta_meta(ruta).read_text(encoding="utf-8"))
 
 
 def poligono_distritos(zip_distritos: Path, ubigeos: Iterable[str]):

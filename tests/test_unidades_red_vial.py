@@ -59,6 +59,22 @@ def test_tramo_id_es_determinista_y_ordena_los_extremos():
     assert ids == {"1-2-0", "2-3-0", "3-4-0"}
 
 
+def test_el_orden_de_los_extremos_es_lexicografico_como_dice_el_contrato():
+    """Con osmid reales (9-11 dígitos) el orden numérico y el lexicográfico difieren.
+
+    El contrato fija el lexicográfico; este test lo ata, porque la diferencia rompe
+    joins en silencio y no da error.
+    """
+    G = nx.MultiDiGraph(crs=CRS)
+    for n, x in ((900_000_000, 0.0), (1_000_000_000, 100.0)):
+        G.add_node(n, x=x, y=0.0, street_count=2)
+    G.add_edge(1_000_000_000, 900_000_000, key=0, osmid=1, length=100.0, oneway=True,
+               highway="residential",
+               geometry=LineString([(100.0, 0.0), (0.0, 0.0)]))
+    (tramo_id,) = red_vial.tramos(G)["tramo_id"]
+    assert tramo_id == "1000000000-900000000-0"  # lexicográfico: "1…" < "9…"
+
+
 def test_tramos_conserva_sentido_y_normaliza_highway():
     t = red_vial.tramos(_grafo()).set_index("tramo_id")
     assert bool(t.loc["2-3-0", "oneway"]) is True
@@ -164,6 +180,33 @@ def test_metadatos_registran_consulta_modo_y_versiones(tmp_path):
     assert meta["n_nodos"] == 4 and meta["n_aristas"] == 4
     assert {"osmnx", "networkx"} <= set(meta["versiones"])
     assert meta["descargado_en"]
+
+
+def test_cargar_devuelve_los_booleanos_propios_como_bool_y_no_como_texto(tmp_path):
+    """GraphML guarda todo como string y `bool("False")` es True.
+
+    Sin reconvertir, un flag del repo se lee al revés en silencio: el grafo recargado
+    diría que ninguna arista lleva velocidad imputada.
+    """
+    G = _grafo()
+    for u, v, k in ((1, 2, 0), (2, 3, 0)):
+        G.edges[u, v, k]["maxspeed_observado"] = u == 1
+    ruta = tmp_path / "red.graphml"
+    red_vial.guardar(G, ruta, red_vial.metadatos(G, modo="drive", consulta="q"))
+    G2, _ = red_vial.cargar(ruta)
+    valores = {(u, v): d["maxspeed_observado"] for u, v, d in G2.edges(data=True)
+               if "maxspeed_observado" in d}
+    assert valores[(1, 2)] is True
+    assert valores[(2, 3)] is False
+
+
+def test_cargar_falla_ruidoso_si_el_booleano_trae_basura(tmp_path):
+    ruta = tmp_path / "red.graphml"
+    G = _grafo()
+    G.edges[1, 2, 0]["maxspeed_observado"] = "quizá"
+    red_vial.guardar(G, ruta, red_vial.metadatos(G, modo="drive", consulta="q"))
+    with pytest.raises(ValueError, match="maxspeed_observado"):
+        red_vial.cargar(ruta)
 
 
 def test_guardar_y_cargar_red_conserva_grafo_y_metadatos(tmp_path):
