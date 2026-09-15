@@ -279,6 +279,26 @@
       "value": 15813.0,
       "variant": "area_a_drive"
     },
+    "corredores.conteo.k_aprox.area_a_drive": {
+      "canonical": true,
+      "display": "500",
+      "estimator": "parámetro k de networkx",
+      "family": "corredores.conteo.k_aprox",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:10:23-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "fuentes muestreadas",
+      "value": 500.0,
+      "variant": "area_a_drive"
+    },
     "corredores.conteo.nodos.area_a_drive": {
       "canonical": true,
       "display": "7559",
@@ -319,6 +339,206 @@
       },
       "unit": "nodos",
       "value": 32511.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.corr.length_travel_time_nodos.area_a_drive": {
+      "canonical": true,
+      "display": "0.764",
+      "estimator": "betweenness exacta por length vs por travel_time",
+      "family": "corredores.corr.length_travel_time_nodos",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:10:23-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "rho de Spearman",
+      "value": 0.763531,
+      "variant": "area_a_drive"
+    },
+    "corredores.corr.length_travel_time_tramos.area_a_drive": {
+      "canonical": true,
+      "display": "0.715",
+      "estimator": "betweenness exacta por length vs por travel_time",
+      "family": "corredores.corr.length_travel_time_tramos",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:10:23-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "rho de Spearman",
+      "value": 0.714571,
+      "variant": "area_a_drive"
+    },
+    "corredores.error.solape_top_aristas_length.area_a_drive": {
+      "canonical": true,
+      "display": "0.900",
+      "estimator": "k=500 vs exacta, seed=42",
+      "family": "corredores.error.solape_top_aristas_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T18:59:47-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "fracción del top-100 compartida",
+      "value": 0.9,
+      "variant": "area_a_drive"
+    },
+    "corredores.error.solape_top_aristas_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "0.860",
+      "estimator": "k=500 vs exacta, seed=42",
+      "family": "corredores.error.solape_top_aristas_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:10:23-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "fracción del top-100 compartida",
+      "value": 0.86,
+      "variant": "area_a_drive"
+    },
+    "corredores.error.solape_top_nodos_length.area_a_drive": {
+      "canonical": true,
+      "display": "0.940",
+      "estimator": "k=500 vs exacta, seed=42",
+      "family": "corredores.error.solape_top_nodos_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T18:59:47-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "fracción del top-100 compartida",
+      "value": 0.94,
+      "variant": "area_a_drive"
+    },
+    "corredores.error.solape_top_nodos_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "0.890",
+      "estimator": "k=500 vs exacta, seed=42",
+      "family": "corredores.error.solape_top_nodos_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:10:22-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "fracción del top-100 compartida",
+      "value": 0.89,
+      "variant": "area_a_drive"
+    },
+    "corredores.error.spearman_aristas_length.area_a_drive": {
+      "canonical": true,
+      "display": "0.916",
+      "estimator": "k=500 vs exacta, seed=42",
+      "family": "corredores.error.spearman_aristas_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T18:59:47-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "rho de Spearman",
+      "value": 0.915767,
+      "variant": "area_a_drive"
+    },
+    "corredores.error.spearman_aristas_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "0.886",
+      "estimator": "k=500 vs exacta, seed=42",
+      "family": "corredores.error.spearman_aristas_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:10:23-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "rho de Spearman",
+      "value": 0.886039,
+      "variant": "area_a_drive"
+    },
+    "corredores.error.spearman_nodos_length.area_a_drive": {
+      "canonical": true,
+      "display": "0.966",
+      "estimator": "k=500 vs exacta, seed=42",
+      "family": "corredores.error.spearman_nodos_length",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T18:59:47-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "rho de Spearman",
+      "value": 0.966344,
+      "variant": "area_a_drive"
+    },
+    "corredores.error.spearman_nodos_travel_time.area_a_drive": {
+      "canonical": true,
+      "display": "0.954",
+      "estimator": "k=500 vs exacta, seed=42",
+      "family": "corredores.error.spearman_nodos_travel_time",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-14T19:10:22-05:00",
+        "git_commit": "78d0442",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc"
+        },
+        "script": "experiments/corredores-criticos/centralidad.py",
+        "script_sha256": "8bb6b2705b08caead9233067f39673f3559b9010ff94cc3fbc1618e044c270f1"
+      },
+      "unit": "rho de Spearman",
+      "value": 0.953634,
       "variant": "area_a_drive"
     },
     "corredores.pct.maxspeed_imputado_aristas.area_a_drive": {
@@ -2398,6 +2618,16 @@
     "corredores.conteo.*": {
       "canonical_variant": "area_a_drive",
       "decimals": 0,
+      "round_mode": "half_up"
+    },
+    "corredores.corr.*": {
+      "canonical_variant": "area_a_drive",
+      "decimals": 3,
+      "round_mode": "half_up"
+    },
+    "corredores.error.*": {
+      "canonical_variant": "area_a_drive",
+      "decimals": 3,
       "round_mode": "half_up"
     },
     "corredores.pct.*": {
