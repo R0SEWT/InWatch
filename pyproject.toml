@@ -22,6 +22,7 @@ geo = [
     "shapely>=2.0",
     "h3>=4.0",
     "city2graph>=1.0",
+    "osmnx>=2.0",
 ]
 # Modelos. Separado de `geo` porque torch pesa y no todo experimento lo necesita.
 ml = [
