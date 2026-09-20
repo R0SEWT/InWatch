@@ -73,6 +73,9 @@ watched = [
     # ejemplo, y el guard de anclas malformadas la leería como un ancla rota.
     "experiments/[!_]*/README.md",
     "design/*.md",
+    # Los insumos curados declaran en su PROCEDENCIA.md contra qué cifra se verifica
+    # una regeneración. Esa cifra decide si un archivo se commitea: es portante.
+    "data/curado/*.md",
 ]
 
 [tool.ruff]

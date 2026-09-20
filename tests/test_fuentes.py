@@ -627,3 +627,59 @@ def test_el_catalogo_versionado_es_valido():
             # el string deja pasar un nombre mal tipeado o un `.gitignore` que se lo coma,
             # que es justo el fallo que la fuente curada existe para evitar.
             assert (cfg.root / f.curado).is_file(), f"{nombre}: falta {f.curado} en el repo"
+
+
+def _en_repo_git(raiz: Path) -> bool:
+    return (raiz / ".git").exists()
+
+
+def test_lo_curado_viaja_en_git_de_verdad():
+    """Que el archivo esté en disco no dice que esté en el repo.
+
+    ``test_el_catalogo_versionado_es_valido`` comprueba existencia, y eso pasa en
+    la laptop de quien lo generó aunque git lo esté ignorando: el clon del grupo se
+    queda sin el insumo y el loader falla lejos de la causa. Acá se pregunta por lo
+    que realmente viaja, que es el índice de git.
+    """
+    cfg = fuentes.load_config(Path(__file__).parent)
+    if not _en_repo_git(cfg.root):
+        pytest.skip("sin repo git: no hay índice contra el cual verificar")
+    cat = fuentes.cargar_catalogo(cfg, env=SIN_ENTORNO)
+    curados = sorted({f.curado for f in cat.fuentes.values() if f.curado})
+    if not curados:
+        pytest.skip("el catálogo no declara fuentes curadas")
+    proc = subprocess.run(
+        ["git", "ls-files", "--error-unmatch", *curados],
+        cwd=cfg.root,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"insumo curado sin trackear: {proc.stderr.strip()}"
+
+
+def test_el_gitignore_deja_entrar_nuevos_insumos_curados():
+    """La excepción `!data/curado/` solo existe si git recorre `data/`.
+
+    Ignorar el directorio (``data/``) en vez de su contenido (``data/*``) hace que git
+    ni siquiera descienda, así que la negación no llega a evaluarse. El insumo ya
+    trackeado sigue viajando —el índice manda sobre el ignore— y nada falla; el que se
+    pierde es el *siguiente* archivo curado, en silencio. Se prueba con rutas que no
+    existen: se está interrogando la regla, no el disco.
+    """
+    cfg = fuentes.load_config(Path(__file__).parent)
+    if not _en_repo_git(cfg.root):
+        pytest.skip("sin repo git: no hay .gitignore que evaluar")
+
+    def ignorado(ruta: str) -> bool:
+        return (
+            subprocess.run(
+                ["git", "check-ignore", "-q", ruta], cwd=cfg.root, capture_output=True
+            ).returncode
+            == 0
+        )
+
+    for nuevo in ("data/curado/NUEVO.csv", "data/curado/sub/OTRO.geojson"):
+        assert not ignorado(nuevo), f"{nuevo} quedaría fuera del repo sin avisar"
+    # …y el resto de data/ sigue ignorado: la excepción es curado, no una puerta abierta.
+    for regenerable in ("data/lake/x.parquet", "data/bronze/y.csv", "data/nuevo/z.txt"):
+        assert ignorado(regenerable), f"{regenerable} es regenerable y no debe versionarse"
