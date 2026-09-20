@@ -6,6 +6,9 @@ data/bronze/
 data/silver/
 data/gold/
 data/raw/
+# Espejo local de bocho (`fuentes sync`) y caché de sha del catálogo.
+data/lake/
+data/.cache/
 *.parquet
 *.duckdb
 
