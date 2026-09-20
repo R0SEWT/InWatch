@@ -6,8 +6,9 @@
 # Orden de resolución (ver src/inwatch/fuentes/resolucion.py):
 #   1. INWATCH_FUENTE_<NOMBRE>       override puntual
 #   2. data/lake/<lake>              copia local de bocho: la fuente principal
-#   3. data/bronze/fuentes/<nombre>/ lo exportado con `fuentes exportar`
-#   4. <origen>:<ruta>               transición, solo lectura (infelix, wachi)
+#   3. <curado>                      insumo chico versionado en el repo (existe al clonar)
+#   4. data/bronze/fuentes/<nombre>/ lo exportado con `fuentes exportar`
+#   5. <origen>:<ruta>               transición, solo lectura (infelix, wachi)
 #
 # `git_ref` congela la fuente en un commit del origen: el archivo vivo NO la
 # resuelve, hay que exportarla.

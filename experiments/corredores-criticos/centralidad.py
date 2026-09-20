@@ -79,28 +79,75 @@ def _par(u, v) -> tuple:
     return tuple(sorted((u, v), key=str))
 
 
-def a_tramos(arcos: pd.Series, tramos: pd.DataFrame) -> pd.DataFrame:
+COLUMNA_DE_PESO = {"length": "largo_m", "travel_time": "travel_time"}
+
+
+def a_tramos(arcos: pd.Series, tramos: pd.DataFrame, *, peso: str) -> pd.DataFrame:
     """Lleva la betweenness de arcos dirigidos a tramos no dirigidos.
 
-    Los dos sentidos de una calle se **suman**: el flujo potencial de la calle es el de
-    ambos. Entre tramos paralelos, la cifra va a la más corta y las demás quedan en 0,
-    que es su valor real: ningún camino mínimo por longitud las usa.
+    Los dos sentidos de una calle se **suman**, y es lo correcto: un camino mínimo es
+    simple, así que nunca recorre la misma calle en los dos sentidos y los conjuntos de
+    pares de cada arco son disjuntos. La suma responde "qué fracción de los pares pasa
+    por esta calle en cualquier sentido", que es lo que se quiere para "qué se rompe si
+    la cierras". Promediar castigaría a las de doble sentido justo por llevar más flujo.
+
+    Entre tramos paralelos la cifra se adjudica al que el ruteo usó, **y eso depende del
+    peso**: la paralela más corta puede no ser la más rápida. Adjudicar siempre a la más
+    corta ponía toda la betweenness por tiempo en un tramo por el que los caminos mínimos
+    por tiempo no pasan. Con empate exacto gana el `tramo_id` menor, para que el resultado
+    no dependa del orden de las filas; el empate significa que el ruteo es indiferente.
     """
+    columna = COLUMNA_DE_PESO.get(peso)
+    if columna is None:
+        raise ValueError(f"peso desconocido '{peso}': se esperaba uno de {sorted(COLUMNA_DE_PESO)}")
+    if columna not in tramos:
+        raise ValueError(
+            f"la tabla de tramos no trae '{columna}', que es el peso con el que se calculó "
+            f"la betweenness por {peso}"
+        )
     por_par: dict[tuple, float] = {}
     for (u, v), valor in arcos.items():
         clave = _par(u, v)
         por_par[clave] = por_par.get(clave, 0.0) + float(valor)
 
-    t = tramos[["tramo_id", "u", "v", "largo_m"]].copy()
+    t = tramos[["tramo_id", "u", "v", columna]].copy()
     t["_par"] = [_par(u, v) for u, v in zip(t["u"], t["v"], strict=True)]
     sin_tramo = set(por_par) - set(t["_par"])
     if sin_tramo:
         raise ValueError(f"{len(sin_tramo)} arcos no tienen tramo, p. ej. {sorted(sin_tramo)[:3]}")
 
     t["betweenness"] = 0.0
-    elegidos = t.groupby("_par", sort=False)["largo_m"].idxmin()
-    t.loc[elegidos.to_numpy(), "betweenness"] = [por_par.get(p, 0.0) for p in elegidos.index]
+    # El desempate por `tramo_id` va en el orden, no en `idxmin`, que ante empate
+    # devuelve la primera fila del DataFrame y deja el resultado a merced de su orden.
+    orden = t.sort_values([columna, "tramo_id"])
+    elegidos = orden.groupby("_par", sort=False).head(1)
+    t.loc[elegidos.index, "betweenness"] = [por_par.get(p, 0.0) for p in elegidos["_par"]]
     return t[["tramo_id", "betweenness"]].reset_index(drop=True)
+
+
+def resumen_busway(tramos: pd.DataFrame, bc: pd.DataFrame) -> dict:
+    """Cuánto pesa el busway del Metropolitano en la red y en la betweenness.
+
+    El grupo decidió MANTENERLO en el grafo y declararlo como limitación (bead
+    ``inwatch-92d.8``). Declararlo en prosa no basta en este repo: la limitación se
+    mide, se emite al registro y el README la cita por clave.
+
+    Por qué es una limitación: OSM etiqueta esas vías ``access=no`` —84 de 86 en el
+    área A—, así que están cerradas al tránsito general. El filtro ``drive`` de osmnx
+    solo descarta ``access=private``, y por eso entran.
+    """
+    t = tramos[["tramo_id", "highway", "largo_m"]].merge(bc, on="tramo_id")
+    es_bus = t["highway"] == "busway"
+    salida: dict = {
+        "pct_busway_tramos": 100 * float(es_bus.mean()),
+        "pct_busway_largo": 100 * float(t.loc[es_bus, "largo_m"].sum() / t["largo_m"].sum()),
+    }
+    for peso in PESOS:
+        col = f"bc_{peso}"
+        salida[f"pct_busway_{col}"] = 100 * float(t.loc[es_bus, col].sum() / t[col].sum())
+        primero = t.loc[t[col].idxmax(), "highway"]
+        salida[f"busway_es_primero_{peso}"] = bool(primero == "busway")
+    return salida
 
 
 def comparar(aprox: pd.Series, exacta: pd.Series, *, top: int) -> dict[str, float]:
@@ -143,14 +190,22 @@ def main() -> None:
         registro["segundos"][f"exacta_{peso}"] = round(time.perf_counter() - t0, 1)
         exactas[peso] = (nodos, arcos)
         tabla_nodos[f"bc_{peso}"] = nodos.reindex(list(D.nodes)).to_numpy()
-        por_tramo = a_tramos(arcos, tramos).rename(columns={"betweenness": f"bc_{peso}"})
+        por_tramo = a_tramos(arcos, tramos, peso=peso).rename(
+            columns={"betweenness": f"bc_{peso}"}
+        )
         tabla_tramos = tabla_tramos.merge(por_tramo, on="tramo_id", how="left")
 
         t0 = time.perf_counter()
         nodos_k, arcos_k = betweenness(D, peso=peso, k=K_APROX)
         registro["segundos"][f"aprox_{peso}"] = round(time.perf_counter() - t0, 1)
+        # El error se mide también sobre TRAMOS, que es la unidad del contrato y la que
+        # se dibuja. El de arcos no sirve de sustituto: `a_tramos` suma los dos sentidos
+        # y deja las paralelas en cero, así que un ranking no se deriva del otro.
+        tramos_exacta = a_tramos(arcos, tramos, peso=peso).set_index("tramo_id")["betweenness"]
+        tramos_aprox = a_tramos(arcos_k, tramos, peso=peso).set_index("tramo_id")["betweenness"]
         for unidad, (aprox, exacta) in {"nodos": (nodos_k, nodos),
-                                        "aristas": (arcos_k, arcos)}.items():
+                                        "aristas": (arcos_k, arcos),
+                                        "tramos": (tramos_aprox, tramos_exacta)}.items():
             error = comparar(aprox, exacta, top=TOP)
             estimador = f"k={K_APROX} vs exacta, seed={SEED}"
             emitir(f"corredores.error.spearman_{unidad}_{peso}", error["spearman"],
@@ -166,6 +221,18 @@ def main() -> None:
                "betweenness exacta por length vs por travel_time")
 
     emitir("corredores.conteo.k_aprox", K_APROX, "fuentes muestreadas", "parámetro k de networkx")
+
+    # La limitación del busway, medida y anclada (inwatch-92d.8).
+    bus = resumen_busway(tramos, tabla_tramos)
+    registro["busway"] = bus
+    for clave, unidad in (
+        ("pct_busway_tramos", "% de tramos"),
+        ("pct_busway_largo", "% de longitud"),
+        ("pct_busway_bc_length", "% de la betweenness por longitud"),
+        ("pct_busway_bc_travel_time", "% de la betweenness por tiempo"),
+    ):
+        emitir(f"corredores.pct.{clave.removeprefix('pct_')}", bus[clave], unidad,
+               "highway=busway, que OSM marca access=no; se mantiene y se declara")
     OUT.mkdir(parents=True, exist_ok=True)
     tabla_nodos.to_parquet(OUT / "betweenness_intersecciones.parquet", index=False)
     tabla_tramos.to_parquet(OUT / "betweenness_tramos.parquet", index=False)

@@ -7,8 +7,11 @@ Orden de resolución, y por qué:
 2. ``data/lake/<lake>`` — la copia local de bocho. bocho es el data lake y la fuente
    principal, pero se lee su espejo: resolver nunca usa la red, así que CI, notebooks y el
    trabajo sin conexión funcionan igual.
-3. ``data/bronze/fuentes/<nombre>/`` — lo materializado con ``fuentes exportar``.
-4. ``<origen>:<ruta>`` — infelix o Wachi en solo lectura, como transición.
+3. ``<curado>`` — insumo chico versionado en el repo: existe al clonar. Va después del
+   lake porque el lake es la copia viva, y antes de todo lo demás porque no depende de
+   ninguna máquina ajena.
+4. ``data/bronze/fuentes/<nombre>/`` — lo materializado con ``fuentes exportar``.
+5. ``<origen>:<ruta>`` — infelix o Wachi en solo lectura, como transición.
 
 Con ``git_ref`` el paso 4 se salta: el archivo vivo del origen es OTRA versión. Es el
 fallo que destapó pulso-estadios, cuyos CSV de hoy traen 94 filas que su ancla no vio.
@@ -66,6 +69,15 @@ def _archivo_cache(cfg: FuentesConfig) -> Path:
     return cfg.datos / ".cache" / "fuentes_sha.json"
 
 
+def _temporal_de(cache: Path, pid: int | None = None) -> Path:
+    """Temporal propio de cada proceso.
+
+    Con un nombre fijo, dos emisores en paralelo escriben y renombran el MISMO archivo:
+    uno publica el contenido a medio escribir del otro y el siguiente que lea revienta.
+    """
+    return cache.with_name(f"{cache.name}.{os.getpid() if pid is None else pid}.tmp")
+
+
 def sha_de(cfg: FuentesConfig, path: Path) -> str:
     """SHA-256 memoizado por (ruta, tamaño, mtime_ns), en memoria y en disco.
 
@@ -79,7 +91,12 @@ def sha_de(cfg: FuentesConfig, path: Path) -> str:
         return memo
 
     cache = _archivo_cache(cfg)
-    disco: dict[str, str] = json.loads(cache.read_text("utf-8")) if cache.is_file() else {}
+    # La caché es descartable: si está corrupta o ilegible se rehace, nunca se propaga
+    # el error. Un emisor no puede morir a media corrida por un archivo de conveniencia.
+    try:
+        disco: dict[str, str] = json.loads(cache.read_text("utf-8")) if cache.is_file() else {}
+    except (OSError, ValueError):
+        disco = {}
     clave_disco = f"{clave[0]}|{clave[1]}|{clave[2]}"
     if (guardado := disco.get(clave_disco)) is not None:
         _MEMO[clave] = guardado
@@ -90,10 +107,13 @@ def sha_de(cfg: FuentesConfig, path: Path) -> str:
     # Las entradas viejas del mismo archivo sobran: su (tamaño, mtime) ya no existe.
     disco = {k: v for k, v in disco.items() if not k.startswith(f"{clave[0]}|")}
     disco[clave_disco] = digest
-    cache.parent.mkdir(parents=True, exist_ok=True)
-    temporal = cache.with_name(cache.name + ".tmp")
-    temporal.write_text(json.dumps(disco, indent=0, sort_keys=True), encoding="utf-8")
-    temporal.replace(cache)
+    try:
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        temporal = _temporal_de(cache)
+        temporal.write_text(json.dumps(disco, indent=0, sort_keys=True), encoding="utf-8")
+        temporal.replace(cache)
+    except OSError:
+        pass  # sin caché en disco se recalcula; el sha ya está en memoria
     return digest
 
 

@@ -65,11 +65,30 @@ def test_el_poligono_sale_de_una_fuente_que_existe_al_clonar():
     """Sin esto el TP solo corre en la máquina que tiene infelix montado."""
     from inwatch import fuentes
 
-    f = fuentes.cargar_catalogo(fuentes.load_config(Path(__file__).parent))
-    assert f.fuentes[loader.FUENTE_POLIGONO].curado
+    cfg = fuentes.load_config(Path(__file__).parent)
+    curado = fuentes.cargar_catalogo(cfg).fuentes[loader.FUENTE_POLIGONO].curado
+    assert curado, f"{loader.FUENTE_POLIGONO} no declara un insumo curado"
+    assert (cfg.root / curado).is_file(), f"falta {curado} en el repo"
 
 
 # ─── velocidades y tiempos ────────────────────────────────────────────────────
+def test_un_maxspeed_que_osmnx_no_sabe_leer_cuenta_como_imputado():
+    """`maxspeed=none` existe como tag pero osmnx no lo parsea: imputa igual.
+
+    Marcar "observado" por la mera presencia del tag infla la cifra de velocidad real,
+    que es justo lo que el PR promete declarar. Lo mismo valdría para `PE:urban`, que
+    osmnx tampoco conoce.
+    """
+    G = _grafo()
+    G.edges[2, 3, 0]["maxspeed"] = "none"
+    G.edges[3, 4, 0]["maxspeed"] = "PE:urban"
+    G.edges[1, 2, 0]["maxspeed"] = "30 mph"  # sí parseable, se convierte a kph
+    observado = _por_arista(loader.marcar_maxspeed(G), "maxspeed_observado")
+    assert observado[(2, 3)] is False
+    assert observado[(3, 4)] is False
+    assert observado[(1, 2)] is True
+
+
 def test_marca_que_maxspeed_es_real_antes_de_imputar():
     G = loader.marcar_maxspeed(_grafo())
     assert _por_arista(G, "maxspeed_observado") == {
