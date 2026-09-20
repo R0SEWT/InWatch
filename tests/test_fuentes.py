@@ -74,6 +74,16 @@ def proyecto(tmp_path: Path) -> Proyecto:
             [fuente.solo_lake]
             titularidad = "propia"
             lake = "propia/solo_lake.parquet"
+
+            [fuente.con_curado]
+            titularidad = "INEI (dato público)"
+            curado = "data/curado/limites.zip"
+            lake = "admin/limites.zip"
+            transicion = ["infelix:data/silver/h3_features/h3_admin.parquet"]
+
+            [fuente.solo_curado]
+            titularidad = "INEI (dato público)"
+            curado = "data/curado/area.zip"
             """
         ),
         encoding="utf-8",
@@ -166,6 +176,52 @@ def test_datos_del_repo_gana_sobre_transicion_pero_no_sobre_lake(proyecto):
     copia = _escribir_lake(proyecto, "infelix/h3_features/h3_admin.parquet", b"admin-lake")
     r = fuentes.resolver("h3_admin", cfg=proyecto.cfg, env=SIN_ENTORNO, sha=False)
     assert (r.ruta, r.origen) == (copia, "lake")
+
+
+def test_curado_gana_sobre_transicion_y_no_es_transicion(proyecto):
+    """Un insumo chico y versionado en el repo: existe al clonar, sin bocho ni infelix."""
+    curado = proyecto.cfg.root / "data/curado/limites.zip"
+    curado.parent.mkdir(parents=True)
+    curado.write_bytes(b"limites-versionados")
+    r = fuentes.resolver("con_curado", cfg=proyecto.cfg, env=SIN_ENTORNO, sha=False)
+    assert (r.ruta, r.origen) == (curado, "curado")
+    assert not r.es_transicion
+
+
+def test_el_lake_gana_sobre_el_curado(proyecto):
+    """Si bocho ya la sirve, esa es la copia viva; el curado es el respaldo del repo."""
+    curado = proyecto.cfg.root / "data/curado/limites.zip"
+    curado.parent.mkdir(parents=True)
+    curado.write_bytes(b"limites-versionados")
+    copia = _escribir_lake(proyecto, "admin/limites.zip", b"limites-lake")
+    r = fuentes.resolver("con_curado", cfg=proyecto.cfg, env=SIN_ENTORNO, sha=False)
+    assert (r.ruta, r.origen) == (copia, "lake")
+
+
+def test_una_fuente_solo_curada_resuelve_sin_lake_ni_transicion(proyecto):
+    """El caso real de distritos_limites_area_a: sin lake y sin origen del que exportar."""
+    curado = proyecto.cfg.root / "data/curado/area.zip"
+    curado.parent.mkdir(parents=True, exist_ok=True)
+    curado.write_bytes(b"area-a")
+    r = fuentes.resolver("solo_curado", cfg=proyecto.cfg, env=SIN_ENTORNO)
+    assert (r.ruta, r.origen, r.sha256) == (curado, "curado", _sha(b"area-a"))
+
+
+def test_una_fuente_solo_curada_que_falta_da_error_accionable(proyecto):
+    with pytest.raises(fuentes.FuenteNoEncontrada, match="data/curado/area.zip"):
+        fuentes.resolver("solo_curado", cfg=proyecto.cfg, env=SIN_ENTORNO)
+
+
+def test_curado_debe_ser_relativo_al_repo(proyecto):
+    catalogo = proyecto.cfg.catalogo
+    catalogo.write_text(
+        catalogo.read_text(encoding="utf-8").replace(
+            'curado = "data/curado/limites.zip"', 'curado = "/etc/passwd"'
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(fuentes.CatalogoInvalido, match="curado"):
+        fuentes.cargar_catalogo(proyecto.cfg, env=SIN_ENTORNO)
 
 
 def test_entorno_de_la_fuente_gana_sobre_todo(proyecto, tmp_path):
@@ -516,4 +572,4 @@ def test_el_catalogo_versionado_es_valido():
     cat = fuentes.cargar_catalogo(cfg, env=SIN_ENTORNO)
     assert cat.fuentes, "el catálogo real está vacío"
     for nombre, f in cat.fuentes.items():
-        assert f.lake or f.transicion, f"{nombre} no tiene ningún candidato"
+        assert f.lake or f.curado or f.transicion, f"{nombre} no tiene ningún candidato"

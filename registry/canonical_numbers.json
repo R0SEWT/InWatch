@@ -266,14 +266,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "aristas dirigidas",
       "value": 15813.0,
@@ -307,14 +307,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "intersecciones",
       "value": 7559.0,
@@ -328,14 +328,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "nodos",
       "value": 32511.0,
@@ -549,14 +549,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "% de aristas dirigidas",
       "value": 29.760324,
@@ -570,14 +570,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "% de longitud",
       "value": 24.459516,
@@ -591,14 +591,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "% de nodos",
       "value": 76.749408,
@@ -612,14 +612,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "% de tramos",
       "value": 35.442827,
@@ -633,14 +633,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "% de tramos",
       "value": 23.027027,
@@ -654,14 +654,14 @@
       "needs_policy": false,
       "provenance": {
         "dirty": false,
-        "emitted_at": "2026-09-14T18:33:11-05:00",
-        "git_commit": "640f5e2",
+        "emitted_at": "2026-09-14T19:42:45-05:00",
+        "git_commit": "f134ded",
         "inputs_sha256": {
-          "data/silver/corredores-criticos/area_a_drive.graphml": "e573b5850ad529d48826f3ec81548798b5169f253392ae9a22379ea72911cccc",
-          "infelix:data/datasets/DISTRITOS_LIMITES.zip": "6e305a08b5324f40095f9d77bcdcab3f313e890ca56dda1ff4813ad2564e1842"
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "09305388036c60737cf54e4e097637427a2af0a6639a054ebc10ca0209af43b8"
         },
         "script": "experiments/corredores-criticos/loader.py",
-        "script_sha256": "d7003fbcaf1a5ed95b6f018c6f1823c5638023b63a8b9e57fdcd87c1d4a6d14b"
+        "script_sha256": "44bac735f7202bf3ce6d7f1ab4cc75d7fc96225eeb782c718cd122532b8aa079"
       },
       "unit": "% de tramos",
       "value": 5.97921,
