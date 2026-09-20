@@ -29,6 +29,7 @@ app = marimo.App(width="full")
 
 @app.cell
 def _():
+    import math
     import re
     from pathlib import Path
 
@@ -38,7 +39,7 @@ def _():
 
     from inwatch import canon
 
-    return Path, canon, mo, pd, pdk, re
+    return Path, canon, math, mo, pd, pdk, re
 
 
 @app.cell
@@ -113,7 +114,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, pdk, re, ventana_hex, ventana_tejido, ver_hexagono, ver_tejido):
+def _(math, mo, pdk, re, ventana_hex, ventana_tejido, ver_hexagono, ver_tejido):
     # pydeck quiere [[lng, lat], ...]; el loader deja las dos listas por separado para
     # no guardar una estructura anidada de dos niveles en parquet. El zip es Python
     # puro y corre en Pyodide, que es la razón de que la geometría llegue así.
@@ -128,7 +129,19 @@ def _(mo, pdk, re, ventana_hex, ventana_tejido, ver_hexagono, ver_tejido):
     _tejido = _poligonos(ventana_tejido)
     _hex = _poligonos(ventana_hex)
 
-    _centro = _hex["poligono"].iloc[0][0]
+    # La vista sale de la ventana, no de un punto fijado a mano. El ancla anterior era
+    # el primer vértice del primer hexágono —un punto del borde— con zoom fijo, y dejaba
+    # el tejido denso contra el margen: había que arrastrar para ver el corte que esta
+    # sección pide mirar, y el arrastre se pierde en cada toggle porque el re-render
+    # reconstruye el iframe desde `initial_view_state`.
+    _xs = [x for _poly in _hex["poligono"] for x, _ in _poly]
+    _ys = [y for _poly in _hex["poligono"] for _, y in _poly]
+    _centro = ((min(_xs) + max(_xs)) / 2, (min(_ys) + max(_ys)) / 2)
+    # Web Mercator pone 360° de longitud en 256 px a zoom 0, así que este es el zoom que
+    # hace entrar el ancho de la ventana en el iframe. El margen deja aire en los bordes.
+    _ANCHO_IFRAME_PX = 1000
+    _MARGEN = 0.15
+    _zoom = math.log2(360 * _ANCHO_IFRAME_PX / (256 * (max(_xs) - min(_xs)))) - _MARGEN
 
     _capas = []
     if ver_tejido.value:
@@ -167,7 +180,7 @@ def _(mo, pdk, re, ventana_hex, ventana_tejido, ver_hexagono, ver_tejido):
     _mapa = pdk.Deck(
         layers=_capas,
         initial_view_state=pdk.ViewState(
-            latitude=_centro[1], longitude=_centro[0], zoom=14.2
+            latitude=_centro[1], longitude=_centro[0], zoom=_zoom
         ),
         map_style="dark_no_labels",
     )
