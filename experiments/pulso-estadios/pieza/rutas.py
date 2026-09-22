@@ -24,6 +24,10 @@ SUELO_BOUNDS = SALIDA / "suelo_bounds.json"
 DATOS = SALIDA / "datos.json"
 GUION = SALIDA / "guion.json"
 ESCENA = SALIDA / "escena.html"
+# Bundle de deck.gl cacheado al lado de la escena. No se versiona —es un megabyte de
+# código de terceros— pero sí se descarga una vez, para que la captura no dependa de
+# tener red en el momento de grabar.
+DECK = SALIDA / "deck.gl.min.js"
 FRAMES = SALIDA / "frames"
 VIDEO = SALIDA / "pulso-estadios.mp4"
 

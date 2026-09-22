@@ -10,9 +10,9 @@ dibuja. Las cifras que cita en pantalla salen del mismo parquet; las cifras port
 experimento viven en el registro canónico y se citan en `../README.md` por ancla — acá no
 se escribe ninguna a mano.
 
-El video y el basemap horneado son **regenerables** y por eso no están versionados: van a
-`data/pieza/pulso-estadios/`, que el repo ignora. Lo versionado es el código, este
-documento y `poster.jpg`.
+El video, el basemap horneado y el bundle de deck.gl son **regenerables** y por eso no
+están versionados: van a `data/pieza/pulso-estadios/`, que el repo ignora. Lo versionado es
+el código, este documento y `poster.jpg`.
 
 ## Cómo leerla
 
@@ -51,7 +51,8 @@ ffmpeg -y -framerate 12 -i data/pieza/pulso-estadios/frames/f%03d.png \
 ```
 
 La primera vez, el navegador de la captura: `uv run --extra pieza python -m playwright
-install chromium`.
+install chromium`. El paso 4 baja el bundle de deck.gl a la salida la primera vez; de ahí
+en adelante solo verifica su sha, así que la captura corre sin red.
 
 El paso 5 existe porque el 6 cuesta cinco minutos. El probe resuelve los índices de los
 momentos clave desde el guion, así que sigue apuntando al frame correcto cuando el guion
@@ -94,6 +95,13 @@ escena a medio dibujar sin que el screenshot lo diga.
   al Monumental —unos 9,5 km— dura más por su propio camino; los otros tres caen al piso.
   O sea que `seg_por_unidad` casi no interviene y lo que de verdad acorta la pieza es
   bajar `minimo_seg`. Está cubierto por `tests/test_pulso_pieza.py`.
+- **deck.gl se cachea local, pineado por versión y por sha256.** La escena traía el
+  bundle de unpkg con un `<script src="https://…">`, y la captura abre la página con
+  `file://`: grabar dependía de tener red en ese instante. Sin red, `deck` quedaba
+  indefinido, el script abortaba antes de marcar `listo` y la captura moría por timeout a
+  los dos minutos sin decir por qué. Ahora `escena.py` lo baja una vez y verifica el sha
+  en cada corrida, y si falta, la página lo dice y la captura falla en segundos con el
+  motivo. Subir de versión exige actualizar `DECK_SHA256` a mano, a propósito.
 - WebGL headless anda con `--use-angle=swiftshader --enable-unsafe-swiftshader`; no hace
   falta Xvfb.
 

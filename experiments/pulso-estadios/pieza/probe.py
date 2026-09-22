@@ -46,6 +46,9 @@ with sync_playwright() as p:
     pg.on("pageerror", lambda e: errores.append(str(e)))
     pg.goto(rutas.ESCENA.as_uri(), wait_until="load", timeout=180_000)
     pg.wait_for_function("window.listo === true", timeout=120_000)
+    fallo = pg.evaluate("window.errorEscena || null")
+    if fallo:
+        raise SystemExit(f"la escena no se pudo dibujar: {fallo}")
     pg.wait_for_timeout(7000)
 
     for nombre, i in momentos.items():

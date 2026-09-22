@@ -41,9 +41,46 @@ El cambio arrastró cuatro decisiones que NO son de color, sino de codificación
 
 Los iconos son SVG en línea: nada que descargar, nada que se rompa sin red.
 """
+import hashlib
 import json
+import urllib.request
 
 import rutas
+
+# deck.gl, pineado por versión Y por hash. Antes la escena traía el bundle de unpkg con un
+# `<script src="https://…">`: la captura abre la página con `file://`, así que grabar
+# dependía de tener red en ese instante y de que el CDN respondiera. Sin red, `deck` queda
+# indefinido, el script aborta antes de marcar `listo` y la captura moría por timeout a los
+# dos minutos sin decir por qué.
+#
+# No se versiona: es un megabyte de código de terceros y este repo pesa menos que eso. Se
+# descarga una vez a la salida ignorada y se verifica por sha256 en cada corrida, que es lo
+# que hace la copia local tan confiable como una versionada — y además detecta que el CDN
+# sirvió otra cosa.
+DECK_VERSION = "9.1.0"
+DECK_URL = f"https://unpkg.com/deck.gl@{DECK_VERSION}/dist.min.js"
+DECK_SHA256 = "2bedd345fd45691f115a9a0366285b638a52eb9bfe0a5a2986ca245ac941dd2a"
+
+
+def asegurar_deck() -> str:
+    """Devuelve el nombre del bundle local, descargándolo si falta o si no cuadra."""
+    if rutas.DECK.exists():
+        if hashlib.sha256(rutas.DECK.read_bytes()).hexdigest() == DECK_SHA256:
+            return rutas.DECK.name
+        print(f"  {rutas.DECK.name} no cuadra con el sha pineado, se vuelve a bajar")
+    print(f"  bajando deck.gl {DECK_VERSION}…")
+    with urllib.request.urlopen(DECK_URL, timeout=60) as r:  # noqa: S310
+        blob = r.read()
+    visto = hashlib.sha256(blob).hexdigest()
+    if visto != DECK_SHA256:
+        raise SystemExit(
+            f"el bundle de deck.gl {DECK_VERSION} no cuadra con el sha pineado.\n"
+            f"  esperado {DECK_SHA256}\n  recibido {visto}\n"
+            "Si la subida de versión es intencional, actualizá DECK_SHA256 a mano."
+        )
+    rutas.asegurar()
+    rutas.DECK.write_bytes(blob)
+    return rutas.DECK.name
 
 SALIDA = ("<svg viewBox='0 0 24 24' width='15' height='15'>"
           "<path d='M4 3.2h8.2v17.6H4z' fill='none' stroke='#e8e4db' stroke-width='1.7'/>"
@@ -58,7 +95,7 @@ BALON = ("<svg viewBox='0 0 24 24' width='17' height='17'>"
 
 HTML = """<!doctype html>
 <html><head><meta charset="utf-8">
-<script src="https://unpkg.com/deck.gl@9.1.0/dist.min.js"></script>
+<script src="__DECK__"></script>
 <style>
   html,body{margin:0;padding:0;width:900px;height:480px;background:#0b0d10;
             font-family:'Liberation Sans',Arial,Helvetica,sans-serif;color:#f2efe9;}
@@ -150,6 +187,14 @@ HTML = """<!doctype html>
     &middot; el rayado, las horas que no puede medir</span>
 </div>
 <script>
+// Si el bundle no cargó, la página lo DICE en vez de quedarse muda: `listo` se marca
+// igual y la captura encuentra el motivo en `errorEscena`. Sin esto, el único síntoma
+// era un timeout de dos minutos esperando `window.listo`.
+if (typeof deck === 'undefined') {
+  window.errorEscena = 'deck.gl no cargó: falta __DECK__ al lado de esta página';
+  window.listo = true;
+  throw new Error(window.errorEscena);
+}
 const D = __DATOS__;
 const SUELO = __BOUNDS__;
 const EST = __ESTADIOS__;
@@ -383,6 +428,7 @@ html = (HTML.replace("__DATOS__", json.dumps(datos))
             .replace("__EXAG_TXT__", f"{EXAG}".replace(".", ","))
             .replace("__EXAG__", repr(float(EXAG)))
             .replace("__BALON__", BALON)
+            .replace("__DECK__", asegurar_deck())
             .replace("__SUELO_IMG__", rutas.SUELO.name)
             .replace("__SALIDA__", SALIDA))
 assert "__" not in html.replace("__pycache__", ""), "quedó un placeholder sin reemplazar"
