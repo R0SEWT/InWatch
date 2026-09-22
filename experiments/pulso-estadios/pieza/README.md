@@ -54,6 +54,11 @@ La primera vez, el navegador de la captura: `uv run --extra pieza python -m play
 install chromium`. El paso 4 baja el bundle de deck.gl a la salida la primera vez; de ahí
 en adelante solo verifica su sha, así que la captura corre sin red.
 
+El paso 6 **falla con código distinto de cero** si algún frame sale plano o si el render
+nunca se asentó, así que el `&&` del paso 7 no encadena. Antes solo lo avisaba por stdout
+y salía en 0: un render colgado producía un video con frames en blanco sin que nada
+protestara.
+
 El paso 5 existe porque el 6 cuesta cinco minutos. El probe resuelve los índices de los
 momentos clave desde el guion, así que sigue apuntando al frame correcto cuando el guion
 cambia de largo, y avisa si la consola del navegador tiró algo — un error de JS deja la
