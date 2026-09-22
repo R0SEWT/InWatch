@@ -143,6 +143,20 @@ uv run marimo edit experiments/pulso-estadios/notebook.py
 El loader cachea los puntos limpios en `data/bronze/pulso-estadios/`; borrarlo fuerza el
 reprocesado completo.
 
+## La pieza de difusión
+
+`pieza/` contiene el video que recorre las trece horas en los tres estadios sobre un mapa
+nocturno en 3D. No estima nada: lee el parquet del perfil por estadio y lo dibuja. Vive
+acá y no fuera del repo porque el video citaba cifras en pantalla sin forma de
+re-derivarlas, y porque sus rutas de OSM estaban escritas a mano contra una laptop.
+
+![La pieza, en la patada inicial frente al Monumental](pieza/poster.jpg)
+
+El código y el póster se versionan; el basemap horneado, los frames y el mp4 son
+regenerables y van a `data/pieza/`. Los siete pasos para regenerarlo, cómo se lee la
+codificación y qué hay que saber antes de tocarla están en
+[`pieza/README.md`](pieza/README.md).
+
 ## Qué falta
 
 El hito 2 (`inwatch-8ke`) añade la banda de distancia-por-red y la celda morfológica,
