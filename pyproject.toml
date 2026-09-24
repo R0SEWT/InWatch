@@ -36,6 +36,14 @@ viz = [
     "matplotlib>=3.9",
     "pydeck>=0.9",
 ]
+# Render de piezas de difusión: captura headless de una escena deck.gl frame por frame.
+# Aparte de `viz` porque arrastra un navegador entero y ningún experimento lo necesita
+# para correr — solo para grabar el video. Tras instalarlo hace falta, una vez:
+#     uv run --extra pieza python -m playwright install chromium
+pieza = [
+    "playwright>=1.47",
+    "pillow>=10.4",
+]
 
 [dependency-groups]
 dev = [
