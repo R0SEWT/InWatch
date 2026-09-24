@@ -99,7 +99,11 @@ De ahí la separación, que no es negociable:
 
 ## Licencia
 
-**Sin definir todavía.** Es una decisión pendiente y deliberada: el material derivado
-proviene de un repo bajo CC BY-NC-SA 4.0 con dos titulares de copyright, así que la
-licencia de InWatch no puede elegirse en solitario ni por defecto. Hasta que se
-resuelva, el repo permanece privado y sin `LICENSE` (todos los derechos reservados).
+**Sin definir todavía, y por eso sin `LICENSE`: todos los derechos reservados.**
+
+El repo es público desde el 2026-09-14 para poder compartirlo, entre otros con el
+docente del curso donde se usa. Que sea público no concede permisos de reutilización.
+La licencia sigue siendo una decisión pendiente y deliberada: el material derivado
+proviene de un repo bajo CC BY-NC-SA 4.0 con dos titulares de copyright, así que no
+puede elegirse en solitario ni por defecto. Mientras tanto aplican los términos de
+GitHub para ver y hacer fork; cualquier otro uso requiere permiso de los titulares.
