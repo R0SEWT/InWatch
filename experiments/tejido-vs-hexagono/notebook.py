@@ -137,11 +137,22 @@ def _(math, mo, pdk, re, ventana_hex, ventana_tejido, ver_hexagono, ver_tejido):
     _xs = [x for _poly in _hex["poligono"] for x, _ in _poly]
     _ys = [y for _poly in _hex["poligono"] for _, y in _poly]
     _centro = ((min(_xs) + max(_xs)) / 2, (min(_ys) + max(_ys)) / 2)
-    # Web Mercator pone 360° de longitud en 256 px a zoom 0, así que este es el zoom que
-    # hace entrar el ancho de la ventana en el iframe. El margen deja aire en los bordes.
+    # Web Mercator pone el mundo en 256 px a zoom 0: 360° de longitud a lo ancho y 2π
+    # de ordenada Mercator a lo alto. Se calcula el zoom que hace entrar la ventana en
+    # cada eje y se queda el menor, porque una ventana más alta que ~52 % de su ancho
+    # quedaría recortada arriba y abajo si solo mandara el ancho. El margen deja aire.
     _ANCHO_IFRAME_PX = 1000
+    _ALTO_IFRAME_PX = 520
     _MARGEN = 0.15
-    _zoom = math.log2(360 * _ANCHO_IFRAME_PX / (256 * (max(_xs) - min(_xs)))) - _MARGEN
+
+    def _merc_y(lat):
+        return math.log(math.tan(math.pi / 4 + math.radians(lat) / 2))
+
+    _zoom_x = math.log2(360 * _ANCHO_IFRAME_PX / (256 * (max(_xs) - min(_xs))))
+    _zoom_y = math.log2(
+        2 * math.pi * _ALTO_IFRAME_PX / (256 * (_merc_y(max(_ys)) - _merc_y(min(_ys))))
+    )
+    _zoom = min(_zoom_x, _zoom_y) - _MARGEN
 
     _capas = []
     if ver_tejido.value:
@@ -191,7 +202,7 @@ def _(math, mo, pdk, re, ventana_hex, ventana_tejido, ver_hexagono, ver_tejido):
     # incrustada, pase el proveedor que se le pase. El basemap acá es Carto, así que ese
     # <script> solo sirve para golpear a un tercero en cada render.
     _html = re.sub(r"<script[^>]*maps\.googleapis\.com[^>]*>\s*</script>", "", _html)
-    mo.iframe(_html, height="520px")
+    mo.iframe(_html, height=f"{_ALTO_IFRAME_PX}px")
     return
 
 
