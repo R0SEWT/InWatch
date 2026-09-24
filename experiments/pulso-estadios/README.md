@@ -129,8 +129,10 @@ Tres hilos de titularidad distintos, y conviene que estén escritos:
 | `stadium_hourly.json` | infelix | **Ancla de réplica, no insumo** |
 
 Nada se copia al repo de origen: se lee y se exporta a `data/` de éste. `data/` está
-gitignored y el repo es privado, así que no hay conflicto operativo — pero la licencia de
-InWatch sigue **sin definir** y esto es parte de por qué.
+gitignored, así que ningún insumo ni artefacto intermedio entra al repo, que es público
+desde el 2026-09-14. Lo que sí queda a la vista es el código y las cifras agregadas del
+registro canónico, que derivan de estas fuentes: por eso la licencia de InWatch sigue
+**sin definir** y el repo va sin `LICENSE` (todos los derechos reservados).
 
 ## Cómo correrlo
 
