@@ -3195,6 +3195,11 @@
       "nota": "Excepción exacta al patrón conteo.*: se cuenta sobre distritos, no sobre la grilla, y la variante lo tiene que decir.",
       "round_mode": "half_up"
     },
+    "corredores.area.*": {
+      "canonical_variant": "area_a_drive",
+      "decimals": 1,
+      "round_mode": "half_up"
+    },
     "corredores.conteo.*": {
       "canonical_variant": "area_a_drive",
       "decimals": 0,
@@ -3213,6 +3218,11 @@
     "corredores.pct.*": {
       "canonical_variant": "area_a_drive",
       "decimals": 1,
+      "round_mode": "half_up"
+    },
+    "corredores.red.*": {
+      "canonical_variant": "area_a_drive",
+      "decimals": 3,
       "round_mode": "half_up"
     },
     "correspondencia.area_partida": {
