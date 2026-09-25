@@ -27,6 +27,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+import sys
 from datetime import UTC, datetime
 from decimal import ROUND_FLOOR, ROUND_HALF_EVEN, ROUND_HALF_UP, Decimal
 from fnmatch import fnmatch
@@ -73,6 +74,26 @@ def _git(cfg: CanonConfig, *args: str) -> str | None:
         return out.stdout.strip()
     except (subprocess.CalledProcessError, FileNotFoundError):
         return None
+
+
+# Las ramas que sobreviven al merge. Con squash, el commit de una rama de trabajo no
+# llega a ninguna: GitHub crea uno nuevo y borra la rama (inwatch-1r4).
+_RAMAS_ESTABLES = ("origin/develop", "origin/main")
+
+
+def _en_rama_estable(cfg: CanonConfig, commit: str | None) -> bool | None:
+    """¿`commit` es ancestro de alguna rama estable? None si no hay contra qué comparar.
+
+    None cubre el repo sin ``origin`` (un clon sin remoto, los tests): no poder decidir
+    no es lo mismo que estar fuera, y tratarlo como fuera re-sellaría en cada corrida.
+    Un commit que ya no resuelve (el gc se llevó el de una rama squasheada) da False.
+    """
+    refs = [r for r in _RAMAS_ESTABLES if _git(cfg, "rev-parse", "--verify", "-q", r)]
+    if not refs:
+        return None
+    if not commit:
+        return False
+    return any(_git(cfg, "merge-base", "--is-ancestor", commit, r) is not None for r in refs)
 
 
 def _relpath(cfg: CanonConfig, path: Path) -> str:
@@ -203,7 +224,14 @@ def emit(
     # commit, así que el re-run post-commit no cambia nada material y ganaba esta
     # rama. Re-sellar mientras esté sucia hace que converja sola. No reintroduce
     # churn: con el mismo HEAD y el mismo estado sucio el resultado es idéntico.
-    if unchanged and not prev_prov.get("dirty", False):
+    # Lo mismo vale para un `git_commit` de rama: el squash-merge lo deja fuera de toda
+    # rama estable y la procedencia apunta a un commit que el gc termina borrando. Es
+    # tan provisional como `dirty`, así que se re-sella hasta que esté en origin — y la
+    # primera corrida después del merge lo corrige sola, también en las ya selladas.
+    provisional = prev_prov.get("dirty", False) or (
+        _en_rama_estable(cfg, prev_prov.get("git_commit")) is False
+    )
+    if unchanged and not provisional:
         git_commit = prev_prov.get("git_commit")
         dirty = prev_prov.get("dirty")
         emitted_at = prev_prov.get("emitted_at")
@@ -237,6 +265,13 @@ def emit(
         },
     }
     dump(reg, cfg)
+    if _en_rama_estable(cfg, git_commit) is False:
+        print(
+            f"  ⚠ canon.emit {key}: git_commit {git_commit} no está en "
+            f"{' ni '.join(_RAMAS_ESTABLES)}; si la rama se mergea por squash, esa "
+            "procedencia muere. Re-corre el emisor después del merge (inwatch-1r4).",
+            file=sys.stderr,
+        )
     flag = "" if canonical else ("  [NEEDS POLICY]" if pol is None else "  [non-canonical]")
     print(f"  canon.emit {key} = {display}{flag}")
     return key

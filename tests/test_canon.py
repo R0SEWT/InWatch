@@ -275,6 +275,86 @@ def test_reemision_con_emisor_aun_sucio_no_produce_churn(git_cfg):
     assert _emit(git_cfg) == _emit(git_cfg)
 
 
+# ─── procedencia: un commit de rama muere con el squash-merge (inwatch-1r4) ───
+@pytest.fixture
+def flow_cfg(git_cfg: CanonConfig, tmp_path_factory) -> CanonConfig:
+    """`git_cfg` con un `origin` de verdad y la base publicada en `origin/develop`."""
+    remoto = tmp_path_factory.mktemp("origin") / "origin.git"
+    _git_run(git_cfg.root, "init", "-q", "--bare", str(remoto))
+    _git_run(git_cfg.root, "remote", "add", "origin", str(remoto))
+    _git_run(git_cfg.root, "branch", "-M", "develop")
+    _git_run(git_cfg.root, "push", "-q", "origin", "develop")
+    return git_cfg
+
+
+def _commit_de_rama(cfg: CanonConfig) -> None:
+    _git_run(cfg.root, "checkout", "-qb", "feat/x")
+    (cfg.root / "emit.py").write_text("# emisor\n", encoding="utf-8")
+    _git_run(cfg.root, "add", "emit.py")
+    _git_run(cfg.root, "commit", "-qm", "agrega el emisor")
+
+
+def _es_ancestro(cfg: CanonConfig, commit: str, ref: str) -> bool:
+    r = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", commit, ref], cwd=cfg.root, capture_output=True
+    )
+    return r.returncode == 0
+
+
+def test_emitir_desde_un_commit_de_rama_avisa(flow_cfg, capsys):
+    """El commit de una rama no sobrevive al squash: la procedencia quedaría colgando."""
+    _commit_de_rama(flow_cfg)
+    prov = _emit(flow_cfg)
+
+    err = capsys.readouterr().err
+    assert prov["git_commit"] in err
+    assert "origin/develop" in err
+
+
+def test_emitir_desde_develop_publicado_no_avisa(flow_cfg, capsys):
+    (flow_cfg.root / "emit.py").write_text("# emisor\n", encoding="utf-8")
+    _git_run(flow_cfg.root, "add", "emit.py")
+    _git_run(flow_cfg.root, "commit", "-qm", "agrega el emisor")
+    _git_run(flow_cfg.root, "push", "-q", "origin", "develop")
+    _emit(flow_cfg)
+
+    assert capsys.readouterr().err == ""
+
+
+def test_sin_remoto_no_avisa(git_cfg, capsys):
+    """Sin `origin` no hay contra qué comparar: callar es mejor que un falso positivo."""
+    (git_cfg.root / "emit.py").write_text("# emisor\n", encoding="utf-8")
+    _git_run(git_cfg.root, "add", "emit.py")
+    _git_run(git_cfg.root, "commit", "-qm", "agrega el emisor")
+    _emit(git_cfg)
+
+    assert capsys.readouterr().err == ""
+
+
+def test_tras_el_squash_la_procedencia_se_resella_con_un_commit_vivo(flow_cfg):
+    """El criterio de aceptación: emitir en la rama, squashear, re-correr en develop.
+
+    Nada material cambió, así que la rama 'unchanged' preservaba el commit de la rama —
+    que el squash dejó fuera de toda rama estable. Como con `dirty`, una procedencia
+    que no está en origin es provisional y se re-sella hasta que lo esté.
+    """
+    _commit_de_rama(flow_cfg)
+    de_rama = _emit(flow_cfg)
+
+    _git_run(flow_cfg.root, "checkout", "-q", "develop")
+    _git_run(flow_cfg.root, "merge", "-q", "--squash", "feat/x")
+    _git_run(flow_cfg.root, "commit", "-qm", "squash (#1)")
+    _git_run(flow_cfg.root, "push", "-q", "origin", "develop")
+    _git_run(flow_cfg.root, "branch", "-qD", "feat/x")
+    assert not _es_ancestro(flow_cfg, de_rama["git_commit"], "origin/develop")
+
+    viva = _emit(flow_cfg)
+    assert _es_ancestro(flow_cfg, viva["git_commit"], "origin/develop")
+    assert viva["emitted_at"] == de_rama["emitted_at"]
+    # y ya en develop, re-correr no produce churn
+    assert _emit(flow_cfg) == viva
+
+
 # ─── policy: exacta > patrón más largo ────────────────────────────────────────
 def test_policy_exacta_gana_sobre_patron():
     policy = {"r.*": {"decimals": 2}, "r.estafa": {"decimals": 4}}
