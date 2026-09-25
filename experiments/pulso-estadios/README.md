@@ -159,10 +159,79 @@ regenerables y van a `data/pieza/`. Los siete pasos para regenerarlo, cómo se l
 codificación y qué hay que saber antes de tocarla están en
 [`pieza/README.md`](pieza/README.md).
 
+## Hito 2 · el corte alternativo (`inwatch-8ke`)
+
+El propio repo de origen escribió que *la multitud no llega en círculos, llega por el
+Metropolitano y la Línea 1*, y aun así midió con buffers euclidianos. El hito 2 recorta
+el espacio de otras tres formas y deja que el notebook las superponga en una sola escala
+(log2 del rate-ratio, que no depende del área de la banda):
+
+| Unidad | Qué es «cerca» | Cortes |
+|---|---|---|
+| `anillo` | línea recta al punto del estadio (la réplica del hito 1) | 0-500-1000-2000-4000 m |
+| `banda_red` | distancia caminando sobre la red peatonal de OSM | los mismos, en metros de red |
+| `banda_red_area` | la misma distancia de red | igualados por área al disco euclidiano |
+| `morfologica` | saltos de celda en celda sobre el tejido de E5 | igualados por área de tejido |
+
+**Mismos metros no es mismo tamaño.** La distancia de red es siempre mayor o igual que
+la euclidiana, así que la banda de red de 0-500 m es un recorte más chico que el disco.
+`banda_red_area` existe para separar la forma del tamaño; la tesselación, que se mide en
+saltos, sólo admite esa versión.
+
+**El criterio de «sobrevive» se fijó antes de calcular**, en el notebook, y se commiteó
+antes de la primera corrida. Métrica primaria: el contraste de `pulso.rr_puerta`
+calculado en cada unidad; sobrevive si su IC bajo supera 1, la dosis cero no lo supera y
+hay gradiente; se *mueve* si el bootstrap pareado contra el anillo excluye la razón 1.
+El perfil horario es secundario y descriptivo: un bin es medible sólo si cumple **a la
+vez** las dos nociones de soporte que hoy conviven (`inwatch-ap1`): `PISO_CONTROL` de la
+pieza y el mínimo de estratos del notebook.
+
+Los resultados viven en el notebook y en los parquet `*_unidades`. **Ninguna cifra de
+este hito es portante todavía**: `loader_unidades.py` no llama a `canon.emit`. Se emite
+cuando se adjudique el soporte (`inwatch-ap1`) y se decida qué unidad es canónica.
+
+### Por qué es `loader_unidades.py` y no `loader.py`
+
+`loader.py` es el emisor de las tres cifras de arriba y el registro guarda su sha256:
+tocarlo las deja stale, y el hook de pre-commit lo bloquea con razón. El hito 2 importa
+al loader del hito 1 sin modificarlo y copia sólo la preparación, que allá vive inline
+dentro de `construir`. Dos cosas lo mantienen honesto: un test que verifica que las
+líneas copiadas siguen siendo las del loader, y una verificación en cada corrida de que
+el anillo recalculado reproduce `pulso.rr_puerta` del registro.
+
+### Decisiones de este hito
+
+- **Una sola foto de OSM.** La red peatonal sale del extracto Geofabrik
+  (`osm_peru_gpkg`, capa `gis_osm_roads_free`), el mismo del que E5 construyó el tejido,
+  y no de una descarga osmnx: el contrato de unidades prohíbe mezclar fotos dentro de un
+  experimento. La topología es la de OSM —dos vías se conectan sólo donde comparten un
+  vértice—, así que un puente peatonal no se une a la vía que cruza. No se caminan
+  `motorway`, `motorway_link`, `busway` (el carril del Metropolitano) ni `cycleway`.
+- **El origen de la distancia de red** es el mismo punto del anillo, con acceso en línea
+  recta a todo nodo a menos de 300 m, que cubre el perímetro de los tres recintos.
+- **La adyacencia morfológica cruza calles.** `touched_to` de E5 sólo une celdas de la
+  misma manzana; con sólo eso, un anillo de adyacencia nunca sale de la manzana del
+  estadio. Se añade la contigüidad entre manzanas, y cruzar la calle cuenta un salto.
+- **Lo que no tiene unidad se pierde y se cuenta.** Un punto a más de 150 m de toda
+  vereda, o fuera del tejido, queda sin banda en esa unidad: no se reasigna a la más
+  cercana. `masa_unidades.parquet` dice cuántos, por estadio. El tejido de E5 cubre mal
+  los alrededores del Monumental, y ahí la pérdida es grande.
+- **La correspondencia** anillo ↔ cada unidad se mide sobre una rejilla de píxeles de
+  25 m (`correspondencia_unidades.parquet`), con los dos factores de área del contrato y
+  el test de masa: cada banda de origen suma 1 contando la fila «fuera».
+
+```bash
+uv run --extra geo python experiments/pulso-estadios/loader_unidades.py   # ~1 min
+```
+
+Necesita el tejido de E5 en `data/silver/tejido-vs-hexagono/` (lo produce
+`experiments/tejido-vs-hexagono/loader.py`).
+
 ## Qué falta
 
-El hito 2 (`inwatch-8ke`) añade la banda de distancia-por-red y la celda morfológica,
-consumiendo E5. Ahí el selector de unidad se vuelve el control interesante: el propio
-repo de origen escribió que *la multitud no llega en círculos, llega por el Metropolitano
-y la Línea 1* — y aun así midió con buffers euclidianos. Si el pulso se mueve al cambiar
-el corte, el anillo estaba haciendo trabajo silencioso.
+- La distancia se mide desde el estadio, no desde las estaciones: el hito 2 recorta por
+  la red que la gente **camina**, no por la que la **trae**. Una banda centrada en las
+  estaciones del Metropolitano y la Línea 1 es la pregunta siguiente.
+- La emisión al registro de las cifras del hito 2, tras `inwatch-ap1`.
+- El perfil por estadio de la pieza (`perfil_estadio_movil.parquet`) lo produce hoy un
+  script fuera del repo (`inwatch-cw7`); el hito 2 no lo usa ni lo reemplaza.
