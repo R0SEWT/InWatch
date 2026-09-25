@@ -20,7 +20,12 @@ La lógica de filtro, top y color vive en ``vista.py``, que se prueba sin datos 
     uv run --extra geo python experiments/corredores-criticos/loader.py
     uv run --extra geo python experiments/corredores-criticos/centralidad.py
     uv run --extra geo python experiments/corredores-criticos/capas.py
+    uv run --extra geo python experiments/corredores-criticos/arterias.py
+    uv run --extra geo python experiments/corredores-criticos/metricas.py
     uv run --extra geo --extra viz marimo edit experiments/corredores-criticos/notebook.py
+
+Para la entrega del Hito 1 se exporta a ``entrega/hito1.ipynb`` con las salidas (ver el
+README, sección "Cómo correrlo").
 """
 
 import marimo
@@ -148,6 +153,73 @@ def _(canon, mo):
 
 
 @app.cell
+def _(canon, mo):
+    mo.md(
+        f"""
+        ## 0 · El área, y cómo se llegó de OSM a este notebook
+
+        **Área A**: Cercado de Lima, La Victoria, San Isidro, Miraflores y Surquillo, por
+        UBIGEO, {canon.display("corredores.area.km2")} km² medidos en EPSG:32718 sobre el
+        polígono que viaja en el repo. Por qué esta y no otra:
+
+        - **Tiene un corredor declarado contra el cual leer el resultado.** El tramo
+          centro-sur del Metropolitano la cruza de norte a sur y, con la Línea 1, deja
+          {canon.display("corredores.conteo.estaciones_area_a")} estaciones adentro. Sin
+          un corredor reconocido, "corredor crítico" no tendría con qué contrastarse.
+        - **Tiene dos generadores de viajes puntuales**, los estadios Nacional y Matute,
+          que entran como capa complementaria.
+        - **Cabe el cálculo exacto.** {canon.display("corredores.conteo.nodos")}
+          intersecciones y {canon.display("corredores.conteo.aristas")} aristas: sobre el
+          mínimo del enunciado (3 000 y 6 000) y lejos del máximo recomendado (60 000). La
+          betweenness exacta cuesta minutos, así que el resultado no depende de muestreo.
+        - **`drive`**, porque el tema es tránsito vehicular: el enunciado lo exige para esos
+          temas y reserva `walk` para accesibilidad peatonal.
+
+        Cada etapa del pipeline es un script que deja artefactos en disco y emite sus cifras
+        a un registro con procedencia (commit y hash del script y de los insumos). El texto
+        de este notebook no escribe ningún número a mano: los pide al registro.
+        """
+    )
+    return
+
+
+@app.cell
+def _(MUTE, SUPERFICIE, TINTA, TINTA_2, plt):
+    # ── El pipeline metodológico, como figura ─────────────────────────────────
+    # Matplotlib y no mermaid: la figura tiene que sobrevivir al export a .ipynb y al
+    # informe en PDF, donde un diagrama que se dibuja con JavaScript no aparece.
+    _etapas = [
+        ("loader.py", "descarga OSM (drive),\nsimplifica, proyecta,\nvelocidad y tiempo"),
+        ("centralidad.py", "betweenness exacta\npor longitud y tiempo;\nerror de k = 500"),
+        ("capas.py", "estaciones y estadios\nal cruce más cercano;\nranking del top"),
+        ("arterias.py", "contraste con la\njerarquía de highway;\nprecisión@k"),
+        ("metricas.py", "métricas globales y\nlocales, por km²;\ncloseness"),
+    ]
+    fig_pipeline, _ax = plt.subplots(figsize=(11.5, 2.9))
+    fig_pipeline.patch.set_facecolor(SUPERFICIE)
+    _ax.set_facecolor(SUPERFICIE)
+    _ax.set_xlim(0, len(_etapas))
+    _ax.set_ylim(0, 1)
+    _ax.set_axis_off()
+    for _i, (_script, _que) in enumerate(_etapas):
+        _ax.add_patch(plt.Rectangle((_i + 0.06, 0.28), 0.82, 0.56, facecolor=SUPERFICIE,
+                                    edgecolor=TINTA_2, lw=1.0))
+        _ax.text(_i + 0.47, 0.76, _script, ha="center", va="center", color=TINTA,
+                 fontsize=9.5, fontweight="bold", family="monospace")
+        _ax.text(_i + 0.47, 0.50, _que, ha="center", va="center", color=TINTA_2,
+                 fontsize=8.2, linespacing=1.35)
+        if _i < len(_etapas) - 1:
+            _ax.annotate("", xy=(_i + 1.06, 0.56), xytext=(_i + 0.88, 0.56),
+                         arrowprops={"arrowstyle": "-|>", "color": TINTA_2, "lw": 1.2})
+    _ax.text(0.06, 0.14, "cada etapa: artefactos en data/silver/corredores-criticos/  "
+             "+  cifras al registro canónico (commit, sha del script y de los insumos)  "
+             "→  este notebook solo lee", color=MUTE, fontsize=8, ha="left", va="center")
+    _ax.set_title("Pipeline metodológico", color=TINTA, fontsize=12, loc="left")
+    fig_pipeline
+    return
+
+
+@app.cell
 def _(Path, pd, red_vial):
     SLUG = "corredores-criticos"
     _dir = Path(__file__).resolve().parents[2] / "data" / "silver" / SLUG
@@ -160,7 +232,9 @@ def _(Path, pd, red_vial):
                 f"  corré, en orden:\n"
                 f"    uv run --extra geo python experiments/{SLUG}/loader.py\n"
                 f"    uv run --extra geo python experiments/{SLUG}/centralidad.py\n"
-                f"    uv run --extra geo python experiments/{SLUG}/capas.py"
+                f"    uv run --extra geo python experiments/{SLUG}/capas.py\n"
+                f"    uv run --extra geo python experiments/{SLUG}/arterias.py\n"
+                f"    uv run --extra geo python experiments/{SLUG}/metricas.py"
             )
         return ruta
 
@@ -184,7 +258,16 @@ def _(Path, pd, red_vial):
         for unidad in ("intersecciones", "tramos")
         for peso in ("length", "travel_time")
     }
-    return capas_nodos, capas_tramos, inter_bc, meta_grafo, rankings, tramos_bc
+    arterias_cls = pd.read_parquet(_ruta("arterias_clasificacion.parquet"))
+    arterias_curva = pd.read_parquet(_ruta("arterias_curva_coincidencia.parquet"))
+    metricas_nodos = _inter_geo[["node_id", "geometry"]].merge(
+        pd.read_parquet(_ruta("metricas_intersecciones.parquet")), on="node_id", how="left"
+    )
+    orientacion = pd.read_parquet(_ruta("orientacion.parquet"))
+    return (
+        arterias_cls, arterias_curva, capas_nodos, capas_tramos, inter_bc, meta_grafo,
+        metricas_nodos, orientacion, rankings, tramos_bc,
+    )
 
 
 @app.cell
@@ -363,6 +446,168 @@ def _(canon, meta_grafo, mo):
         Foto de OSM usada: `{meta_grafo["consulta"]}`, descargada el
         `{meta_grafo["descargado_en"][:10]}` con osmnx
         `{meta_grafo["versiones"]["osmnx"]}`.
+        """
+    )
+    return
+
+
+@app.cell
+def _(canon, mo):
+    def _c(clave):
+        return canon.display(clave)
+
+    mo.md(
+        f"""
+        ## 1b · La forma de la red, antes de preguntarle por corredores
+
+        Las métricas globales que la hacen interpretable, normalizadas por área donde
+        dependen de la escala. Salen de `metricas.py` y del registro.
+
+        | Métrica | Valor |
+        |---|---|
+        | Intersecciones por km² | {_c("corredores.area.intersecciones_por_km2")} |
+        | km de calle por km² | {_c("corredores.area.km_calle_por_km2")} |
+        | Densidad dirigida m/n(n−1), ×10⁴ | {_c("corredores.red.densidad_x1e4")} |
+        | Arcos salientes por intersección | {_c("corredores.red.grado_medio_salida")} |
+        | Calles por intersección (`street_count`) | {_c("corredores.red.calles_por_nodo")} |
+        | Componentes fuertemente conexas | {_c("corredores.conteo.scc")} |
+        | Nodos en la componente fuerte gigante | {_c("corredores.pct.nodos_scc_gigante")} % |
+        | Circuidad (Σ largo / Σ recta) | {_c("corredores.red.circuidad")} |
+        | Orden φ (0 aleatoria, 1 grilla) | {_c("corredores.red.orientacion_orden")} |
+        | Clustering medio | {_c("corredores.red.clustering_medio")} |
+
+        La densidad casi nula es lo esperable en una red plana: cada cruce toca unas tres
+        calles sin importar cuántas haya, así que la densidad cae con n y la comparación
+        útil es por km². Las componentes fuertes que sobran son nodos que los sentidos
+        únicos dejan sin retorno. La circuidad cerca de 1 dice que las calles son casi
+        rectas; φ cerca de 0, que no forman una sola grilla, y por eso el camino mínimo
+        tiene que elegir corredor.
+        """
+    )
+    return
+
+
+@app.cell
+def _(
+    COLOR_CLASE, Line2D, MUTE, canon, escala_y_norte, leyenda, marco_mapa, tramos_bc,
+):
+    # ── EDA espacial: dónde falta el dato que el peso por tiempo necesita ─────
+    _sin = tramos_bc["maxspeed"].isna().to_numpy()
+    fig_faltantes, _ax = marco_mapa()
+    tramos_bc[~_sin].plot(ax=_ax, color=COLOR_CLASE["secundaria"], linewidth=0.7, zorder=2)
+    tramos_bc[_sin].plot(ax=_ax, color=MUTE, linewidth=1.0, linestyle=(0, (2.2, 2.2)),
+                         zorder=3)
+    escala_y_norte(
+        _ax,
+        titulo="Dónde falta maxspeed · área A",
+        subtitulo=(f"{canon.display('corredores.pct.sin_maxspeed')} % de los tramos sin el "
+                   "tag; ahí osmnx imputa la media del tipo de vía"),
+    )
+    leyenda(_ax, [
+        Line2D([0], [0], color=COLOR_CLASE["secundaria"], lw=1.4,
+               label=f"con maxspeed — {int((~_sin).sum()):,} tramos"),
+        Line2D([0], [0], color=MUTE, lw=1.2, linestyle=(0, (2.2, 2.2)),
+               label=f"sin maxspeed (imputado) — {int(_sin.sum()):,} tramos"),
+    ])
+    fig_faltantes
+    return
+
+
+@app.cell
+def _(
+    COLOR_CLASE, REJILLA, SUPERFICIE, TINTA, TINTA_2, metricas_nodos, np, orientacion, plt,
+):
+    # ── Orientación y grado físico ────────────────────────────────────────────
+    fig_forma = plt.figure(figsize=(11.5, 4.4))
+    fig_forma.patch.set_facecolor(SUPERFICIE)
+
+    _polar = fig_forma.add_subplot(1, 2, 1, projection="polar")
+    _polar.set_facecolor(SUPERFICIE)
+    _theta = np.radians(orientacion["bin_centro_grados"].to_numpy())
+    _masa = orientacion["masa_m"].to_numpy() / 1000
+    _polar.bar(_theta, _masa, width=2 * np.pi / len(_theta) * 0.92,
+               color=COLOR_CLASE["secundaria"], edgecolor=SUPERFICIE, lw=0.4)
+    _polar.set_theta_zero_location("N")
+    _polar.set_theta_direction(-1)
+    _polar.set_xticks(np.radians([0, 90, 180, 270]), ["N", "E", "S", "O"], color=TINTA)
+    _polar.set_yticklabels([])
+    _polar.grid(color=REJILLA, lw=0.6)
+    _polar.set_title("Orientación de las calles\n(km por bin de 10°, dos direcciones)",
+                     color=TINTA, fontsize=10, pad=14)
+
+    _barras = fig_forma.add_subplot(1, 2, 2)
+    _barras.set_facecolor(SUPERFICIE)
+    _cuenta = metricas_nodos["street_count"].clip(upper=5).value_counts().sort_index()
+    _etiquetas = [("5+" if k == 5 else str(int(k))) for k in _cuenta.index]
+    _barras.bar(_etiquetas, 100 * _cuenta.to_numpy() / _cuenta.sum(),
+                color=COLOR_CLASE["secundaria"], width=0.7, zorder=3)
+    _barras.set_xlabel("calles que confluyen en la intersección (street_count)",
+                       color=TINTA_2, fontsize=9)
+    _barras.set_ylabel("% de intersecciones", color=TINTA_2, fontsize=9)
+    _barras.set_title("Grado físico de las intersecciones", color=TINTA, fontsize=10,
+                      loc="left")
+    _barras.grid(axis="y", color=REJILLA, lw=0.7, zorder=0)
+    _barras.tick_params(colors=TINTA_2, labelsize=8.5)
+    _barras.spines[["top", "right"]].set_visible(False)
+    fig_forma.tight_layout()
+    fig_forma
+    return
+
+
+@app.cell
+def _(
+    CMAP, Line2D, MUTE, PISO_PUNTO, REJILLA, escala_y_norte, leyenda, marco_mapa,
+    mcolors, metricas_nodos, np, plt, tramos_bc, vista,
+):
+    # ── Métrica local: closeness de llegada, solo en la componente fuerte gigante ──
+    fig_closeness, _ax = marco_mapa()
+    tramos_bc.plot(ax=_ax, color=REJILLA, linewidth=0.45, zorder=1)
+    _dentro = metricas_nodos[metricas_nodos["en_scc_gigante"]].sort_values("closeness_length")
+    _fuera = metricas_nodos[~metricas_nodos["en_scc_gigante"]]
+    _v = vista.normalizar(_dentro["closeness_length"])
+    _ax.scatter(_dentro.geometry.x, _dentro.geometry.y, s=6 + 10 * _v,
+                c=[CMAP(PISO_PUNTO + (1 - PISO_PUNTO) * x) for x in _v], linewidths=0,
+                zorder=3)
+    # Fuera de la gigante la closeness no se define: punto hueco y gris, no el color bajo.
+    _ax.scatter(_fuera.geometry.x, _fuera.geometry.y, s=14, facecolors="none",
+                edgecolors=MUTE, linewidths=0.8, zorder=4)
+    _lo = float(np.nanmin(_dentro["closeness_length"]))
+    _hi = float(np.nanmax(_dentro["closeness_length"]))
+    _cb = fig_closeness.colorbar(
+        plt.cm.ScalarMappable(cmap=CMAP, norm=mcolors.Normalize(vmin=_lo, vmax=_hi)),
+        ax=_ax, fraction=0.028, pad=0.015,
+    )
+    _cb.set_label("closeness de llegada por longitud (1 / distancia media, m⁻¹)", fontsize=9)
+    _cb.ax.tick_params(labelsize=8)
+    _cb.outline.set_visible(False)
+    escala_y_norte(
+        _ax,
+        titulo="Cercanía al resto de la red · closeness de llegada",
+        subtitulo="por longitud, dentro de la componente fuertemente conexa gigante",
+    )
+    leyenda(_ax, [
+        Line2D([0], [0], marker="o", color="none", markerfacecolor=CMAP(0.9), markersize=7,
+               label="más cerca del resto"),
+        Line2D([0], [0], marker="o", color="none", markerfacecolor=CMAP(PISO_PUNTO),
+               markersize=7, label="más lejos"),
+        Line2D([0], [0], marker="o", color="none", markerfacecolor="none",
+               markeredgecolor=MUTE, markersize=6,
+               label=f"fuera de la gigante — {len(_fuera):,} intersecciones"),
+    ])
+    fig_closeness
+    return
+
+
+@app.cell
+def _(canon, mo):
+    mo.md(
+        f"""
+        La closeness premia estar en el **centro geográfico**; la betweenness, estar en el
+        **paso obligado** entre zonas. Dentro de la componente gigante casi no ordenan
+        igual: ρ de Spearman =
+        **{canon.display("corredores.corr.closeness_betweenness_nodos")}**. El mapa de
+        arriba es una mancha que se aclara hacia los bordes; el de betweenness que sigue es
+        un puñado de líneas. Un corredor crítico se define por lo segundo.
         """
     )
     return
@@ -638,10 +883,162 @@ def _(
 
 
 @app.cell
+def _(
+    COLUMNA, ETIQUETA_PESO, MUTE, REJILLA, SUPERFICIE, TINTA, TINTA_2, canon, inter_bc,
+    np, peso, plt, top_tramos, tramos_bc,
+):
+    # ── Betweenness de nodos contra la de aristas ─────────────────────────────
+    # Para cada tramo, la betweenness de su extremo más cargado. Si los corredores fueran
+    # "puentes sueltos", habría tramos altos entre cruces bajos; la nube dice si pasa.
+    _bc_nodo = inter_bc.set_index("node_id")[COLUMNA]
+    _t = tramos_bc[["tramo_id", "u", "v", COLUMNA]].dropna(subset=[COLUMNA]).copy()
+    _t["extremo"] = np.fmax(_t["u"].astype(str).map(_bc_nodo).to_numpy(dtype=float),
+                            _t["v"].astype(str).map(_bc_nodo).to_numpy(dtype=float))
+    _t = _t[(_t[COLUMNA] > 0) & (_t["extremo"] > 0)]
+    _es_top = _t["tramo_id"].isin(set(top_tramos["tramo_id"]))
+
+    fig_nodos_aristas, _ax = plt.subplots(figsize=(7.2, 5.2))
+    fig_nodos_aristas.patch.set_facecolor(SUPERFICIE)
+    _ax.set_facecolor(SUPERFICIE)
+    _ax.scatter(_t.loc[~_es_top, "extremo"], _t.loc[~_es_top, COLUMNA], s=4, color=MUTE,
+                alpha=0.35, linewidths=0, label="resto de los tramos", zorder=2)
+    _ax.scatter(_t.loc[_es_top, "extremo"], _t.loc[_es_top, COLUMNA], s=16,
+                color="#104281", linewidths=0, label=f"top-{len(top_tramos)} de tramos",
+                zorder=3)
+    _ax.set_xscale("log")
+    _ax.set_yscale("log")
+    _ax.set_xlabel(f"betweenness del extremo más cargado (nodo), por {ETIQUETA_PESO}",
+                   color=TINTA_2, fontsize=9)
+    _ax.set_ylabel(f"betweenness del tramo (arista), por {ETIQUETA_PESO}", color=TINTA_2,
+                   fontsize=9)
+    _ax.set_title("Nodos contra aristas: los tramos críticos unen cruces críticos",
+                  color=TINTA, fontsize=10.5, loc="left")
+    _ax.grid(color=REJILLA, lw=0.6, zorder=0)
+    _ax.tick_params(colors=TINTA_2, labelsize=8)
+    _ax.spines[["top", "right"]].set_visible(False)
+    _ax.legend(frameon=False, fontsize=8.5, labelcolor=TINTA_2, loc="upper left")
+    _ax.text(1.0, -0.14, "escala log en ambos ejes; se omiten los tramos con valor 0",
+             transform=_ax.transAxes, color=MUTE, fontsize=7.5, ha="right")
+    _clave = f"corredores.pct.top_tramos_entre_hubs_{peso.value}"
+    fig_nodos_aristas.tight_layout()
+    nodos_aristas = (fig_nodos_aristas, canon.display(_clave))
+    fig_nodos_aristas
+    return (nodos_aristas,)
+
+
+@app.cell
+def _(ETIQUETA_PESO, mo, nodos_aristas):
+    mo.md(
+        f"""
+        Con el peso en **{ETIQUETA_PESO}**, el **{nodos_aristas[1]} %** de los 100
+        tramos de mayor betweenness tiene sus **dos** extremos entre las 100
+        intersecciones de mayor betweenness (cifra del registro, top-100 fijo). Los
+        corredores no son puentes sueltos entre cruces irrelevantes: son cadenas de
+        cruces críticos, una columna vertebral.
+        """
+    )
+    return
+
+
+@app.cell
+def _(canon, mo):
+    mo.md(
+        f"""
+        ## 5 · ¿Coincide con lo que OSM ya llama arterial?
+
+        Si los corredores de la betweenness fueran exactamente las vías que OSM declara
+        `motorway`, `trunk` o `primary`, el cálculo no aportaría nada. Las arterias
+        declaradas son el **{canon.display("corredores.pct.arterial_declarada_tramos")} %**
+        de los tramos: esa es la **tasa base**, lo que acertaría un top elegido al azar.
+        Del top-100 por longitud, el
+        **{canon.display("corredores.pct.precision_top100_length")} %** es arteria
+        declarada, y por tiempo el
+        **{canon.display("corredores.pct.precision_top100_travel_time")} %**:
+        {canon.display("corredores.pct.exceso_sobre_base_top100_length")} y
+        {canon.display("corredores.pct.exceso_sobre_base_top100_travel_time")} puntos sobre
+        la tasa base. Hay concentración real, pero cuatro de cada cinco tramos críticos por
+        longitud **no** están declarados arteriales: son corredores de hecho que la
+        clasificación no reconoce, y son el hallazgo. En el mapa van en negro.
+        """
+    )
+    return
+
+
+@app.cell
+def _(
+    COLOR_CLASE, ETIQUETA_PESO, Line2D, REJILLA, TINTA, arterias_cls, escala_y_norte,
+    leyenda, marco_mapa, top_tramos, tramos_bc,
+):
+    _arterial = set(arterias_cls.loc[arterias_cls["arterial"], "tramo_id"])
+    _top = set(top_tramos["tramo_id"])
+    _cat = tramos_bc["tramo_id"].map(
+        lambda t: ("ambos" if t in _top and t in _arterial else
+                   "solo top" if t in _top else
+                   "solo arterial" if t in _arterial else "resto")
+    )
+    fig_arterias, _ax = marco_mapa()
+    tramos_bc[_cat == "resto"].plot(ax=_ax, color=REJILLA, linewidth=0.45, zorder=1)
+    _estilo = {
+        "solo arterial": (COLOR_CLASE["local"], 1.4, 2),
+        "ambos": (COLOR_CLASE["arterial"], 3.0, 4),
+        "solo top": (TINTA, 2.2, 3),
+    }
+    _rotulo = {
+        "solo arterial": "arteria declarada, fuera del top",
+        "ambos": "arteria declarada y en el top",
+        "solo top": "en el top, sin declarar arterial",
+    }
+    _entradas = []
+    for _c, (_color, _ancho, _z) in _estilo.items():
+        _sel = tramos_bc[_cat == _c]
+        if not _sel.empty:
+            _sel.plot(ax=_ax, color=_color, linewidth=_ancho, zorder=_z)
+        _entradas.append(Line2D([0], [0], color=_color, lw=max(_ancho, 1.4),
+                                label=f"{_rotulo[_c]} — {len(_sel):,}"))
+    escala_y_norte(
+        _ax,
+        titulo=f"Top-{len(top_tramos)} por {ETIQUETA_PESO} contra las arterias de OSM",
+        subtitulo="arterial = motorway, trunk o primary (y sus enlaces) en highway",
+    )
+    leyenda(_ax, _entradas, titulo="tramos")
+    fig_arterias
+    return
+
+
+@app.cell
+def _(REJILLA, SUPERFICIE, TINTA, TINTA_2, arterias_curva, plt):
+    fig_curva, _ax = plt.subplots(figsize=(7.2, 4.0))
+    fig_curva.patch.set_facecolor(SUPERFICIE)
+    _ax.set_facecolor(SUPERFICIE)
+    _estilos = {"length": ("#2a78d6", "o", "por longitud"),
+                "travel_time": ("#104281", "s", "por tiempo de viaje")}
+    for _peso, (_color, _marca, _rot) in _estilos.items():
+        _c = arterias_curva[arterias_curva["peso"] == _peso].sort_values("k")
+        _ax.plot(_c["k"], _c["precision"], color=_color, marker=_marca, ms=5, lw=1.6,
+                 label=_rot, zorder=3)
+    _base = float(arterias_curva["tasa_base"].iloc[0])
+    _ax.axhline(_base, color=TINTA_2, lw=1.2, linestyle=(0, (4, 2)), zorder=2)
+    _ax.text(arterias_curva["k"].max(), _base, "  tasa base (top al azar)",
+             color=TINTA_2, fontsize=8.5, va="bottom", ha="right")
+    _ax.set_xscale("log")
+    _ax.set_xlabel("tamaño del top (k, escala log)", color=TINTA_2, fontsize=9)
+    _ax.set_ylabel("% del top que es arteria declarada", color=TINTA_2, fontsize=9)
+    _ax.set_title("Precisión@k contra la jerarquía de OSM", color=TINTA, fontsize=10.5,
+                  loc="left")
+    _ax.grid(color=REJILLA, lw=0.6, zorder=0)
+    _ax.tick_params(colors=TINTA_2, labelsize=8)
+    _ax.spines[["top", "right"]].set_visible(False)
+    _ax.legend(frameon=False, fontsize=8.5, labelcolor=TINTA_2)
+    fig_curva.tight_layout()
+    fig_curva
+    return
+
+
+@app.cell
 def _(mo):
     mo.md(
         """
-        ## 5 · El ranking
+        ## 6 · El ranking
 
         La tabla de lo crítico, con el puesto que cada unidad ocupa bajo **los dos** pesos
         al mismo tiempo. Ahí se ve el hallazgo sin tener que mover nada: filas que están
@@ -713,7 +1110,7 @@ def _(
 def _(canon, mo):
     mo.md(
         f"""
-        ## 6 · La limitación que este mapa lleva adentro
+        ## 7 · La limitación que este mapa lleva adentro
 
         > ### El corredor exclusivo del Metropolitano está dentro del grafo
         > OSM lo etiqueta `highway=busway` y, en casi todas sus vías del área A, también
