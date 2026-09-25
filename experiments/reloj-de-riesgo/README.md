@@ -141,3 +141,42 @@ uv run marimo edit experiments/reloj-de-riesgo/notebook.py
   de-sesgada es hora-invariante. Si lo que ocurre de madrugada se denuncia menos, este
   reloj lo hereda sin poder medirlo. Que no se pueda contestar es un hallazgo, y así se
   reporta.
+
+## Chequeo posterior (literatura): heaping por modalidad y tipos en subconjuntos
+
+> **Chequeo posterior (literatura)**, añadido el 2026-09-25 después del resultado. No
+> reescribe las trampas, sus criterios de muerte ni el criterio de elección de k de
+> arriba: los reusa tal cual. Código en `chequeo_literatura.py`.
+
+### 1 · Re-sorteo no uniforme (Taylor, Di Marzio, Fensore & Passamonti 2026, *JRSS C*)
+
+Taylor et al. muestran que la probabilidad de redondear depende del tipo de delito. El
+re-sorteo de arriba usa la misma ventana para todos. Acá:
+
+- **Tasas por modalidad.** Para cada modalidad con n ≥ 2000 (el resto se agrupa por
+  categoría), se estiman por EM las probabilidades π_r de redondear a r ∈ {60, 30, 15, 5,
+  1} min a partir de los «minutos pasada la hora», suponiendo que el minuto verdadero es
+  uniforme. Variante: π por modalidad × turno, para ver si la madrugada redondea más.
+- **Re-sorteo.** Cada evento sortea su resolución r de la posterior P(r | minuto) de su
+  modalidad y su hora se re-sortea dentro de la ventana de esa resolución. Dos lecturas
+  de la ventana: **al más cercano** (± r/2, la de arriba) y **truncado** ([hora, hora + r),
+  «a las 8» por «8 y algo»), que desplaza masa hacia el turno siguiente.
+- **Criterio (el mismo de arriba).** El heaping sigue sin matar si, en `turnos4`, la razón
+  ruido/señal < 0,50 y la fracción que cambia de turno ≤ 10 %, en **todas** las variantes
+  (modalidad y modalidad × turno, cercano y truncado), tomando el p95 de 20 réplicas.
+  Se reporta además cuánto cambia la fracción de madrugada de la ciudad y el ρ del eje
+  madrugada-tarde antes y después.
+
+### 2 · ¿Aparecen tipos en hot spots o en zonas comerciales? (Corcoran et al. 2019; Ratcliffe 2002)
+
+Esos trabajos sí encuentran tipologías temporales, pero dentro de hot spots o de zonas
+comerciales, no en toda la ciudad. Se repite el clustering de arriba (misma firma clr
+encogida, mismo nulo «ciudad sin relojes» construido con el perfil **del subconjunto**,
+mismo bootstrap, mismo `elegir_k`) sobre dos subconjuntos de las celdas con n ≥ 100:
+
+- **hot spots**: el quintil superior por número de eventos del reloj;
+- **comerciales**: el cuartil superior de POI comerciales de OSM (retail + comida +
+  nightlife, la misma definición que E7).
+
+**Aparecen tipos** si `elegir_k` devuelve un k en algún subconjunto y esquema. Se reporta
+también, sin que decida, qué pasaría con el umbral de estabilidad relajado a 0,5 (duda 5).
