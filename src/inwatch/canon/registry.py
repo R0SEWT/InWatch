@@ -18,8 +18,14 @@ Dos zonas en el registro:
 - ``entries`` → **machine-written** por ``emit()``. Determinista (``sort_keys``): una
   entrada solo cambia si cambia el valor redondeado o el hash de los inputs.
 
-Frescura por **hash de contenido** del emisor (no mtime, no ancestría git): clone-safe
-y sin depender del orden emit/commit.
+Frescura por **hash de contenido** del emisor y de cada insumo (no mtime, no ancestría
+git): clone-safe y sin depender del orden emit/commit. Al principio solo se miraba el
+emisor, y el 2026-09-15 eso dejó pasar el fallo en su forma literal: el loader de
+corredores-criticos se re-corrió, el GraphML cambió, y las 11 cifras de ``centralidad.py``
+siguieron declarando el sha de un archivo que ya no existía — con ``canon check`` en 0 y
+el CI verde (inwatch-1om). Un insumo **ausente** no es uno **cambiado**: el CI no tiene
+``data/`` y un regenerable puede no estar en la máquina; ausente se informa, cambiado
+cuenta como stale.
 """
 
 from __future__ import annotations
@@ -242,22 +248,112 @@ def emit(
     return key
 
 
-def stale_entries(reg: dict | None = None, cfg: CanonConfig | None = None) -> dict[str, str]:
-    """Entradas cuyo script emisor cambió de contenido desde que se emitieron.
+class _Insumos:
+    """Resuelve y hashea los insumos registrados, leyendo catálogo y config una vez.
 
-    Devuelve ``{key: motivo}``. Vacío = todo fresco.
+    `canon check` recorre cientos de insumos; releer ``pyproject.toml`` y el catálogo
+    por cada uno sería el costo dominante. Vive lo que dura una llamada, así que un
+    catálogo reescrito entre llamadas (los tests lo hacen) nunca queda viejo.
+    """
+
+    def __init__(self, cfg: CanonConfig) -> None:
+        # Import diferido, como en `_relpath`: `fuentes` depende de `canon.config`.
+        from inwatch.fuentes import CatalogoInvalido, cargar_catalogo
+        from inwatch.fuentes import load_config as fuentes_config
+
+        self.cfg = cfg
+        self.fcfg = fuentes_config(cfg.root)
+        try:
+            self.origenes = dict(cargar_catalogo(self.fcfg).origenes)
+        except CatalogoInvalido:
+            self.origenes = {}
+        self.origenes["lake"] = self.fcfg.lake
+
+    def ruta(self, clave: str) -> Path | None:
+        """Inversa de `_relpath`: de la clave registrada al archivo en esta máquina.
+
+        ``<alias>:<ruta>`` se resuelve contra el catálogo (``lake`` o un origen); una
+        ruta absoluta se usa tal cual y una relativa cuelga de la raíz. None si el alias
+        no está declarado acá: no hay archivo que comparar, y eso es ausente, no cambiado.
+        """
+        alias, sep, rel = clave.partition(":")
+        if sep and alias and rel and not Path(clave).is_absolute():
+            raiz = self.origenes.get(alias)
+            return raiz / rel if raiz is not None else None
+        path = Path(clave)
+        return path if path.is_absolute() else self.cfg.root / path
+
+    def sha(self, path: Path) -> str | None:
+        """Sha con la caché en disco de `fuentes.sha_de` (memo por tamaño y mtime).
+
+        `canon check` corre en cada pre-commit y hay insumos de más de 1 GB: con solo
+        el memo en memoria de `_sha256`, cada commit los pasaría enteros por sha256.
+        """
+        from inwatch.fuentes.resolucion import sha_de
+
+        if not path.is_file():
+            return None
+        try:
+            return sha_de(self.fcfg, path)
+        except OSError:
+            return _sha256(path)
+
+    def estado(self, prov: dict) -> tuple[list[str], list[str]]:
+        """-> (cambiados, ausentes) entre los insumos con sha registrado.
+
+        Un insumo registrado con sha None ya faltaba al emitir: no hay contra qué
+        comparar y no se vuelve a informar.
+        """
+        cambiados, ausentes = [], []
+        for clave, registrado in sorted((prov.get("inputs_sha256") or {}).items()):
+            if registrado is None:
+                continue
+            path = self.ruta(clave)
+            actual = self.sha(path) if path is not None else None
+            if actual is None:
+                ausentes.append(clave)
+            elif actual != registrado:
+                cambiados.append(clave)
+        return cambiados, ausentes
+
+
+def stale_entries(reg: dict | None = None, cfg: CanonConfig | None = None) -> dict[str, str]:
+    """Entradas cuyo emisor o alguno de sus insumos cambió de contenido desde la emisión.
+
+    Devuelve ``{key: motivo}``; el motivo dice si fue el script, el insumo o ambos.
+    Vacío = todo fresco. Los insumos ausentes no cuentan: ver `absent_inputs`.
     """
     cfg = cfg or load_config()
     reg = reg if reg is not None else load(cfg)
+    insumos = _Insumos(cfg)
     out: dict[str, str] = {}
     for key, e in reg.get("entries", {}).items():
         prov = e.get("provenance", {})
+        motivos = []
         current = _sha256(cfg.root / prov.get("script", ""))
         if current is None:
-            out[key] = f"script emisor ausente: {prov.get('script')}"
+            motivos.append(f"script emisor ausente: {prov.get('script')}")
         elif prov.get("script_sha256") != current:
-            out[key] = (
-                f"script {prov.get('script')} cambió desde la emisión "
-                "(re-corre el emisor y commitea el registro)"
-            )
+            motivos.append(f"script {prov.get('script')} cambió desde la emisión")
+        cambiados, _ = insumos.estado(prov)
+        if cambiados:
+            motivos.append(f"insumo {', '.join(cambiados)} cambió desde la emisión")
+        if motivos:
+            out[key] = "; ".join(motivos) + " (re-corre el emisor y commitea el registro)"
+    return out
+
+
+def absent_inputs(reg: dict | None = None, cfg: CanonConfig | None = None) -> dict[str, list[str]]:
+    """Entradas con insumos registrados que no están en esta máquina: ``{key: [insumo]}``.
+
+    Informativo, nunca bloquea: sin el archivo no se puede decir si cambió.
+    """
+    cfg = cfg or load_config()
+    reg = reg if reg is not None else load(cfg)
+    insumos = _Insumos(cfg)
+    out: dict[str, list[str]] = {}
+    for key, e in reg.get("entries", {}).items():
+        _, ausentes = insumos.estado(e.get("provenance", {}))
+        if ausentes:
+            out[key] = ausentes
     return out
