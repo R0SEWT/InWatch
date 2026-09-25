@@ -141,8 +141,19 @@ def test_prefijo_multiplicativo_se_normaliza(cfg):
     assert _fails(cfg) == []
 
 
+def _modificar_emisor(cfg):
+    """Cambia el emisor con otro tamaño, no solo otro contenido.
+
+    `_sha256` memoiza por (ruta, tamaño, mtime_ns). "# emisor sintético" y
+    "# emisor modificado" pesan lo mismo (20 bytes), y en ext4 dos escrituras seguidas
+    caen en el mismo tick de mtime: la clave coincidía, el caché devolvía el hash viejo
+    y el test fallaba en unas máquinas y pasaba en otras.
+    """
+    (cfg.root / "emit.py").write_text("# emisor modificado, con otra longitud\n", encoding="utf-8")
+
+
 def test_emisor_cambiado_marca_stale(cfg):
-    (cfg.root / "emit.py").write_text("# emisor modificado\n", encoding="utf-8")
+    _modificar_emisor(cfg)
     from inwatch.canon.registry import load, stale_entries
 
     stale = stale_entries(load(cfg), cfg)
@@ -150,7 +161,7 @@ def test_emisor_cambiado_marca_stale(cfg):
 
 
 def test_emisor_staged_sin_reemitir_bloquea(cfg):
-    (cfg.root / "emit.py").write_text("# emisor modificado\n", encoding="utf-8")
+    _modificar_emisor(cfg)
     from inwatch.canon.registry import load
 
     fails = check_mod.staged_emitter_fails(load(cfg), {cfg.root / "emit.py"}, cfg)
