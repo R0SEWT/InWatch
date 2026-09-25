@@ -253,9 +253,36 @@ uv run python experiments/corredores-criticos/metricas.py     # métricas global
 uv run marimo edit experiments/corredores-criticos/notebook.py
 ```
 
-Para la entrega, el notebook se exporta a `.ipynb` con sus salidas:
+Para la entrega, el notebook se exporta a `.ipynb` con sus salidas. El resultado está
+versionado en [`entrega/hito1.ipynb`](entrega/hito1.ipynb), que se abre en GitHub sin
+correr nada:
 
 ```bash
 uv run --extra geo --extra viz --with nbformat python -m marimo export ipynb \
-  experiments/corredores-criticos/notebook.py --include-outputs -o hito1.ipynb
+  experiments/corredores-criticos/notebook.py --include-outputs \
+  -o experiments/corredores-criticos/entrega/hito1.ipynb
 ```
+
+**Sin uv.** El entorno también está en `requirements.txt`, en la raíz, generado desde
+`uv.lock` (la CI falla si se desincroniza):
+
+```bash
+python3.12 -m venv .venv && . .venv/bin/activate
+pip install -r requirements.txt nbformat
+```
+
+**En otra máquina** falta un solo insumo: `transit_stations.csv`, que no viaja en el
+repo. Pídeselo al grupo y apúntalo antes de correr `capas.py`:
+
+```bash
+export INWATCH_FUENTE_TRANSIT_STATIONS=/ruta/a/transit_stations.csv
+```
+
+La cadena completa se reprodujo el 2026-09-24 desde un clon limpio en otra máquina (11
+núcleos, Ubuntu): el grafo salió con los mismos nodos y aristas, las cifras del registro
+coincidieron y el export no dio errores. Solo cambió el conteo del grafo **sin
+simplificar**, en 4 nodos, porque OSM se editó en esos 9 días. Por eso el grafo
+descargado se guarda en disco con su fecha. **No commitees
+`registry/canonical_numbers.json` después de correr en tu máquina**: el GraphML nuevo
+tiene otro hash y re-sellaría la procedencia de las 65 cifras sin que haya cambiado
+ningún valor.
