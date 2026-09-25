@@ -192,8 +192,15 @@ def resolver(
             return _resuelta(origen, ruta)
         probadas.append(f"  {origen:<10} {ruta}")
 
-    pistas = []
-    if fuente.lake:
+    # La pista de la variable va siempre: es lo único que sirve en una máquina ajena,
+    # sin el origen ni bocho. Sugerir `fuentes sync` sin remoto configurado mandaba a
+    # un callejón sin salida (lo encontró la corrida desde un clon limpio, inwatch-92d.10).
+    pistas = [
+        f"  `export INWATCH_FUENTE_{clave_entorno(nombre)}=/ruta/al/archivo` "
+        "si tienes una copia"
+    ]
+    remoto_ok = bool(cat.remoto) and cat.remoto.strip().upper() != "PENDIENTE"
+    if fuente.lake and remoto_ok:
         pistas.append(f"  `fuentes sync {nombre}` para bajarla de bocho")
     if fuente.git_ref:
         pistas.append(

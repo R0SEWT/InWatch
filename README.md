@@ -166,8 +166,11 @@ censal (`manzana`) y la tesselación morfológica (`morfologica`); poder cambiar
 
 ## Empezar
 
-**Requisitos:** Python 3.12 y [uv](https://docs.astral.sh/uv/). Sin uv:
-`pip install -r requirements.txt`.
+**Requisitos:** Python 3.12 (fijado en `.python-version`) y [uv](https://docs.astral.sh/uv/).
+uv baja el 3.12 solo si el sistema no lo trae. La cadena se validó en 3.12; 3.13 y 3.14
+caben en `requires-python`, pero no están verificados. Sin uv hace falta un `python3.12`
+propio (Fedora 43 trae 3.14: `sudo dnf install python3.12`), y luego
+`python3.12 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt`.
 
 **1. Entorno y verificación.** No necesita datos:
 
@@ -191,8 +194,9 @@ done
 uv run marimo edit experiments/corredores-criticos/notebook.py
 ```
 
-El loader tiene que reportar 7559 nodos y 15813 aristas. La betweenness exacta tarda entre
-10 y 20 minutos, según la máquina.
+El loader tiene que reportar 7559 nodos y 15813 aristas. La betweenness exacta (`centralidad.py`)
+tarda entre 10 y 30 minutos según la máquina: 11 min en gorgo y 30,6 min en una laptop
+Fedora de 8 núcleos (medido en 2026-09).
 <!-- CANON: corredores.conteo.aristas = 15813 -->
 
 Los demás experimentos leen el corpus de denuncias y los artefactos de la tesis de origen,

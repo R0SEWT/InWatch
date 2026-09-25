@@ -185,9 +185,10 @@ la informativa; la de nodos apenas dice que no hay coincidencia sistemática.
 
 ## Cuánto error admite la aproximación
 
-La betweenness exacta cuesta unos 10 minutos por peso. La aproximación con `k`=500
+La betweenness exacta cuesta entre 5 y 15 minutos por peso, según la máquina. La
+aproximación con `k`=500
 <!-- CANON: corredores.conteo.k_aprox = 500 -->
-fuentes muestreadas tarda 40 segundos y se midió contra la exacta sobre el mismo grafo,
+fuentes muestreadas tarda menos de un minuto y se midió contra la exacta sobre el mismo grafo,
 por unidad y por peso:
 
 | Unidad | Spearman (longitud) | Solape top-100 | Spearman (tiempo) | Solape top-100 |
@@ -245,7 +246,7 @@ uv sync --extra geo --extra viz
 uv run fuentes estado        # distritos_limites_area_a sale como `curado`
 
 uv run python experiments/corredores-criticos/loader.py       # grafo, velocidades  (~1 min)
-uv run python experiments/corredores-criticos/centralidad.py  # betweenness exacta  (~20 min)
+uv run python experiments/corredores-criticos/centralidad.py  # betweenness exacta  (10–30 min)
 uv run python experiments/corredores-criticos/capas.py        # estaciones, ranking (~1 min)
 uv run python experiments/corredores-criticos/arterias.py     # contraste OSM       (~1 min)
 uv run python experiments/corredores-criticos/metricas.py     # métricas globales   (~2 min)
@@ -270,6 +271,10 @@ uv run --extra geo --extra viz --with nbformat python -m marimo export ipynb \
 python3.12 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt nbformat
 ```
+
+Pide un `python3.12` en el PATH, y no todas las distribuciones lo traen: Fedora 43 viene
+con 3.14. Instálalo con `sudo dnf install python3.12`, o con `uv python install 3.12` y
+luego `$(uv python find 3.12) -m venv .venv`. La cadena se validó en 3.12.
 
 **En otra máquina** falta un solo insumo: `transit_stations.csv`, que no viaja en el
 repo. Pídeselo al grupo y apúntalo antes de correr `capas.py`:

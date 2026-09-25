@@ -253,6 +253,27 @@ def test_sin_candidatos_el_error_lista_lo_probado_y_sugiere_sync(proyecto):
     assert "fuentes sync solo_lake" in msg
 
 
+def test_sin_candidatos_el_error_nombra_la_variable_de_la_fuente(proyecto):
+    """En una máquina ajena la salida es la variable, no bocho (inwatch-92d.10)."""
+    with pytest.raises(fuentes.FuenteNoEncontrada, match="INWATCH_FUENTE_SOLO_LAKE="):
+        fuentes.resolver("solo_lake", cfg=proyecto.cfg, env=SIN_ENTORNO)
+
+
+def test_sin_remoto_configurado_no_sugiere_sync(proyecto):
+    catalogo = proyecto.cfg.catalogo
+    catalogo.write_text(
+        catalogo.read_text(encoding="utf-8").replace(
+            'remoto = "bocho:/srv/lake"', 'remoto = "PENDIENTE"'
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(fuentes.FuenteNoEncontrada) as exc:
+        fuentes.resolver("solo_lake", cfg=proyecto.cfg, env=SIN_ENTORNO)
+    msg = str(exc.value)
+    assert "INWATCH_FUENTE_SOLO_LAKE=" in msg
+    assert "fuentes sync" not in msg
+
+
 def test_git_ref_no_resuelve_contra_el_archivo_vivo(proyecto):
     """Con `git_ref`, el archivo vivo del origen NO es la fuente: es otra versión.
 
