@@ -207,3 +207,40 @@ uv run marimo edit experiments/denominador/notebook.py
 - `inwatch-04w`: la matriz de commuting del censo 2017 para el day/night real.
 - Riesgo por expuesto por categoría: para violencia familiar el residente es el
   denominador correcto; un mapa mixto por categoría es el producto honesto.
+
+## Chequeo posterior (literatura): un segundo proxy de población ambiente
+
+> **Chequeo posterior (literatura)**, añadido el 2026-09-25 después del resultado. No
+> reescribe la predicción, los umbrales ni la enmienda de arriba: los reusa tal cual.
+
+**Por qué.** Whipp et al. 2021 (*IJGI*, doi:10.3390/ijgi10030131) muestran que las fuentes
+de población ambiente no coinciden entre sí, y Malleson & Andresen 2016 que proxies
+distintos dan hot spots distintos. Con un solo proxy (LandScan, que además usa uso de suelo
+como insumo) parte del reordenamiento podría ser del modelo de LandScan y no del riesgo.
+
+**Qué hay en local.** No hay empleo, viajes, matriz OD ni telefonía: el derivado del censo
+2017 no trae commuting (`inwatch-04w`). Lo que sí hay, todo en `h3_features` de infelix,
+son **atractores y actividad**, no poblaciones:
+
+| Proxy | Fuente | Por qué sirve | Por qué no es ideal |
+|---|---|---|---|
+| `ambiente_viirs` (**el que decide**) | VIIRS DNB, radiancia media 2018-2023 | sensor distinto, continuo, > 0 en las 993 celdas; no es circular con la prueba direccional | mide luz, no gente; satura en el centro; versiones de LandScan han usado luces nocturnas como insumo, así que la independencia es parcial |
+| `ambiente_poi` (sensibilidad) | OSM, suma de las 7 categorías de POI + 1 | es el proxy de «atractores» que usan Malleson & Andresen | 102 de 993 celdas sin POI; circular con la prueba direccional (por eso no decide) |
+
+Los dos se reescalan para sumar lo mismo que LandScan en el universo; el ranking no depende
+de esa escala.
+
+**Criterio, fijado antes de calcular.** Mismo universo (piso 500 en las tres fuentes
+principales, n = 993), mismo numerador (`latente_hibrido`), mismas métricas y umbrales que
+arriba, con `ambiente_viirs` en lugar de LandScan:
+
+- **El veredicto se sostiene** si `ambiente_viirs` también cumple los tres: ρ < 0,80,
+  top-50 < 0,50 y ρ(residente_meta) − ρ(viirs) > 0,20 con IC95 bootstrap (1000, misma
+  semilla) que excluye cero.
+- **Se debilita** si cumple ρ y top-50 pero no la diferencia contra el control.
+- **Se cae** (el reordenamiento es propiedad de LandScan) si `ambiente_viirs` no cumple ρ
+  ni top-50.
+- **Coincidencia entre proxies**: se reporta ρ entre las poblaciones (LandScan vs VIIRS),
+  ρ entre los cocientes ambiente/residente (lo que fija el reordenamiento) y ρ y top-50
+  entre los dos mapas de riesgo. Se lee como «coinciden» con ρ ≥ 0,80 entre riesgos, a
+  secas; no hay umbral de la literatura para esto.
