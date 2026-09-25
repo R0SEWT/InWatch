@@ -139,3 +139,10 @@ descripcion = "38 estaciones del Metropolitano y 26 de la Línea 1, validadas co
 titularidad = "infelix (CC BY-NC-SA 4.0, dos titulares); OSM (ODbL) + Google Places"
 lake = "infelix/transporte/transit_stations.csv"
 transicion = ["infelix:analysis/transit_stations.csv"]
+
+# ─── manzana censal (INEI vía COFOPRI) ────────────────────────────────────────
+[fuente.inei_manzana_lima]
+descripcion = "132 755 manzanas censales 2017 de Lima como centroide (_lat/_lng) con pobtotal, pobnbi, poph, pobm, vivienda; 9999999 = sin dato"
+titularidad = "INEI / Geoportal COFOPRI (datos públicos), descargado por infelix"
+lake = "infelix/raw/cofopri/inei_manzana_lima_raw.parquet"
+transicion = ["infelix:data/raw/cofopri/inei_manzana_lima_raw.parquet"]
