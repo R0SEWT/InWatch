@@ -91,3 +91,119 @@ debería correlacionar **negativamente** con la densidad de POI comerciales/nigh
 diseño: `riesgo_amb / riesgo_res = pob_res / pob_amb`, así que el sentido del reordenamiento
 lo fija por completo el cociente entre denominadores; esta prueba mide si ese cociente
 coincide con lo comercial, no algo del delito.
+
+## Enmienda posterior al pre-registro: el numerador pre-registrado es circular
+
+Encontrado **después** de la primera corrida y declarado acá como tal. La superficie de
+E1 (`crime_latent_surface.parquet`) se construye en infelix
+(`scripts/build_latent_surface_h3.py`, `--pattern population`, el default) repartiendo
+el latente de cada distrito entre sus celdas **en proporción a WorldPop**. Entonces
+`latente / residente` es **exactamente constante dentro de cada distrito** (verificado:
+max/min = 1 en todos los distritos evaluables; `circularidad.parquet`). El mapa «por
+residente» es una coropleta distrital, y dividir entre cualquier otra población lo
+reordena **por construcción**, sin que el delito intervenga.
+
+Por eso el sondeo de las notas del bead exagera el efecto, y por eso se añadieron dos
+numeradores cuyo patrón intra-distrital no sale de la población:
+
+- `latente_hibrido` — la superficie híbrida de infelix (`slr-us4`): patrón intra-distrital
+  tomado de las denuncias geocodificadas, suavizado Dirichlet (M = 10) hacia la población.
+  **Es el numerador de la conclusión.**
+- `observado_geo` — denuncias geocodificadas crudas, sin corrección latente.
+
+El numerador pre-registrado (`latente`) se sigue reportando, marcado como circular. Los
+umbrales de decisión no se cambiaron.
+
+## Resultado (exploratorio)
+
+Las cifras están en `reordenamiento.parquet`, `bootstrap.parquet` y compañía, y en el
+notebook; entran acá con ancla `CANON:` cuando se emitan. En palabras:
+
+- **Con el numerador no circular, la predicción se cumple según los criterios fijados**,
+  pero con menos margen que el sondeo. El orden global se mueve de forma moderada; el
+  **tope del ranking se renueva casi por completo**, mientras que el control residencial
+  conserva la mayor parte del tope. La diferencia de ρ control-menos-ambiente es positiva
+  con IC que excluye cero en todos los pisos, y queda cerca del umbral de 0,20.
+- **E1 queda en pie en la misma escala**: sobre la superficie híbrida y las mismas celdas,
+  la corrección por sesgo de denuncia sigue sin reordenar. Denominador y corrección son
+  dos controles de naturaleza distinta.
+- **No es desalineación de píxel**: agregado a distrito, los dos residenciales coinciden
+  casi perfecto y el ambiente sigue discrepando. El kill-criterion de resolución pasa.
+- **Dentro de cada distrito, el efecto es chico**: el reordenamiento ambiente-vs-residente
+  apenas supera al ruido entre las dos fuentes residenciales. El reordenamiento vive sobre
+  todo **entre distritos y en la cola alta**.
+- **La sub-predicción direccional se cumple**: bajan San Isidro, Miraflores, Cercado y el
+  anillo comercial; suben Ate, Villa El Salvador, Puente Piedra, Cieneguilla. Con la
+  salvedad de diseño ya dicha (lo fija el cociente LandScan/WorldPop, y LandScan usa uso
+  de suelo como insumo).
+- **Mesa Redonda casi no se mueve** con el numerador no circular: su delito está tan
+  concentrado que sigue en el tope incluso dividiendo entre su población ambiente.
+- **El Spearman depende de cómo se tratan las celdas chicas** (piso contra prior aditivo);
+  el recambio del top-k es la señal robusta a esa elección.
+
+## Unidad espacial
+
+`h3_8`, clave `h3_index`, sobre las celdas de la superficie latente. La auditoría de
+resolución usa la grilla canónica completa. Agregaciones de robustez a H3 res-7 y a
+distrito (`ubigeo`), sumando numerador y denominador antes de dividir.
+
+## Datos
+
+| Artefacto | Origen | Unidad | Notas |
+|---|---|---|---|
+| `crime_latent_surface.parquet` | catálogo `crime_latent_surface` | `h3_8`×año×cat | numerador pre-registrado (circular) |
+| `crime_latent_surface_hybrid.parquet` | `infelix/data/silver/` | `h3_8`×año×cat | numerador no circular |
+| `h3_observed_geocoded.parquet` | catálogo `h3_observed_geocoded` | `h3_8`×año×cat | denuncias geocodificadas |
+| `h3_population.parquet` | `infelix/.../h3_features/` | `h3_8` | WorldPop, residente (baseline) |
+| `h3_landscan.parquet` | `infelix/.../h3_features/` | `h3_8` | LandScan 2020/2023, ambiente 24 h |
+| `h3_meta_population.parquet` | `infelix/.../h3_features/` | `h3_8` | Meta/HRSL 2020, residente (control) |
+| `h3_osm_features.parquet` | `infelix/.../h3_features/` | `h3_8` | POI para la sub-predicción |
+| `h3_admin.parquet` | catálogo `h3_admin` | `h3_8` | distrito |
+
+Todo read-only. Las que no están en `registry/fuentes.toml` se resuelven por el origen
+`infelix` del catálogo; darlas de alta queda pendiente (no se tocó `registry/` en este PR).
+
+## Qué se ve
+
+Tres mapas sobre la misma rampa `carrera_teal` de E1: percentil de riesgo por residente,
+percentil por el denominador elegido, y el cambio de percentil en una divergente
+tierra↔teal (sin verde ni rojo). Celdas bajo el piso en cualquier fuente: deshilachadas.
+Controles: numerador, denominador de contraste y piso. Debajo, las tablas de robustez.
+
+## Cómo correr
+
+```bash
+uv sync --extra geo --extra viz
+uv run python experiments/denominador/loader.py    # → data/silver/denominador/
+uv run marimo edit experiments/denominador/notebook.py
+```
+
+## Verificación
+
+- [x] `uv run pytest tests/test_denominador.py`: 7 tests sintéticos + 3 `needs_data`
+- [x] `uv run canon check` sin fallos (este README no tiene anclas propias todavía)
+- [x] `uv run ruff check .` limpio
+- [x] Loader determinista: dos corridas dan parquets byte a byte idénticos
+- [x] El notebook corre de punta a punta (`marimo export html`) sin traceback
+- [ ] Revisión en oscuro y deuteranopia de la divergente tierra↔teal: pendiente
+
+## Decisiones tomadas
+
+- **No se emite al registro todavía.** Es una corrida exploratoria nocturna; emitir
+  requiere decidir claves (`rango_espacial.denominador.*`?) y policy.
+- **Percentiles y no tasas en el mapa**: la escala es compartida por construcción y
+  evita que un puñado de celdas con población chica sature la rampa.
+- **Población común para todas las comparaciones**: si cada denominador eligiera sus
+  celdas, la ρ mezclaría reordenamiento con cambio de universo.
+- **LandScan 2023 como tratamiento y 2020 como control temporal**, no al revés: 2023 es el
+  más cercano al final de la ventana 2018-2024.
+- **Descartado**: pedir día/noche a LandScan (no existe para Perú) e inventar una
+  población flotante a partir de POI (sería circular con la prueba direccional).
+
+## Siguientes pasos
+
+- Decidir si E1 debería migrar a la superficie híbrida (su hallazgo se sostiene en ella).
+- Emitir las métricas con procedencia y anclarlas acá.
+- `inwatch-04w`: la matriz de commuting del censo 2017 para el day/night real.
+- Riesgo por expuesto por categoría: para violencia familiar el residente es el
+  denominador correcto; un mapa mixto por categoría es el producto honesto.
