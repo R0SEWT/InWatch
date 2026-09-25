@@ -76,6 +76,8 @@ datos = "data"
 # En infelix esto estaba hardcodeado en constantes de módulo; acá es config.
 registry = "registry/canonical_numbers.json"
 watched = [
+    # El README raíz resume la cifra principal de cada experimento: es portante.
+    "README.md",
     "analysis/*.md",
     # `[!_]*` excluye `_template/`: una plantilla contiene sintaxis de ancla de
     # ejemplo, y el guard de anclas malformadas la leería como un ancla rota.

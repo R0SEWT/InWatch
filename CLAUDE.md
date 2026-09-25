@@ -214,16 +214,25 @@ bd close <id>         # Complete work
 - If push fails, resolve and retry until it succeeds
 <!-- END BEADS INTEGRATION -->
 
-## Session Close (PR flow — supersedes the generic beads protocol in this file)
+## Session Close (Git Flow — supersedes the generic beads protocol in this file)
 
-`main` is protected: a PR is required, and merges are gated on green CI plus resolved
-review conversations — with **no approval count** (a solo dev can't self-approve, and
-Copilot/Sourcery reviews only ever *Comment*, so they never satisfy a required-approval
-rule). **Do not push directly to `main`.**
+**Git Flow, as in the course repos.** `develop` is the integration branch; `main` only
+receives releases. Both are protected by a ruleset: a PR is required, and merges are gated
+on green CI plus resolved review conversations — with **no approval count** (a solo dev
+can't self-approve, and Copilot/Sourcery reviews only ever *Comment*, so they never
+satisfy a required-approval rule). **Never push directly to `develop` or `main`.**
+
+- **Work**: branch from `develop` (`feat/…`, `fix/…`, `docs/…`, `chore/…`), PR back into
+  `develop`. Squash is fine **unless the PR emits to the canonical registry**: then merge
+  commit, so the provenance commit survives (inwatch-1r4).
+- **Release**: PR `develop` → `main` with a **merge commit** (never squash: `main` must
+  contain every provenance commit), then tag the merge commit (`hito1`, …) and publish a
+  GitHub release with the deliverables as assets. The Pages site deploys from `main`.
+- **Hotfix**: branch from `main`, PR into `main`, then merge `main` back into `develop`.
 
 At session end:
-1. Commit work on a **branch**; `git push -u origin <branch>`.
-2. Open/update a **PR**; let the configured reviewer (Copilot/Sourcery) run.
+1. Commit work on a **branch** off `develop`; `git push -u origin <branch>`.
+2. Open/update a **PR against `develop`**; let the configured reviewer (Copilot/Sourcery) run.
 3. The merge waits for **green CI + all review conversations resolved** — never `--admin`.
 4. Tracking: `bd ready` at start; file follow-up issues at close for the cross-session
    backlog. **TodoWrite is fine for ephemeral, in-session steps.**
