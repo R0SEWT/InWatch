@@ -47,6 +47,70 @@ desde la fuente `distritos_limites_area_a`, que viaja en el repo.
 <!-- CANON: corredores.pct.reduccion_simplificacion = 76.7 -->
 del grafo crudo: son vértices de geometría, no intersecciones.
 
+### Por qué esta área
+
+- **Hay un corredor declarado contra el cual leer la betweenness.** Es el tramo
+  centro-sur del Metropolitano, que cruza los cinco distritos de norte a sur y, junto con
+  la Línea 1, tiene 20 estaciones dentro del polígono. El tema pregunta por corredores
+  críticos; un área sin un corredor de transporte reconocido dejaría el resultado sin
+  nada con qué contrastarse.
+- **Tiene dos generadores de viajes puntuales**, los estadios Nacional y Alejandro
+  Villanueva (Matute), que entran como capa complementaria.
+- **El tamaño permite el cálculo exacto.** El grafo cumple con holgura el mínimo del
+  enunciado (3 000 nodos y 6 000 aristas) y queda muy por debajo del máximo recomendado
+  (60 000 nodos). La betweenness exacta cuesta minutos, así que el resultado principal no
+  depende de muestreo; la aproximación con `k` solo se corre para medir su error.
+- **`drive`, porque el tema es tránsito vehicular.** El enunciado lo exige para los temas
+  de tránsito y reserva `walk` para accesibilidad peatonal.
+- **Mide lo mismo en cualquier máquina.** El área se define por UBIGEO sobre un
+  polígono versionado en el repo, y su superficie, 54.2 km²,
+  <!-- CANON: corredores.area.km2 = 54.2 -->
+  se calcula en EPSG:32718 a partir de ese polígono, no se copia de otra fuente.
+
+## Forma de la red
+
+Las métricas globales que el Hito 1 pide, normalizadas por área donde dependen de la
+escala (`metricas.py`).
+
+| Métrica | Valor |
+|---|---|
+| Intersecciones por km² | 131.1 <!-- CANON: corredores.area.intersecciones_por_km2 = 131.1 --> |
+| km de calle por km² | 19.1 <!-- CANON: corredores.area.km_calle_por_km2 = 19.1 --> |
+| Densidad dirigida, m/n(n−1), ×10⁴ | 2.768 <!-- CANON: corredores.red.densidad_x1e4 = 2.768 --> |
+| Arcos salientes por intersección | 2.092 <!-- CANON: corredores.red.grado_medio_salida = 2.092 --> |
+| Calles por intersección (`street_count`) | 3.233 <!-- CANON: corredores.red.calles_por_nodo = 3.233 --> |
+| Intersecciones de 3 calles | 59.4 % <!-- CANON: corredores.pct.nodos_3_calles = 59.4 --> |
+| Intersecciones de 4 calles o más | 34.4 % <!-- CANON: corredores.pct.nodos_4_o_mas = 34.4 --> |
+| Callejones sin salida | 5.9 % <!-- CANON: corredores.pct.nodos_callejon = 5.9 --> |
+| Componentes fuertemente conexas | 144 <!-- CANON: corredores.conteo.scc = 144 --> |
+| Nodos en la componente fuerte gigante | 97.2 % <!-- CANON: corredores.pct.nodos_scc_gigante = 97.2 --> |
+| Componentes débilmente conexas | 1 <!-- CANON: corredores.conteo.wcc = 1 --> |
+| Circuidad (Σ largo / Σ recta) | 1.018 <!-- CANON: corredores.red.circuidad = 1.018 --> |
+| Entropía de orientación (nats) | 3.341 <!-- CANON: corredores.red.orientacion_entropia = 3.341 --> |
+| Orden de orientación φ (0 = aleatoria, 1 = grilla) | 0.208 <!-- CANON: corredores.red.orientacion_orden = 0.208 --> |
+| Clustering medio (grafo simple no dirigido) | 0.040 <!-- CANON: corredores.red.clustering_medio = 0.040 --> |
+
+Cómo leerlas:
+
+- **La densidad casi nula no es un defecto, es la naturaleza de una red plana.** Cada
+  intersección toca unas tres calles sin importar cuántas haya en total, así que la
+  densidad cae con n. Por eso la comparación útil es por km², no por pares de nodos.
+- **Casi toda la red es mutuamente alcanzable.** Las otras 143 componentes fuertes son
+  nodos que los sentidos únicos dejan sin retorno. Son pocos, pero la betweenness los
+  trata como destinos inalcanzables, y por eso aparecen en Limitaciones.
+- **Las calles son casi rectas y no forman una sola grilla.** La circuidad está muy cerca
+  de 1. φ está mucho más cerca de 0 que de 1: conviven trazas con orientaciones
+  distintas, que es justo lo que hace que el camino mínimo tenga que elegir corredor.
+- **Pocos triángulos.** Las manzanas cierran ciclos de cuatro calles, no de tres, así que
+  el clustering de una red vial es bajo por construcción.
+
+Como métrica local, junto a la betweenness, se calcula la **closeness de llegada** por
+longitud dentro de la componente fuerte gigante. Las dos casi no se ordenan igual
+(ρ de Spearman = 0.241):
+<!-- CANON: corredores.corr.closeness_betweenness_nodos = 0.241 -->
+la closeness premia estar en el centro geográfico, y la betweenness, estar en el paso
+obligado entre zonas. Un corredor crítico se define por lo segundo.
+
 ## Qué tan bueno es el dato
 
 El enunciado pide declararlo, y conviene mirarlo antes que cualquier resultado.
@@ -173,7 +237,7 @@ costaría escalar a un área mayor, donde 9 de cada 10 tramos del top se recuper
 
 ## Cómo correrlo
 
-Las cuatro etapas, en orden. Cada una deja sus artefactos en
+Las cinco etapas, en orden. Cada una deja sus artefactos en
 `data/silver/corredores-criticos/` y emite sus cifras al registro.
 
 ```bash
@@ -184,6 +248,7 @@ uv run python experiments/corredores-criticos/loader.py       # grafo, velocidad
 uv run python experiments/corredores-criticos/centralidad.py  # betweenness exacta  (~20 min)
 uv run python experiments/corredores-criticos/capas.py        # estaciones, ranking (~1 min)
 uv run python experiments/corredores-criticos/arterias.py     # contraste OSM       (~1 min)
+uv run python experiments/corredores-criticos/metricas.py     # métricas globales   (~2 min)
 
 uv run marimo edit experiments/corredores-criticos/notebook.py
 ```
