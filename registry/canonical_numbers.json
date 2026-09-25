@@ -258,6 +258,68 @@
       "value": 12.0,
       "variant": "distrito"
     },
+    "corredores.area.intersecciones_por_km2.area_a_drive": {
+      "canonical": true,
+      "display": "131.1",
+      "estimator": "nodos con street_count > 1 sobre el área",
+      "family": "corredores.area.intersecciones_por_km2",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "intersecciones/km²",
+      "value": 131.113509,
+      "variant": "area_a_drive"
+    },
+    "corredores.area.km2.area_a_drive": {
+      "canonical": true,
+      "display": "54.2",
+      "estimator": "polígono del área A en EPSG:32718",
+      "family": "corredores.area.km2",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "km²",
+      "value": 54.235449,
+      "variant": "area_a_drive"
+    },
+    "corredores.area.km_calle_por_km2.area_a_drive": {
+      "canonical": true,
+      "display": "19.1",
+      "estimator": "suma de tramos no dirigidos sobre el área",
+      "family": "corredores.area.km_calle_por_km2",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/curado/DISTRITOS_LIMITES_area_a.zip": "4e013ad626a1ce16aad74f71fe7f30450adac4b8b3723ffb70c16ab70496c417",
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "km/km²",
+      "value": 19.079552,
+      "variant": "area_a_drive"
+    },
     "corredores.conteo.aristas.area_a_drive": {
       "canonical": true,
       "display": "15813",
@@ -446,6 +508,26 @@
       "value": 32511.0,
       "variant": "area_a_drive"
     },
+    "corredores.conteo.scc.area_a_drive": {
+      "canonical": true,
+      "display": "144",
+      "estimator": "fuertemente conexas",
+      "family": "corredores.conteo.scc",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "componentes",
+      "value": 144.0,
+      "variant": "area_a_drive"
+    },
     "corredores.conteo.tramos.area_a_drive": {
       "canonical": true,
       "display": "12025",
@@ -465,6 +547,47 @@
       },
       "unit": "tramos no dirigidos",
       "value": 12025.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.conteo.wcc.area_a_drive": {
+      "canonical": true,
+      "display": "1",
+      "estimator": "débilmente conexas",
+      "family": "corredores.conteo.wcc",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "componentes",
+      "value": 1.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.corr.closeness_betweenness_nodos.area_a_drive": {
+      "canonical": true,
+      "display": "0.241",
+      "estimator": "closeness de llegada vs betweenness, por length, en la SCC gigante",
+      "family": "corredores.corr.closeness_betweenness_nodos",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510",
+          "data/silver/corredores-criticos/betweenness_intersecciones.parquet": "98d4f415162f0db11c03d7752bf3efc2fc84d2118fa306b43ae43593820472cb"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "rho de Spearman",
+      "value": 0.240681,
       "variant": "area_a_drive"
     },
     "corredores.corr.length_travel_time_nodos.area_a_drive": {
@@ -995,6 +1118,86 @@
       "value": 25.056184,
       "variant": "area_a_drive"
     },
+    "corredores.pct.nodos_3_calles.area_a_drive": {
+      "canonical": true,
+      "display": "59.4",
+      "estimator": "street_count = 3",
+      "family": "corredores.pct.nodos_3_calles",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "% de nodos",
+      "value": 59.439079,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.nodos_4_o_mas.area_a_drive": {
+      "canonical": true,
+      "display": "34.4",
+      "estimator": "street_count ≥ 4",
+      "family": "corredores.pct.nodos_4_o_mas",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "% de nodos",
+      "value": 34.409313,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.nodos_callejon.area_a_drive": {
+      "canonical": true,
+      "display": "5.9",
+      "estimator": "street_count = 1",
+      "family": "corredores.pct.nodos_callejon",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "% de nodos",
+      "value": 5.92671,
+      "variant": "area_a_drive"
+    },
+    "corredores.pct.nodos_scc_gigante.area_a_drive": {
+      "canonical": true,
+      "display": "97.2",
+      "estimator": "SCC más grande",
+      "family": "corredores.pct.nodos_scc_gigante",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "% de nodos",
+      "value": 97.182167,
+      "variant": "area_a_drive"
+    },
     "corredores.pct.precision_top100_length.area_a_drive": {
       "canonical": true,
       "display": "20.0",
@@ -1245,6 +1448,146 @@
       },
       "unit": "% del top-100",
       "value": 85.0,
+      "variant": "area_a_drive"
+    },
+    "corredores.red.calles_por_nodo.area_a_drive": {
+      "canonical": true,
+      "display": "3.233",
+      "estimator": "media de street_count",
+      "family": "corredores.red.calles_por_nodo",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "calles por intersección",
+      "value": 3.23257,
+      "variant": "area_a_drive"
+    },
+    "corredores.red.circuidad.area_a_drive": {
+      "canonical": true,
+      "display": "1.018",
+      "estimator": "Σ largo / Σ recta, tramos no dirigidos sin lazos",
+      "family": "corredores.red.circuidad",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "adim.",
+      "value": 1.018019,
+      "variant": "area_a_drive"
+    },
+    "corredores.red.clustering_medio.area_a_drive": {
+      "canonical": true,
+      "display": "0.040",
+      "estimator": "grafo simple no dirigido",
+      "family": "corredores.red.clustering_medio",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "adim.",
+      "value": 0.039829,
+      "variant": "area_a_drive"
+    },
+    "corredores.red.densidad_x1e4.area_a_drive": {
+      "canonical": true,
+      "display": "2.768",
+      "estimator": "dígrafo simplificado",
+      "family": "corredores.red.densidad_x1e4",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "m/n(n−1) × 10⁴",
+      "value": 2.767853,
+      "variant": "area_a_drive"
+    },
+    "corredores.red.grado_medio_salida.area_a_drive": {
+      "canonical": true,
+      "display": "2.092",
+      "estimator": "m/n",
+      "family": "corredores.red.grado_medio_salida",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "arcos por nodo",
+      "value": 2.091943,
+      "variant": "area_a_drive"
+    },
+    "corredores.red.orientacion_entropia.area_a_drive": {
+      "canonical": true,
+      "display": "3.341",
+      "estimator": "Shannon, 36 bins, dos direcciones, peso = largo",
+      "family": "corredores.red.orientacion_entropia",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "nats",
+      "value": 3.341483,
+      "variant": "area_a_drive"
+    },
+    "corredores.red.orientacion_orden.area_a_drive": {
+      "canonical": true,
+      "display": "0.208",
+      "estimator": "1 − ((H − ln 4)/(ln 36 − ln 4))²",
+      "family": "corredores.red.orientacion_orden",
+      "needs_policy": false,
+      "provenance": {
+        "dirty": false,
+        "emitted_at": "2026-09-24T22:16:06-05:00",
+        "git_commit": "429f8c7",
+        "inputs_sha256": {
+          "data/silver/corredores-criticos/area_a_drive.graphml": "0fe7e4619e7f62f7987168778f5be47678b0e67c73162853a76ef36b59cc0510"
+        },
+        "script": "experiments/corredores-criticos/metricas.py",
+        "script_sha256": "073dda53e8e62dd5ded0f81c5f5f2e7207f2eb92687866b7366fa5134a3b5c59"
+      },
+      "unit": "φ de Boeing (2019)",
+      "value": 0.208176,
       "variant": "area_a_drive"
     },
     "correspondencia.area_partida.morfologica": {
