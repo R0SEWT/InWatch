@@ -83,8 +83,20 @@ El cruce `tramo` ↔ unidad de área reparte por **longitud en metros**, no por 
   descartadas**: un tramo que roza un borde queda apenas por debajo de 1, y eso es el
   umbral trabajando, no longitud perdida. Si el tramo sale de la cobertura, **suma menos
   de 1 y no se normaliza**: escalarlo inventaría calle donde no hay celda que la reciba.
-- `desvio_de_longitud` verifica los tramos completos y **cualquier suma mayor que 1**,
-  que sí sería longitud inventada (por ejemplo, polígonos que se solapan).
+- `desvio_de_longitud` verifica que la tabla **no pierda ni invente longitud**. Lo que
+  un tramo *debería* sumar no se lee de la propia tabla (sería circular: un tramo que
+  perdió la mitad parecería "no contenido" y quedaría sin verificar), sino de la
+  geometría: la fracción del tramo que cae en la **unión de los polígonos**. Vale 1 en un
+  tramo contenido y menos en uno que sale de la cobertura. `balance_de_longitud` separa
+  los dos fallos contra esa referencia:
+  - **exceso** — repartido por encima de lo que cabe: longitud inventada (polígonos que
+    se solapan, un borde contado en dos celdas);
+  - **déficit** — lo que cabe y no se repartió: longitud perdida. Solo se perdona lo que
+    el umbral explica: hasta `longitud_minima_m` por cada celda que el tramo toca y que no
+    tiene fila en la tabla. Un faltante mayor cuenta entero.
+
+  El desvío es el peor de los dos, como fracción de la longitud del tramo. Sin un solo
+  tramo que toque la cobertura falla, en vez de devolver un 0 que no comprobó nada.
 
 En la tabla de tramos, `largo_m` es el atributo `length` de osmnx, calculado sobre la
 geometría sin proyectar; difiere levemente de la longitud geométrica proyectada. Para

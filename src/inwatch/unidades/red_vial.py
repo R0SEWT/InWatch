@@ -163,19 +163,78 @@ def correspondencia(
     return salida[["tramo_id", clave, "largo_m", "frac_tramo"]].reset_index(drop=True)
 
 
-def desvio_de_longitud(corr: pd.DataFrame) -> float:
-    """Máximo |Σ frac_tramo − 1| entre los tramos completos, y todo exceso sobre 1.
+def balance_de_longitud(
+    corr: pd.DataFrame,
+    t: gpd.GeoDataFrame,
+    poligonos: gpd.GeoDataFrame,
+    *,
+    clave: str,
+    longitud_minima_m: float = 1.0,
+) -> dict[str, float]:
+    """Déficit y exceso de ``Σ frac_tramo`` contra lo que la geometría dice que cabe.
 
-    Un exceso significa longitud inventada (por ejemplo, polígonos que se solapan).
-    Sin un solo tramo completo no hay nada contra qué verificar: falla en vez de
-    devolver un 0 que no comprobó nada.
+    Existe porque el guard anterior era circular (inwatch-w83): llamaba "completo" a un
+    tramo cuya suma ya daba 1 y después verificaba que diera 1. Un tramo que perdía la
+    mitad de su longitud salía del conjunto y el desvío daba 0.0. La tabla sola no puede
+    decir cuánto *debería* sumar un tramo; eso lo dice la cobertura.
+
+    Por eso la referencia se mide acá, sobre las geometrías: ``esperada`` es la fracción
+    del tramo que cae en la unión de los polígonos. Vale 1 en un tramo contenido y menos
+    de 1 en uno que sale de la cobertura, que el contrato no normaliza y este guard no
+    castiga. Contra ella:
+
+    - ``exceso`` — lo repartido por encima de lo que cabe: longitud inventada (polígonos
+      que se solapan, un borde contado en dos celdas).
+    - ``deficit`` — lo que cabe y no se repartió: longitud perdida. Se descuenta solo lo
+      que el umbral puede explicar: cada celda que el tramo toca y que no tiene fila en
+      la tabla pudo llevarse una astilla de hasta ``longitud_minima_m``. Si el faltante
+      cabe en esas astillas es el umbral trabajando y cuenta 0; si no, cuenta entero.
+
+    Ambos van como fracción de la longitud del tramo, máximo sobre todos los tramos.
+    ``longitud_minima_m`` tiene que ser el mismo con el que se armó ``corr``.
     """
-    suma = corr.groupby("tramo_id")["frac_tramo"].sum()
-    completos = suma[suma >= 1 - TOLERANCIA_COMPLETO]
-    if completos.empty:
-        raise ValueError("ningún tramo queda completo en la cobertura: nada que verificar")
-    exceso = (suma - 1).clip(lower=0).max()
-    return float(max((completos - 1).abs().max(), exceso))
+    _exigir_metrico(t.crs)
+    if poligonos.crs != t.crs:
+        poligonos = poligonos.to_crs(t.crs)
+
+    geo = t[["tramo_id", "geometry"]].drop_duplicates("tramo_id").set_index("tramo_id")
+    total = geo.geometry.length
+    cobertura = poligonos.geometry.union_all()
+    esperada = geo.geometry.intersection(cobertura).length / total
+    if not (esperada > TOLERANCIA_COMPLETO).any():
+        raise ValueError("ningún tramo toca la cobertura: nada que verificar")
+
+    repartida = (corr.groupby("tramo_id")["frac_tramo"].sum()
+                 .reindex(total.index, fill_value=0.0))
+    tocadas = gpd.sjoin(geo.reset_index(), poligonos[[clave, "geometry"]],
+                        how="inner", predicate="intersects")
+    n_tocadas = tocadas.groupby("tramo_id")[clave].nunique().reindex(total.index, fill_value=0)
+    n_filas = corr.groupby("tramo_id")[clave].nunique().reindex(total.index, fill_value=0)
+    astillas = (n_tocadas - n_filas).clip(lower=0) * longitud_minima_m / total
+
+    diferencia = repartida - esperada
+    falta = (-diferencia).clip(lower=0)
+    deficit = falta.where(falta > astillas + TOLERANCIA_COMPLETO, 0.0)
+    exceso = diferencia.clip(lower=0).where(diferencia > TOLERANCIA_COMPLETO, 0.0)
+    return {"deficit": float(deficit.max()), "exceso": float(exceso.max())}
+
+
+def desvio_de_longitud(
+    corr: pd.DataFrame,
+    t: gpd.GeoDataFrame,
+    poligonos: gpd.GeoDataFrame,
+    *,
+    clave: str,
+    longitud_minima_m: float = 1.0,
+) -> float:
+    """El test de "no pierde ni inventa longitud" reducido a una cifra: el peor de los dos.
+
+    ``max(deficit, exceso)`` de ``balance_de_longitud``. Sin un solo tramo que toque la
+    cobertura falla, en vez de devolver un 0 que no comprobó nada.
+    """
+    b = balance_de_longitud(corr, t, poligonos, clave=clave,
+                            longitud_minima_m=longitud_minima_m)
+    return max(b["deficit"], b["exceso"])
 
 
 def asignar_intersecciones(

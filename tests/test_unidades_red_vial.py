@@ -151,17 +151,99 @@ def test_correspondencia_descarta_astillas_bajo_el_umbral():
     assert corr[corr["tramo_id"] == "3-4-0"]["celda"].tolist() == ["grande"]
 
 
+def _desvio(corr, poligonos=None, **kw):
+    """El guard necesita la geometría: la contención no se puede leer de la propia suma."""
+    poligonos = _poligonos() if poligonos is None else poligonos
+    return red_vial.desvio_de_longitud(
+        corr, red_vial.tramos(_grafo()), poligonos, clave="celda", **kw
+    )
+
+
+def _balance(corr, poligonos=None, **kw):
+    poligonos = _poligonos() if poligonos is None else poligonos
+    return red_vial.balance_de_longitud(
+        corr, red_vial.tramos(_grafo()), poligonos, clave="celda", **kw
+    )
+
+
+def _corr(poligonos=None, **kw):
+    poligonos = _poligonos() if poligonos is None else poligonos
+    return red_vial.correspondencia(red_vial.tramos(_grafo()), poligonos, clave="celda", **kw)
+
+
 def test_desvio_de_longitud_es_cero_en_una_tabla_sana():
-    corr = red_vial.correspondencia(red_vial.tramos(_grafo()), _poligonos(), clave="celda")
-    assert red_vial.desvio_de_longitud(corr) == pytest.approx(0.0, abs=1e-9)
+    assert _desvio(_corr()) == pytest.approx(0.0, abs=1e-9)
+
+
+def test_desvio_de_longitud_detecta_un_tramo_que_perdio_la_mitad_de_su_longitud():
+    """inwatch-w83. El guard viejo definía "completo" como "ya suma 1" y luego verificaba
+    que sumara 1: un tramo que perdía la mitad quedaba fuera del conjunto y el desvío daba
+    0.0. La contención se decide con la geometría, así que la pérdida aparece entera.
+    """
+    corr = _corr()
+    perdido = corr["tramo_id"] == "1-2-0"  # 100 m, entero dentro de `izq`
+    corr.loc[perdido, ["largo_m", "frac_tramo"]] *= 0.5
+    assert _desvio(corr) == pytest.approx(0.5)
+    balance = _balance(corr)
+    assert balance["deficit"] == pytest.approx(0.5)
+    assert balance["exceso"] == pytest.approx(0.0, abs=1e-9)
+
+
+def test_desvio_de_longitud_detecta_un_tramo_contenido_que_desaparecio_de_la_tabla():
+    corr = _corr()
+    assert _desvio(corr[corr["tramo_id"] != "3-4-0"]) == pytest.approx(1.0)
+
+
+def test_desvio_de_longitud_detecta_la_perdida_en_un_tramo_a_caballo():
+    """Perder una de las dos mitades de 2-3-0 también es pérdida, aunque la otra quede."""
+    corr = _corr()
+    sin_der = ~((corr["tramo_id"] == "2-3-0") & (corr["celda"] == "der"))
+    assert _desvio(corr[sin_der]) == pytest.approx(0.5)
+
+
+def test_desvio_de_longitud_no_confunde_la_salida_de_la_cobertura_con_perdida():
+    """Un tramo que sale de la cobertura suma < 1 y eso es el contrato, no un déficit."""
+    solo_izq = _poligonos().iloc[[0]]
+    assert _desvio(_corr(solo_izq), solo_izq) == pytest.approx(0.0, abs=1e-9)
+
+
+def test_desvio_de_longitud_detecta_perdida_dentro_de_la_parte_cubierta():
+    """Fuera de la cobertura no se exige nada; dentro, sí. 2-3-0 tiene 50 m cubiertos."""
+    solo_izq = _poligonos().iloc[[0]]
+    corr = _corr(solo_izq)
+    corr.loc[corr["tramo_id"] == "2-3-0", ["largo_m", "frac_tramo"]] *= 0.5
+    assert _desvio(corr, solo_izq) == pytest.approx(0.25)
+
+
+def test_desvio_de_longitud_tolera_las_astillas_que_descarta_el_umbral():
+    """El contrato: un tramo que roza un borde queda apenas bajo 1 por el umbral."""
+    celdas = gpd.GeoDataFrame(
+        {"celda": ["grande", "roce"]},
+        geometry=[box(0, -50, 299.5, 50), box(299.5, -50, 400, 50)],
+        crs=CRS,
+    )
+    corr = _corr(celdas, longitud_minima_m=1.0)
+    assert _desvio(corr, celdas, longitud_minima_m=1.0) == pytest.approx(0.0, abs=1e-9)
+    # Sin declarar el umbral, esos 0.5 m sí son longitud que falta.
+    assert _desvio(corr, celdas, longitud_minima_m=0.0) == pytest.approx(0.005)
+
+
+def test_desvio_de_longitud_detecta_longitud_inventada_por_poligonos_solapados():
+    solapados = gpd.GeoDataFrame(
+        {"celda": ["a", "b"]},
+        geometry=[box(0, -50, 300, 50), box(0, -50, 150, 50)],
+        crs=CRS,
+    )
+    balance = _balance(_corr(solapados), solapados)
+    assert balance["exceso"] == pytest.approx(1.0)  # 1-2-0 cuenta dos veces
+    assert balance["deficit"] == pytest.approx(0.0, abs=1e-9)
 
 
 def test_desvio_de_longitud_falla_si_ningun_tramo_queda_completo():
     """Devolver 0 sin nada contra qué verificar sería un check verde que no comprobó nada."""
     lejos = gpd.GeoDataFrame({"celda": ["x"]}, geometry=[box(1000, 1000, 1100, 1100)], crs=CRS)
-    corr = red_vial.correspondencia(red_vial.tramos(_grafo()), lejos, clave="celda")
     with pytest.raises(ValueError, match="ningún tramo"):
-        red_vial.desvio_de_longitud(corr)
+        _desvio(_corr(lejos), lejos)
 
 
 def test_interseccion_se_asigna_a_la_celda_que_la_contiene():
