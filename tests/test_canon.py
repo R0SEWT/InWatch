@@ -317,9 +317,13 @@ def _proyecto_con_catalogo(tmp_path: Path) -> tuple[CanonConfig, Path]:
     return CanonConfig(root=raiz, registry=registry, watched=("analysis/*.md",)), insumo
 
 
-def test_input_de_un_origen_se_registra_como_alias_relativo(tmp_path):
+def test_input_de_un_origen_se_registra_como_alias_relativo(tmp_path, monkeypatch):
     """El registro está versionado: una clave `/home/<usuario>/...` lo ata a una máquina."""
     from inwatch.canon.registry import emit, load
+
+    # `INWATCH_ORIGEN_INFELIX` le gana al `fuentes.toml` sintético, y es justo la forma
+    # documentada de ocultar infelix en un clon limpio: sin esto el test mide el entorno.
+    monkeypatch.delenv("INWATCH_ORIGEN_INFELIX", raising=False)
 
     cfg, insumo = _proyecto_con_catalogo(tmp_path)
     emit("f", 1.0, variant="v", unit="u", estimator="e", inputs=[insumo],
