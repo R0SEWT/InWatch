@@ -1,3 +1,5 @@
+<!-- Git Flow: el trabajo va contra `develop`; solo los releases van contra `main`. -->
+
 ## Summary
 
 <!-- What changed and why, in a sentence or two. -->
