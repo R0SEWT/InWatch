@@ -1,2 +1,7 @@
 # Beads exports its issue log here; union-merge so parallel branches don't conflict.
 .beads/issues.jsonl merge=union
+
+# Para linguist: el notebook exportado de la entrega es un artefacto (6 MB de PNG en
+# base64) y el registro es datos; ninguno debería contar como lenguaje del repo.
+*.ipynb linguist-generated
+registry/*.json linguist-generated

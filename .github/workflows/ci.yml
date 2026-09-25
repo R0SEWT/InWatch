@@ -26,6 +26,12 @@ jobs:
       - name: Lint
         run: uv run ruff check .
 
+      # El enunciado del TP de Complex Networks pide un requirements.txt. Sale de uv.lock
+      # y no se edita a mano: si alguien cambia una dependencia y no lo regenera, el
+      # archivo que ve el docente describe otro entorno. Regenerar con el mismo comando.
+      - name: requirements.txt en sincronía con uv.lock
+        run: uv export --frozen --extra geo --extra viz --no-hashes --quiet | diff -u requirements.txt -
+
       # `data/` está gitignored, así que los tests marcados needs_data no pueden
       # correr acá. El marcador existía desde el andamiaje pero el CI no lo excluía:
       # todo test que tocara un parquet fallaba por diseño.
