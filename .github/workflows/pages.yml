@@ -1,0 +1,51 @@
+name: Pages
+
+# Publica en GitHub Pages las diapositivas del Hito 1 del TP de Complex Networks, para
+# que el grupo y el docente las vean sin cuenta ni instalación:
+#   https://r0sewt.github.io/InWatch/hito1/
+# La fuente es experiments/corredores-criticos/entrega/diapositivas/, que es la versión
+# pública del deck (sin nombres ni códigos de alumno).
+on:
+  push:
+    branches: [main]
+    paths:
+      - "experiments/corredores-criticos/entrega/diapositivas/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}hito1/
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Armar el sitio
+        run: |
+          mkdir -p _site/hito1
+          cp -r experiments/corredores-criticos/entrega/diapositivas/. _site/hito1/
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>InWatch</title>
+          <meta http-equiv="refresh" content="0; url=hito1/">
+          <a href="hito1/">Corredores críticos · Hito 1</a>
+          HTML
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4

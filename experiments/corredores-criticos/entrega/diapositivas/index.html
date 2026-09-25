@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corredores críticos · Hito 1</title>
+<meta name="description" content="Exposición del Hito 1 del TP de Complex Networks: corredores críticos del eje Metropolitano centro-sur de Lima, medidos con betweenness sobre la red vial de OpenStreetMap.">
+<style>
+  :root {
+    --fondo: #0b1220;
+    --panel: #121b2c;
+    --borde: #24324a;
+    --tinta: #eef1f5;
+    --tinta-2: #aeb8c6;
+    --acento: #9ec5f4;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--fondo);
+    color: var(--tinta);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+  header, footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 20px;
+    flex-wrap: wrap;
+  }
+  header h1 { font-size: 16px; font-weight: 600; margin: 0; }
+  header p { margin: 0; color: var(--tinta-2); font-size: 14px; }
+  a { color: var(--acento); }
+  nav.enlaces { display: flex; gap: 16px; font-size: 14px; flex-wrap: wrap; }
+  main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+  }
+  figure { margin: 0; width: 100%; max-width: calc((100vh - 170px) * 16 / 9); }
+  figure img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    background: #fff;
+    user-select: none;
+  }
+  .controles { display: flex; align-items: center; gap: 8px; }
+  button {
+    font: inherit;
+    color: var(--tinta);
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 40px;
+  }
+  button:hover { border-color: var(--acento); }
+  button:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+  button[aria-pressed="true"] { border-color: var(--acento); color: var(--acento); }
+  #contador { font-variant-numeric: tabular-nums; color: var(--tinta-2); min-width: 64px; text-align: center; }
+  #notas {
+    display: none;
+    margin: 0 20px 12px;
+    padding: 14px 18px;
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    color: var(--tinta-2);
+    max-height: 24vh;
+    overflow: auto;
+  }
+  body.con-notas #notas { display: block; }
+  body.con-notas figure { max-width: calc((100vh - 170px - 24vh) * 16 / 9); }
+  .ayuda { color: var(--tinta-2); font-size: 13px; }
+  @media (max-width: 640px) {
+    header p, .ayuda { display: none; }
+    main { padding: 0 8px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Corredores críticos del eje Metropolitano centro-sur</h1>
+    <p>Complex Networks · Trabajo parcial (Hito 1) · Tema 2 · Grupo 2</p>
+  </div>
+  <nav class="enlaces" aria-label="Materiales">
+    <a href="hito1-corredores-criticos.pdf" download>PDF</a>
+    <a href="hito1-corredores-criticos.pptx" download>PowerPoint</a>
+    <a href="https://github.com/R0SEWT/InWatch/blob/main/experiments/corredores-criticos/entrega/hito1.ipynb">Notebook</a>
+    <a href="https://github.com/R0SEWT/InWatch/tree/main/experiments/corredores-criticos">Código</a>
+  </nav>
+</header>
+
+<main>
+  <figure>
+    <img id="diapo" src="img/d-01.png" alt="" width="1920" height="1080">
+  </figure>
+</main>
+
+<section id="notas" aria-live="polite" aria-label="Guion de la diapositiva"></section>
+
+<footer>
+  <div class="controles">
+    <button id="ant" aria-label="Diapositiva anterior">←</button>
+    <span id="contador" aria-live="polite">1 / 12</span>
+    <button id="sig" aria-label="Diapositiva siguiente">→</button>
+  </div>
+  <span class="ayuda">← → para avanzar · N guion · F pantalla completa</span>
+  <div class="controles">
+    <button id="btn-notas" aria-pressed="false">Guion</button>
+    <button id="btn-full">Pantalla completa</button>
+  </div>
+</footer>
+
+<script>
+  // Las diapositivas son imágenes del .pptx renderizado; el texto accesible de cada una
+  // es su título y el guion completo, que es el texto de las notas del orador.
+  const TITULOS = [
+    "Portada: Corredores críticos del eje Metropolitano centro-sur",
+    "La pregunta, y la advertencia de que es flujo potencial y no observado",
+    "El área A: cinco distritos sobre el eje del Metropolitano",
+    "El dato: OSM descargado, guardado y auditado",
+    "Forma de la red: métricas globales",
+    "Pipeline metodológico",
+    "Hallazgo 1: el peso decide qué es un corredor",
+    "Hallazgo 2: una columna vertebral, no puentes sueltos",
+    "Hallazgo 3: OSM reconoce parte de los corredores, no todos",
+    "Capas complementarias: los corredores corren junto al transporte masivo",
+    "Lo que no podemos afirmar, y lo que sigue",
+    "Reproducibilidad: todo corre desde un clon limpio",
+  ];
+  const N = TITULOS.length;
+  const img = document.getElementById("diapo");
+  const contador = document.getElementById("contador");
+  const panel = document.getElementById("notas");
+  const btnNotas = document.getElementById("btn-notas");
+  let notas = [];
+  let actual = 1;
+
+  const src = (i) => `img/d-${String(i).padStart(2, "0")}.png`;
+
+  function mostrar(i) {
+    actual = Math.min(N, Math.max(1, i));
+    img.src = src(actual);
+    img.alt = `Diapositiva ${actual} de ${N}. ${TITULOS[actual - 1]}`;
+    contador.textContent = `${actual} / ${N}`;
+    panel.textContent = notas[actual - 1] || "";
+    if (location.hash !== `#${actual}`) history.replaceState(null, "", `#${actual}`);
+    // Precarga la siguiente para que avanzar no parpadee.
+    if (actual < N) new Image().src = src(actual + 1);
+  }
+
+  function alternarNotas() {
+    const on = document.body.classList.toggle("con-notas");
+    btnNotas.setAttribute("aria-pressed", String(on));
+  }
+
+  function pantallaCompleta() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen?.();
+  }
+
+  document.getElementById("ant").onclick = () => mostrar(actual - 1);
+  document.getElementById("sig").onclick = () => mostrar(actual + 1);
+  btnNotas.onclick = alternarNotas;
+  document.getElementById("btn-full").onclick = pantallaCompleta;
+  img.onclick = () => mostrar(actual + 1);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); mostrar(actual + 1); }
+    else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); mostrar(actual - 1); }
+    else if (e.key === "Home") mostrar(1);
+    else if (e.key === "End") mostrar(N);
+    else if (e.key === "n" || e.key === "N") alternarNotas();
+    else if (e.key === "f" || e.key === "F") pantallaCompleta();
+  });
+
+  let x0 = null;
+  img.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  img.addEventListener("touchend", (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 40) mostrar(actual + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+
+  window.addEventListener("hashchange", () => mostrar(parseInt(location.hash.slice(1), 10) || 1));
+
+  fetch("notas.json")
+    .then((r) => (r.ok ? r.json() : []))
+    .catch(() => [])
+    .then((n) => { notas = n; mostrar(parseInt(location.hash.slice(1), 10) || 1); });
+</script>
+</body>
+</html>
