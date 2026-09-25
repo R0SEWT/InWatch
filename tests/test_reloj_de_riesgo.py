@@ -175,3 +175,51 @@ def test_artefactos_declaran_unidad_y_veredicto():
         n_celdas = t["sparsity"]["n_celdas_con_evento"]
         assert m.groupby("esquema")["h3_index"].nunique().eq(n_celdas).all()
         assert {"sobre_piso", "n_celda", "p_encogida"} <= set(m.columns)
+
+
+# ─── chequeo posterior (literatura): heaping por modalidad y subconjuntos ────
+_CHQ = Path(__file__).resolve().parents[1] / "experiments/reloj-de-riesgo/chequeo_literatura.py"
+_spec_c = importlib.util.spec_from_file_location("reloj_chequeo", _CHQ)
+chequeo = importlib.util.module_from_spec(_spec_c)
+_spec_c.loader.exec_module(chequeo)
+
+
+def test_em_recupera_las_tasas_de_redondeo_sinteticas():
+    rng = np.random.default_rng(0)
+    pi = np.array([0.3, 0.3, 0.05, 0.25, 0.1])
+    n = 200_000
+    r = rng.choice(chequeo.RESOLUCIONES, size=n, p=pi)
+    verdad = rng.uniform(0, 60, n)
+    m = (np.round(verdad / r) * r % 60).astype(int)
+    est = chequeo.em_redondeo(np.bincount(m, minlength=60))
+    assert est.sum() == pytest.approx(1.0)
+    assert np.abs(est - pi).max() < 0.02
+
+
+def test_la_posterior_solo_pone_peso_en_resoluciones_compatibles():
+    post = chequeo.posterior_resolucion(np.full(5, 0.2))
+    assert np.allclose(post.sum(1), 1.0)
+    assert post[7, :4].sum() == 0.0  # el minuto 7 solo es compatible con r = 1
+    assert post[0].min() > 0.0  # el minuto 0 es compatible con todas
+
+
+def test_truncado_no_cruza_bordes_de_turno_en_hora_en_punto():
+    rng = np.random.default_rng(1)
+    h = np.array([5.0, 6.0, 11.5, 17.0, 18.0])
+    mi = np.array([0, 0, 30, 0, 0])
+    g = np.array(["a"] * 5)
+    post = {"a": chequeo.posterior_resolucion(np.array([1.0, 0, 0, 0, 0]))}
+    for _ in range(50):
+        h1 = chequeo.resortear(h, mi, g, post, "truncado", rng)
+        assert (loader.turno_de(h1, "turnos4") == loader.turno_de(h, "turnos4")).all()
+    h1 = chequeo.resortear(h, mi, g, post, "hacia_arriba", rng)
+    assert loader.turno_de(h1, "turnos4")[1] == 0  # 06:00 redondeado hacia arriba es madrugada
+
+
+def test_subconjuntos_respetan_el_piso_y_los_cuantiles():
+    n = pd.Series({f"c{i}": 50 + 10 * i for i in range(30)})
+    poi = pd.Series({f"c{i}": i % 7 for i in range(30)})
+    s = chequeo.subconjuntos(n, poi)
+    elegibles = set(n[n >= loader.N_MIN].index)
+    assert set(s["hot_spots"]) <= elegibles and set(s["comerciales"]) <= elegibles
+    assert n[s["hot_spots"]].min() >= n[list(elegibles)].quantile(chequeo.Q_HOTSPOT)

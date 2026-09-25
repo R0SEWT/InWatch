@@ -180,3 +180,47 @@ mismo bootstrap, mismo `elegir_k`) sobre dos subconjuntos de las celdas con n �
 
 **Aparecen tipos** si `elegir_k` devuelve un k en algún subconjunto y esquema. Se reporta
 también, sin que decida, qué pasaría con el umbral de estabilidad relajado a 0,5 (duda 5).
+
+### Resultado de los chequeos posteriores (exploratorio, sin emitir)
+
+`uv run python experiments/reloj-de-riesgo/chequeo_literatura.py` →
+`chequeo_literatura.json`, `chequeo_tasas_redondeo.parquet`,
+`chequeo_estabilidad_subconjuntos.parquet`. 490 480 eventos del reloj, 20 réplicas.
+
+**1 · Heaping por modalidad: sigue sin matar con las variantes fijadas.**
+
+| Variante (`turnos4`, p95 de 20 réplicas) | ruido/señal | cambia de turno | madrugada ciudad |
+|---|---|---|---|
+| uniforme (el de arriba) | 0,29 | 2,6 % | 12,3 % |
+| por modalidad, al más cercano | 0,28 | 2,6 % | 12,8 % |
+| por modalidad × turno, al más cercano | 0,28 | 2,6 % | 12,8 % |
+| truncado (cualquiera) | 0,00 | 0 % | 12,3 % |
+| *estrés, añadido después:* hacia arriba | **0,52** | 5,2 % | 13,3 % |
+
+- Las tasas sí dependen del delito, como dice Taylor et al.: π(60 min) va de ~0 en robo
+  y 0,02 en robo a mano armada a 0,26 en estafa y 0,45 en violación sexual. Pero no
+  dependen de la hora en la dirección que se temía: la madrugada redondea a la hora
+  **menos** que la tarde (π₆₀ ponderado 0,16 contra 0,21).
+- Con tasas por modalidad, la ventana es a lo sumo la del re-sorteo uniforme, así que el
+  ruido no puede crecer. Truncado da cero por construcción, no por robustez: los bordes
+  de turno caen en horas en punto y una hora truncada ya está en su turno.
+- La única lectura que mueve masa es suponer que **todo** redondeo es hacia arriba
+  (06:00 → 05:xx). No estaba fijada y es un peor caso. Con ella la razón queda en 0,52,
+  apenas sobre el umbral de 0,50. Aun así, el eje madrugada-tarde casi no cambia
+  (ρ 0,97 con el original) y la madrugada de la ciudad sube un punto.
+
+**2 · Tipos en hot spots o zonas comerciales: no aparecen.**
+
+| Subconjunto | celdas | eventos | k elegido (4 / 6 turnos) | mejor k: silhouette vs p95 nulo | ARI bootstrap medio |
+|---|---|---|---|---|---|
+| hot spots (quintil sup.) | 139 | 224 638 | ninguno / ninguno | k=3: 0,37 vs 0,28 | 0,42 |
+| comerciales (cuartil sup. POI) | 176 | 198 967 | ninguno / ninguno | k=2: 0,43 vs 0,33 | 0,68 (0,71 con 6) |
+
+Los dos subconjuntos son más heterogéneos que la ciudad (sobredispersión 5,6 y 4,3,
+contra 2,19). k = 2 le gana al nulo en silhouette, pero no llega a la estabilidad de 0,75.
+Con el umbral relajado a 0,5 (duda 5), k = 2 pasaría en los dos, igual que en toda la
+ciudad. En las zonas comerciales es donde más se acerca: 0,68 a 0,71. **Lectura**: el
+desacuerdo con Corcoran et al. y con Ratcliffe no se explica por haber usado toda la
+ciudad. Con nulo y bootstrap, tampoco hay tipos dentro de hot spots ni de zonas
+comerciales. Lo que hay son dos mitades inestables de un continuo, con más separación en
+lo comercial.
