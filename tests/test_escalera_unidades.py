@@ -9,6 +9,7 @@ reproducción contra el registro de infelix y solo corren si el loader ya se eje
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import sys
 from pathlib import Path
@@ -20,10 +21,19 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 EXP = ROOT / "experiments" / "escalera-de-unidades"
 ART = ROOT / "data" / "silver" / "escalera-de-unidades"
-sys.path.insert(0, str(EXP))
 
-import loader as L  # noqa: E402
-import unidades_finas as UF  # noqa: E402
+
+def _cargar(archivo: str, nombre: str):
+    """Por ruta y con nombre propio: `loader` suelto choca con otros experimentos."""
+    spec = importlib.util.spec_from_file_location(nombre, EXP / archivo)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[nombre] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+L = _cargar("loader.py", "escalera_unidades_loader")
+UF = _cargar("unidades_finas.py", "escalera_unidades_finas")
 
 
 def _stats(gains: dict[str, float], n_dist: int = 30, ruido: float = 0.05, seed: int = 0):

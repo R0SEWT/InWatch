@@ -33,11 +33,12 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-import loader as L
 import numpy as np
 import pandas as pd
 
-LOGGER = logging.getLogger(L.SLUG)
+# Sin `import loader`: ese nombre lo usan otros experimentos y, en una misma sesión de
+# pytest, el primero en importarse gana. Las categorías llegan como argumento.
+LOGGER = logging.getLogger("escalera-de-unidades")
 
 CRS_METRICO = "EPSG:32718"
 RADIO_MANZANA_M = 150.0
@@ -157,30 +158,31 @@ def asignar_cercano(xy_pts: np.ndarray, xy_uni: np.ndarray, radio: float | None
     return i
 
 
-def contar(pts: pd.DataFrame, key: str) -> pd.DataFrame:
+def contar(pts: pd.DataFrame, key: str, cats: list[str]) -> pd.DataFrame:
     """Conteos ancho: una fila por (unidad, año), una columna ``target__<cat>``."""
     c = (pts.groupby([key, "year", "crime_cat"]).size().unstack("crime_cat", fill_value=0)
-         .reindex(columns=L.CATS, fill_value=0))
+         .reindex(columns=cats, fill_value=0))
     c.columns = [f"target__{k}" for k in c.columns]
     return c.reset_index()
 
 
 def ensamblar(unidades: pd.DataFrame, key: str, feat: pd.DataFrame, nativas: list[str],
-              conteos: pd.DataFrame) -> pd.DataFrame:
+              conteos: pd.DataFrame, cats: list[str]) -> pd.DataFrame:
     """Unidad × año con features heredados del hexágono, nativos encima y targets."""
     years = sorted(feat["year"].unique())
     heredar = [c for c in feat.columns if c not in ("h3_index", "year") and c not in nativas]
     base = unidades[[key, "h3_index"] + nativas].merge(pd.DataFrame({"year": years}), how="cross")
     base = base.merge(feat[["h3_index", "year"] + heredar], on=["h3_index", "year"], how="inner")
     base = base.merge(conteos, on=[key, "year"], how="left")
-    tcols = [f"target__{k}" for k in L.CATS]
+    tcols = [f"target__{k}" for k in cats]
     base[tcols] = base[tcols].fillna(0).astype("float32")
     num = [c for c in base.columns if c not in (key, "h3_index", "ubigeo", "year") + tuple(tcols)]
     base[num] = base[num].astype("float32")
     return base.sort_values([key, "year"], kind="stable").reset_index(drop=True)
 
 
-def panel(unidad: str, pts: pd.DataFrame, feat: pd.DataFrame) -> tuple[pd.DataFrame, str, dict]:
+def panel(unidad: str, pts: pd.DataFrame, feat: pd.DataFrame, cats: list[str]
+          ) -> tuple[pd.DataFrame, str, dict]:
     """Panel ancho de una unidad fina y su diagnóstico de asignación."""
     from inwatch import fuentes
 
@@ -197,7 +199,8 @@ def panel(unidad: str, pts: pd.DataFrame, feat: pd.DataFrame) -> tuple[pd.DataFr
         diag = {"unidades": int(len(mz)), "puntos": int(len(p)),
                 "puntos_sin_unidad": int((i < 0).sum()), "radio_m": RADIO_MANZANA_M}
         p = p[p["mzn_id"].notna()]
-        return ensamblar(mz, "mzn_id", feat, nativas, contar(p, "mzn_id")), "mzn_id", diag
+        return (ensamblar(mz, "mzn_id", feat, nativas, contar(p, "mzn_id", cats), cats),
+                "mzn_id", diag)
 
     if unidad == "morfologica":
         import geopandas as gpd
@@ -226,7 +229,8 @@ def panel(unidad: str, pts: pd.DataFrame, feat: pd.DataFrame) -> tuple[pd.DataFr
         if diag["puntos_sin_unidad"] == diag["puntos"]:
             raise RuntimeError("ningún punto cayó en el tejido: ¿CRS de la geometría?")
         p = pd.DataFrame(j[j["tess_id"].notna()][["tess_id", "year", "crime_cat"]])
-        return ensamblar(uni, "tess_id", feat, nativas, contar(p, "tess_id")), "tess_id", diag
+        return (ensamblar(uni, "tess_id", feat, nativas, contar(p, "tess_id", cats), cats),
+                "tess_id", diag)
 
     raise ValueError(f"unidad fina desconocida: {unidad}")
 

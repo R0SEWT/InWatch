@@ -436,7 +436,7 @@ def main() -> None:
         LOGGER.info("puntos vs oráculo: %s", chequeo)
         diagnosticos["puntos_vs_oraculo"] = chequeo
         for u in finas:
-            panel, key, diag = unidades_finas.panel(u, puntos, feat)
+            panel, key, diag = unidades_finas.panel(u, puntos, feat, CATS)
             diagnosticos[u] = diag
             LOGGER.info("  asignación %s: %s", u, diag)
             _correr(u, panel, key)
