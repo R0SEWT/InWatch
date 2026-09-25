@@ -168,6 +168,89 @@ def test_emisor_staged_sin_reemitir_bloquea(cfg):
     assert fails and "sin re-emitir" in fails[0]
 
 
+# ─── frescura por insumo: el emisor no cambió, lo que leyó sí (inwatch-1om) ────
+def _declarar_insumo(cfg: CanonConfig, rel: str, contenido: str = "a,b\n1,2\n") -> Path:
+    """Crea un insumo y lo registra en `multiplier.robo.victim` con su sha actual."""
+    from inwatch.canon.registry import _sha256, dump, load
+
+    insumo = cfg.root / rel
+    insumo.parent.mkdir(parents=True, exist_ok=True)
+    insumo.write_text(contenido, encoding="utf-8")
+    reg = load(cfg)
+    reg["entries"]["multiplier.robo.victim"]["provenance"]["inputs_sha256"] = {rel: _sha256(insumo)}
+    dump(reg, cfg)
+    return insumo
+
+
+def _cambiar_insumo(insumo: Path) -> None:
+    """Otro contenido y otro tamaño: el memo por (tamaño, mtime) no puede tapar el cambio."""
+    insumo.write_text("a,b\n1,2\n3,4\n5,6\n", encoding="utf-8")
+
+
+def test_insumo_cambiado_marca_stale(cfg):
+    """El caso del PR #30: el loader se re-corrió, el GraphML cambió y las cifras que lo
+    leían siguieron declarando el sha viejo. El emisor no se tocó, así que el check
+    solo-por-script las daba por frescas."""
+    from inwatch.canon.registry import load, stale_entries
+
+    insumo = _declarar_insumo(cfg, "data/silver/red.graphml")
+    assert stale_entries(load(cfg), cfg) == {}
+
+    _cambiar_insumo(insumo)
+    stale = stale_entries(load(cfg), cfg)
+    assert "multiplier.robo.victim" in stale
+    motivo = stale["multiplier.robo.victim"]
+    assert "insumo" in motivo and "data/silver/red.graphml" in motivo
+    # el motivo distingue qué se movió: acá el emisor sigue igual
+    assert "script" not in motivo
+
+
+def test_insumo_ausente_no_es_stale_pero_se_informa(cfg):
+    """El CI no tiene data/: un insumo que no está no es uno que cambió."""
+    from inwatch.canon.registry import absent_inputs, load, stale_entries
+
+    insumo = _declarar_insumo(cfg, "data/silver/red.graphml")
+    insumo.unlink()
+    assert stale_entries(load(cfg), cfg) == {}
+    assert absent_inputs(load(cfg), cfg) == {"multiplier.robo.victim": ["data/silver/red.graphml"]}
+
+
+def test_insumo_de_un_origen_cambiado_marca_stale(tmp_path):
+    """La clave `infelix:<ruta>` se resuelve contra el catálogo para hallar el archivo."""
+    from inwatch.canon.registry import emit, load, stale_entries
+
+    cfg, insumo = _proyecto_con_catalogo(tmp_path)
+    (cfg.root / "emit.py").write_text("# emisor\n", encoding="utf-8")
+    emit(
+        "f",
+        1.0,
+        variant="v",
+        unit="u",
+        estimator="e",
+        inputs=[insumo],
+        script=str(cfg.root / "emit.py"),
+        cfg=cfg,
+    )
+    assert stale_entries(load(cfg), cfg) == {}
+
+    _cambiar_insumo(insumo)
+    stale = stale_entries(load(cfg), cfg)
+    assert "infelix:data/insumo.csv" in stale.get("f.v", "")
+
+
+def test_doc_staged_que_cita_una_cifra_de_insumo_cambiado_bloquea(cfg):
+    """El gate de pre-commit: citar un número cuyo insumo se movió no pasa."""
+    from inwatch.canon.registry import load
+
+    insumo = _declarar_insumo(cfg, "data/silver/red.graphml")
+    _doc(cfg, "<!-- CANON: multiplier.robo = 4.6 -->\n")
+    doc = cfg.root / "analysis" / "r.md"
+    _cambiar_insumo(insumo)
+
+    fails = check_mod.check([doc], load(cfg), {doc}, cfg)
+    assert any("STALE" in f and "insumo" in f for f in fails)
+
+
 # ─── procedencia: el guard anti-churn no debe congelar lo provisional ─────────
 @pytest.fixture
 def git_cfg(tmp_path: Path) -> CanonConfig:

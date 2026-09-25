@@ -6,7 +6,7 @@ import argparse
 
 from .check import run as run_check
 from .config import load_config
-from .registry import load, stale_entries
+from .registry import absent_inputs, load, stale_entries
 
 
 def _show() -> int:
@@ -28,8 +28,17 @@ def _show() -> int:
             tags.append("STALE")
         suffix = f"  ({', '.join(tags)})" if tags else ""
         print(f"  {key:<42} {e.get('display'):>10}{suffix}")
+    ausentes = absent_inputs(reg, cfg)
+    if ausentes:
+        faltan = sorted({i for lista in ausentes.values() for i in lista})
+        print(
+            f"\nℹ {len(ausentes)} entrada(s) con insumos que no están en esta máquina "
+            f"({len(faltan)} archivo(s)); sin el archivo no se sabe si cambiaron:"
+        )
+        for insumo in faltan:
+            print(f"  {insumo}")
     if stale:
-        print(f"\n⚠ {len(stale)} entrada(s) STALE — el emisor cambió sin re-emitir:")
+        print(f"\n⚠ {len(stale)} entrada(s) STALE — el emisor o un insumo cambió sin re-emitir:")
         for key, why in sorted(stale.items()):
             print(f"  {key}: {why}")
         return 1
