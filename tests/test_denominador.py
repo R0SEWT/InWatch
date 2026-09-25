@@ -150,3 +150,40 @@ def test_el_control_reordena_menos_que_el_ambiente():
         & (b["estadistico"] == "dif_meta_menos_ambiente")
     ].iloc[0]
     assert fila["ic_low"] > 0
+
+
+# ─── chequeo posterior (literatura): segundo proxy ambiente ──────────────────
+def _cargar_segundo_proxy():
+    ruta = ROOT / "experiments" / "denominador" / "segundo_proxy.py"
+    spec = importlib.util.spec_from_file_location("denominador_segundo_proxy", ruta)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_reescalar_no_cambia_el_ranking():
+    sp = _cargar_segundo_proxy()
+    x = pd.Series([3.0, 1.0, 2.0, 10.0])
+    y = sp.reescalar(x, 1000.0)
+    assert y.sum() == pytest.approx(1000.0)
+    assert list(y.rank()) == list(x.rank())
+
+
+def test_veredicto_aplica_los_umbrales_del_preregistro():
+    sp = _cargar_segundo_proxy()
+
+    def caso(rho, top, dif, lo):
+        t = pd.DataFrame(
+            [{"numerador": "n", "tipo": "vs_residente", "b": "p", "spearman": rho, "top50": top}]
+        )
+        b = pd.DataFrame(
+            [{"numerador": "n", "estadistico": "dif_meta_menos_p", "media": dif, "ic_low": lo}]
+        )
+        return sp.veredicto(t, b, "p", "n")
+
+    assert caso(0.6, 0.1, 0.25, 0.1) == "se_sostiene"
+    assert caso(0.6, 0.1, 0.05, 0.01) == "se_debilita"
+    assert caso(0.9, 0.8, 0.0, -0.1) == "se_cae"
+    # ρ en el umbral (no < 0,80) con el tope renovado: ni una cosa ni la otra
+    assert caso(0.80, 0.46, 0.04, 0.01) == "ambiguo"

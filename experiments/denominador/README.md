@@ -244,3 +244,30 @@ arriba, con `ambiente_viirs` en lugar de LandScan:
   ρ entre los cocientes ambiente/residente (lo que fija el reordenamiento) y ρ y top-50
   entre los dos mapas de riesgo. Se lee como «coinciden» con ρ ≥ 0,80 entre riesgos, a
   secas; no hay umbral de la literatura para esto.
+
+### Resultado del chequeo posterior (exploratorio, sin emitir)
+
+`uv run python experiments/denominador/segundo_proxy.py` → `segundo_proxy*.parquet`
+(determinista, byte a byte). Universo n = 993, numerador `latente_hibrido`:
+
+| contra residente | ρ | top-50 | ρ(meta) − ρ(proxy), IC95 | veredicto |
+|---|---|---|---|---|
+| LandScan 2023 | 0,613 | 0,12 | 0,223 [0,185; 0,264] | se sostiene |
+| **VIIRS (decide)** | **0,800** | **0,46** | **0,036 [0,011; 0,060]** | **ambiguo** |
+| POI OSM (sensibilidad) | 0,276 | 0,08 | 0,561 [0,504; 0,621] | se sostiene |
+
+Con `observado_geo` el patrón es el mismo (VIIRS: ρ 0,853, top-50 0,40, Δρ 0,028).
+
+**Los proxies no coinciden entre sí**, como anticipaba Whipp et al. Entre LandScan y VIIRS:
+ρ 0,68 entre poblaciones, **0,22 entre cocientes ambiente/residente** (lo que fija el
+reordenamiento) y 0,59 entre mapas de riesgo, con top-50 compartido de 0,08. VIIRS y POI
+coinciden todavía menos (ρ 0,31 entre riesgos). La sub-predicción direccional no se
+replica con VIIRS: ρ(Δpercentil, POI comerciales) = +0,07, contra −0,33 con LandScan.
+
+**Lectura.** Con el proxy que decide, el veredicto **no se sostiene tal como está
+escrito**: VIIRS también renueva a medias el tope (top-50 0,46), pero el orden global se
+mueve apenas más que con el segundo residencial. Lo que resiste a los tres proxies es solo
+esto: *cualquier* denominador ambiente renueva el top-50 más que el control residencial.
+**Cuáles** celdas suben y bajan, y si bajan las comerciales, depende del proxy, así que
+no se puede afirmar desde LandScan solo. Hace falta un denominador de expuestos de verdad
+(commuting censal, `inwatch-04w`, o telefonía) para arbitrar entre proxies.
