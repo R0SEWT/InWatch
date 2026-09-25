@@ -235,6 +235,27 @@ def construir_unidades(epoca: str = "actual"):
                         "n_control_estratos": int(np.sum(nc > 0)),
                     })
 
+    # Por estadio, descriptivo y sin veredicto. Va DESPUÉS del bucle agregado a propósito:
+    # consume el generador aleatorio al final, así que agregarlo no movió ni un decimal
+    # de las cifras de arriba. Existe porque el agregado lo domina el Nacional y porque
+    # el Monumental es donde las unidades nuevas más cambian el recorte (red escasa
+    # alrededor del recinto, tejido OSM incompleto en Ate).
+    filas_e = []
+    for variante in ("full", "none"):
+        todos = construir_estratos(kev, cals, variante)
+        for st in STADIUMS:
+            sub = [e for e in todos if e[0] == st]
+            if not sub:
+                continue
+            idx = rng.integers(0, len(sub), (B_BOOT, len(sub)))
+            for unidad in U.UNIDADES:
+                a, c, nc = _acumular(sub, ts_de(unidad), 0, -WINDOW_H, WINDOW_H)
+                lo, hi = _ic(mh_rr_boot(a, c, nc, idx), B_BOOT)
+                filas_e.append({"estadio": st, "unidad": unidad, "banda": 0,
+                                "variante": variante, "rr": mh_rr(a, c, nc),
+                                "ic_low": lo, "ic_high": hi, "treated_days": len(sub),
+                                "n_tratado": int(a.sum()), "n_control": int(c.sum())})
+
     perfil = pd.DataFrame(filas_p)
     perfil["medible"] = medible(perfil["n_control"], perfil["n_control_estratos"],
                                 perfil["n_estratos_soporte"])
@@ -244,7 +265,7 @@ def construir_unidades(epoca: str = "actual"):
         raise AssertionError(f"la correspondencia pierde o inventa masa: {desvio:.3g}")
     return {"perfil_unidades": perfil, "ventana_unidades": ventana,
             "cortes_unidades": cortes, "correspondencia_unidades": corr,
-            "masa_unidades": masa}
+            "masa_unidades": masa, "ventana_estadio_unidades": pd.DataFrame(filas_e)}
 
 
 def main_unidades() -> None:
@@ -261,6 +282,8 @@ def main_unidades() -> None:
         print(f"  → {nombre}.parquet ({len(df):,} filas)")
     v = arts["ventana_unidades"]
     print(v.to_string(index=False, float_format=lambda z: f"{z:.3f}"))
+    print(arts["ventana_estadio_unidades"].to_string(
+        index=False, float_format=lambda z: f"{z:.3f}"))
 
     # El anillo de acá tiene que ser el del hito 1. Si no reproduce la cifra registrada,
     # la preparación copiada derivó y nada de lo de arriba es comparable.

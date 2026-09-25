@@ -98,6 +98,14 @@ sola celda.
 | Cruce | Artefacto | Emitido por |
 |---|---|---|
 | `morfologica` ↔ `h3_8` | `correspondencia_h3_tejido.parquet` | `experiments/tejido-vs-hexagono/loader.py` |
+| `anillo` ↔ `banda_red`, `banda_red_area`, `morfologica` | `correspondencia_unidades.parquet` | `experiments/pulso-estadios/loader_unidades.py` |
+
+Las unidades de `pulso-estadios` no son particiones de la ciudad sino **recortes
+alrededor de un punto**: bandas indexadas por `estadio` y `banda` (0 a 3, de adentro
+hacia afuera). Su cruce se mide sobre una rejilla de píxeles de 25 m en EPSG:32718, con
+los mismos dos factores (`frac_origen`, `frac_destino`) y la misma regla: el área de una
+banda de origen que no cae en ninguna banda de destino queda en la fila `−1` y **no se
+normaliza**. Con esa fila, toda banda de origen suma 1; es el test de masa.
 
 Columnas del cruce, y por qué son dos factores y no uno:
 

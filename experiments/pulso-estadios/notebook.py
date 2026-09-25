@@ -286,7 +286,7 @@ def _(banda_sel, np, perfil_u, plt, unidades_sel, variante_u):
     ax_u.set_yticks(range(-4, 5), [f"{2.0 ** k:g}×" for k in range(-4, 5)])
     ax_u.set_ylim(-4.2, 4.2)
     ax_u.set_xlabel("horas relativas al kickoff")
-    ax_u.set_ylabel("rate-ratio tratado/control (escala log2, capado a 16×)")
+    ax_u.set_ylabel("rate-ratio (log2; capado en 16× y en 1/16×, donde caen los ceros medidos)")
     ax_u.set_title(f"banda {banda_sel.value} · {variante_u.value} · punteado = no medible "
                    "(sin dato ≠ seguro)")
     ax_u.legend(frameon=False, fontsize=8, loc="upper left")
