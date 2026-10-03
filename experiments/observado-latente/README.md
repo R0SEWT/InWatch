@@ -144,7 +144,7 @@ del problema y en qué delito lo compone.
 
 ## Verificación
 
-- [x] `uv run pytest` en verde — 27 tests
+- [x] `uv run pytest tests/test_observado_latente.py` en verde — 13 tests
 - [x] `uv run canon check` sin fallos — 17 anclas verificadas contra el registro
 - [x] `uv run ruff check .` limpio
 - [x] El loader es determinista: dos corridas seguidas no producen diff en el registro
