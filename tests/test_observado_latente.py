@@ -144,11 +144,31 @@ def test_categorias_en_orden_fijo(superficie_min):
 
 
 # ─── el artefacto real ────────────────────────────────────────────────────────
-@pytest.mark.needs_data
-def test_artefactos_existen_y_cuadran():
-    celdas = pd.read_parquet(ART / "celdas.parquet")
-    fronteras = pd.read_parquet(ART / "fronteras.parquet")
+def _leer_artefacto(nombre: str) -> pd.DataFrame:
+    """Lee un parquet del loader, o salta el test si el loader no corrió.
 
+    `data/` es gitignored: en un worktree limpio no hay artefacto, y eso es ausencia
+    de evidencia, no un fallo del experimento. Mismo patrón que `donde-falla-el-dato`
+    y `curva-de-evaluabilidad`.
+    """
+    ruta = ART / nombre
+    if not ruta.exists():
+        pytest.skip(f"falta {ruta}; corre el loader de observado-latente")
+    return pd.read_parquet(ruta)
+
+
+@pytest.fixture
+def celdas() -> pd.DataFrame:
+    return _leer_artefacto("celdas.parquet")
+
+
+@pytest.fixture
+def fronteras() -> pd.DataFrame:
+    return _leer_artefacto("fronteras.parquet")
+
+
+@pytest.mark.needs_data
+def test_artefactos_existen_y_cuadran(celdas, fronteras):
     assert celdas["h3_index"].is_unique
     assert not celdas["h3_index"].isna().any()
     # Un hexágono H3 tiene 6 vértices y toda celda tiene que tener los suyos.
@@ -157,26 +177,23 @@ def test_artefactos_existen_y_cuadran():
 
 
 @pytest.mark.needs_data
-def test_sin_geometria_en_la_tabla_de_features():
+def test_sin_geometria_en_la_tabla_de_features(celdas):
     """`design/contrato-unidades.md`: sin geometría en las tablas de features."""
-    celdas = pd.read_parquet(ART / "celdas.parquet")
     prohibidas = {"geometry", "lat", "lng", "lon", "wkt", "poly", "boundary"}
     assert not prohibidas & {c.lower() for c in celdas.columns}
 
 
 @pytest.mark.needs_data
-def test_el_latente_domina_al_observado():
+def test_el_latente_domina_al_observado(celdas):
     """La corrección solo puede sumar: λ* = y / r̂ con r̂ ≤ 1."""
-    celdas = pd.read_parquet(ART / "celdas.parquet")
     assert (celdas["latente"] >= celdas["observado"] - 1e-3).all()
     assert (celdas["latente_ic_low"] <= celdas["latente_ic_high"] + 1e-3).all()
 
 
 @pytest.mark.needs_data
-def test_el_hallazgo_sigue_en_pie():
+def test_el_hallazgo_sigue_en_pie(celdas):
     """Gate sobre el resultado: si la corrección empezara a reordenar el mapa, el
     experimento entero cuenta otra historia y hay que reescribirlo, no ajustar el test."""
-    celdas = pd.read_parquet(ART / "celdas.parquet")
     r = loader.estabilidad_de_rango(celdas)
     assert r["spearman"] > 0.95
     assert r["top_overlap"] > 0.70
