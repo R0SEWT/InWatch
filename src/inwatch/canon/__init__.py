@@ -23,6 +23,7 @@ from __future__ import annotations
 from .check import run as check_docs
 from .config import CanonConfig, CanonConfigError, load_config
 from .registry import (
+    absent_inputs,
     display_str,
     dump,
     emit,
@@ -33,6 +34,7 @@ from .registry import (
 )
 
 __all__ = [
+    "absent_inputs",
     "CanonConfig",
     "CanonConfigError",
     "check_docs",

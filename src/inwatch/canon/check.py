@@ -5,8 +5,8 @@ registro. Tres patas:
 
   1. cita-vs-canónico   citado == round(canónico, decimals) según la policy
   2. variante           citar una variante NO canónica exige ``variant-ok`` explícito
-  3. frescura           una key cuyo emisor cambió sin re-emitir bloquea si un doc
-                        staged la cita
+  3. frescura           una key cuyo emisor o insumo cambió sin re-emitir bloquea si
+                        un doc staged la cita (un insumo ausente no cuenta)
 
 Anclas — el número solo se checa donde un humano declaró el binding en un comentario::
 
