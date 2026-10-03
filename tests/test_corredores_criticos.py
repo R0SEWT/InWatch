@@ -121,6 +121,78 @@ def test_preparar_exige_el_grafo_proyectado():
         loader.preparar(G)
 
 
+# Corre en un proceso aparte porque el orden que se prueba lo fija `PYTHONHASHSEED`, y
+# esa semilla solo se puede elegir al arrancar el intérprete.
+_GUION_SEMILLA = r"""
+import importlib.util, json, sys
+import networkx as nx
+import osmnx as ox
+
+spec = importlib.util.spec_from_file_location("corredores_loader", sys.argv[1])
+loader = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(loader)
+
+# Una arista de referencia por tipo de vía, cada una con su maxspeed: fija la media
+# con la que osmnx imputa a ese tipo.
+VELOCIDADES = {"trunk": 90, "primary": 70, "secondary": 50, "tertiary": 40,
+               "residential": 30, "unclassified": 25, "living_street": 20, "service": 10}
+# Cadenas a→m→b cuyos dos segmentos son de tipos distintos y no traen maxspeed.
+# `simplify` las fusiona y deja `highway` como lista.
+PARES = [("trunk", "primary"), ("secondary", "tertiary"), ("residential", "service"),
+         ("unclassified", "living_street"), ("primary", "residential"),
+         ("trunk", "service"), ("tertiary", "living_street"), ("secondary", "unclassified")]
+
+G = nx.MultiDiGraph(crs="EPSG:32718")
+n = 0
+def nodo(x, y):
+    global n
+    n += 1
+    G.add_node(n, x=float(x), y=float(y))
+    return n
+for i, (tipo, kph) in enumerate(VELOCIDADES.items()):
+    a, b = nodo(0, 100 * i), nodo(50, 100 * i)
+    G.add_edge(a, b, osmid=1000 + i, highway=tipo, maxspeed=str(kph), length=50.0,
+               oneway=True, reversed=False)
+for j, (h1, h2) in enumerate(PARES):
+    y = 10_000 + 100 * j
+    a, m, b = nodo(0, y), nodo(100, y), nodo(200, y)
+    G.add_edge(a, m, osmid=2000 + 2 * j, highway=h1, length=100.0, oneway=True, reversed=False)
+    G.add_edge(m, b, osmid=2001 + 2 * j, highway=h2, length=100.0, oneway=True, reversed=False)
+
+G = ox.simplify_graph(G)
+loader.preparar(G)
+print(json.dumps(sorted(
+    [u, v, k, d["speed_kph"], d["travel_time"], d["maxspeed_observado"]]
+    for u, v, k, d in G.edges(keys=True, data=True)
+)))
+"""
+
+
+def _velocidades_con_semilla(semilla: str) -> list:
+    import json
+    import os
+    import subprocess
+    import sys
+
+    corrida = subprocess.run(
+        [sys.executable, "-c", _GUION_SEMILLA, str(_LOADER)],
+        env={**os.environ, "PYTHONHASHSEED": semilla},
+        capture_output=True, text=True, check=True,
+    )
+    return json.loads(corrida.stdout)
+
+
+def test_las_velocidades_no_dependen_de_pythonhashseed():
+    """`simplify` deja las listas de atributos en el orden de un `set` de strings.
+
+    Ese orden cambia con `PYTHONHASHSEED`, y `add_edge_speeds` imputa con el primer
+    `highway` de la lista: la misma red daba otra velocidad según el proceso.
+    """
+    base = _velocidades_con_semilla("0")
+    for semilla in ("1", "2", "3"):
+        assert _velocidades_con_semilla(semilla) == base, f"PYTHONHASHSEED={semilla}"
+
+
 # ─── resumen para el enunciado ────────────────────────────────────────────────
 def test_resumen_da_el_porcentaje_imputado_por_aristas_y_por_longitud():
     r = loader.resumen(loader.preparar(_grafo()))

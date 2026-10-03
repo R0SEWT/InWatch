@@ -50,6 +50,26 @@ GRAPHML = f"area_a_{MODO}.graphml"
 SENTINELA_KPH = 0.001
 
 
+def canonizar_listas(G: nx.MultiDiGraph) -> nx.MultiDiGraph:
+    """Ordena los atributos de arista que ``simplify`` dejó como lista. Muta y devuelve ``G``.
+
+    Existe por un fallo medido en dos hosts (``inwatch-92d.10``): osmnx fusiona los
+    segmentos de una calle con ``list(set(valores))``, y el orden de un ``set`` de strings
+    depende de ``PYTHONHASHSEED``, que cambia en cada proceso. ``add_edge_speeds`` se queda
+    con el primer ``highway`` de la lista para elegir la media imputada, así que la misma
+    red salía con miles de aristas con otro ``speed_kph`` y otro ``travel_time`` según la
+    corrida. Ordenar deja un primer elemento que no depende del proceso.
+    """
+    for _, _, datos in G.edges(data=True):
+        for clave, valor in datos.items():
+            if isinstance(valor, list):
+                try:
+                    datos[clave] = sorted(valor)
+                except TypeError:  # tipos mezclados: se ordena por su representación
+                    datos[clave] = sorted(valor, key=repr)
+    return G
+
+
 def marcar_maxspeed(G: nx.MultiDiGraph) -> nx.MultiDiGraph:
     """Marca en cada arista si su velocidad la aportó OSM. Muta y devuelve ``G``.
 
@@ -82,10 +102,15 @@ def marcar_maxspeed(G: nx.MultiDiGraph) -> nx.MultiDiGraph:
 
 
 def preparar(G: nx.MultiDiGraph) -> nx.MultiDiGraph:
-    """Marca lo observado, imputa velocidades por tipo de vía y calcula ``travel_time``."""
+    """Marca lo observado, imputa velocidades por tipo de vía y calcula ``travel_time``.
+
+    Antes de todo, ``canonizar_listas``: sin eso la imputación depende de la semilla de
+    hash del proceso.
+    """
     crs = G.graph.get("crs")
     if crs is None or CRS.from_user_input(crs).to_epsg() != 32718:
         raise ValueError(f"se exige EPSG:32718 (proyectado en metros); llegó {crs!r}")
+    canonizar_listas(G)
     marcar_maxspeed(G)
     ox.routing.add_edge_speeds(G)
     ox.routing.add_edge_travel_times(G)
